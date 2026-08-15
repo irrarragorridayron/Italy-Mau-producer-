@@ -1,5 +1,4 @@
-const CACHE_NAME = "italy-mau-producer-v1";
-const APP_SHELL = [
+const CACHE_NAME = "italy-mau-producer-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
