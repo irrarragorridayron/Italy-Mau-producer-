@@ -1,0 +1,19 @@
+{
+  "name": "Italy Mau Producer — El DIM",
+  "short_name": "Italy Mau Producer",
+  "description": "App musical de El DIM.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#050505",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "media/logo.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
