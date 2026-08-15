@@ -1,13 +1,16 @@
 const CACHE_NAME = "italy-mau-producer-v1";
 const APP_SHELL = [
+const APP_SHELL = [
   "./",
   "./index.html",
-  "./manifest.webmanifest",
+  "./manifiesto.webmanifest",
   "./media/logo.png",
   "./media/antes_de_olvidarte.png",
   "./media/brutal.png",
   "./media/antes_de_olvidarte.mp3",
-  "./media/brutal.mp3"
+  "./media/brutal.mp3",
+  "./Iconos/icon-192.png",
+  "./Iconos/icon-512.png"
 ];
 
 self.addEventListener("install", event => {
