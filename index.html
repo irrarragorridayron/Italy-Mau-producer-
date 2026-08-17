@@ -79,8 +79,22 @@ const tracks=[
 ];
 let i=0, audio=document.getElementById('audio');
 function load(){audio.src=tracks[i].audio;document.getElementById('mini').src=tracks[i].cover;document.getElementById('nowname').textContent=tracks[i].name}
-function playTrack(n){i=n;load();audio.play();document.getElementById('main').textContent='⏸'}
-function toggle(){if(audio.paused){audio.play();document.getElementById('main').textContent='⏸'}else{audio.pause();document.getElementById('main').textContent='▶'}}
+function playTrack(n){
+  i=n;
+  load();
+  audio.load();
+  audio.play().catch(error=>console.log("Error de audio:",error));
+  document.getElementById('main').textContent='⏸';
+  };document.getElementById('main').textContent='⏸'}
+function toggle(){
+  if(audio.paused){
+    audio.play().catch(error=>console.log("Error de audio:",error));
+    document.getElementById('main').textContent='⏸';
+  }else{
+    audio.pause();
+    document.getElementById('main').textContent='▶';
+  }
+  }if(audio.paused){audio.play();document.getElementById('main').textContent='⏸'}else{audio.pause();document.getElementById('main').textContent='▶'}}
 function prev(){i=(i-1+tracks.length)%tracks.length;playTrack(i)}
 function next(){i=(i+1)%tracks.length;playTrack(i)}
 audio.addEventListener('timeupdate',()=>{let p=document.getElementById('progress');p.value=audio.duration?(audio.currentTime/audio.duration)*100:0;document.getElementById('time').textContent=fmt(audio.currentTime)+" / "+fmt(audio.duration)})
