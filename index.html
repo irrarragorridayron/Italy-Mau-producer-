@@ -85,7 +85,7 @@ function playTrack(n){
   audio.load();
   audio.play().catch(error=>console.log("Error de audio:",error));
   document.getElementById('main').textContent='⏸';
-  };document.getElementById('main').textContent='⏸'}
+}
 function toggle(){
   if(audio.paused){
     audio.play().catch(error=>console.log("Error de audio:",error));
