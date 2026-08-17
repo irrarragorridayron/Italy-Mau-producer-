@@ -77,7 +77,7 @@ const tracks=[
  {name:"Antes de olvidarte",audio:"Media/antes_de_olvidarte.mp3",cover:"Media/antes_de_olvidarte.png"},
  {name:"Brutal",audio:"Media/brutal.mp3",cover:"Media/brutal.png"}
 ];
-let i=0, audio=document.('audio');
+let i=0, audio=document.getElementById('audio');
 function load(){audio.src=tracks[i].audio;document.getElementById('mini').src=tracks[i].cover;document.getElementById('nowname').textContent=tracks[i].name}
 function playTrack(n){i=n;load();audio.play();document.getElementById('main').textContent='⏸'}
 function toggle(){if(audio.paused){audio.play();document.getElementById('main').textContent='⏸'}else{audio.pause();document.getElementById('main').textContent='▶'}}
