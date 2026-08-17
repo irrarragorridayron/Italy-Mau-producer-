@@ -28,7 +28,7 @@ footer{text-align:center;color:#756b62;font-size:11px;padding:20px}
 <body>
 <div class="app">
 <header>
-  <img class="logo" src="media/logo.png" alt="Italy Mau Producer">
+  <img class="logo" src="Media/logo.png" alt="Italy Mau Producer">
   <h1>ITALY MAU PRODUCER</h1>
   <div class="artist">EL DIM</div>
   <p class="bio">Nacido en febrero de 1987, amante de la música y el espectáculo en general, original y muy positivo, con ganas de triunfar y sentirme útil.</p>
@@ -88,13 +88,13 @@ function playTrack(n){
 }
 function toggle(){
   if(audio.paused){
-    audio.play().catch(error=>console.log("Error de audio:",error));
+    audio.play().catch(error => console.log("Error de audio:", error));
     document.getElementById('main').textContent='⏸';
   }else{
     audio.pause();
     document.getElementById('main').textContent='▶';
   }
-  }if(audio.paused){audio.play();document.getElementById('main').textContent='⏸'}else{audio.pause();document.getElementById('main').textContent='▶'}}
+  }
 function prev(){i=(i-1+tracks.length)%tracks.length;playTrack(i)}
 function next(){i=(i+1)%tracks.length;playTrack(i)}
 audio.addEventListener('timeupdate',()=>{let p=document.getElementById('progress');p.value=audio.duration?(audio.currentTime/audio.duration)*100:0;document.getElementById('time').textContent=fmt(audio.currentTime)+" / "+fmt(audio.duration)})
