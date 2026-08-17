@@ -37,12 +37,12 @@ footer{text-align:center;color:#756b62;font-size:11px;padding:20px}
 <section>
   <h2 class="title">🎵 MIS CANCIONES</h2>
   <div class="track">
-    <img class="cover" src="Media/antes_de_olvidarte.png">
+    <img class="cover" src="Media/brutal.png">
     <div class="info"><div class="name">Antes de olvidarte</div><div class="sub">Reggaetón melódico / Pop urbano</div></div>
     <button class="play" onclick="playTrack(0)">▶</button>
   </div>
   <div class="track">
-    <img class="cover" src="Media/brutal.png">
+    <img class="cover" src="Media/antes_de_olvidarte.png">
     <div class="info"><div class="name">Brutal</div><div class="sub">El DIM • 2026</div></div>
     <button class="play" onclick="playTrack(1)">▶</button>
   </div>
@@ -60,7 +60,7 @@ footer{text-align:center;color:#756b62;font-size:11px;padding:20px}
 
 <div class="player">
   <div class="now">
-    <img id="mini" class="mini" src="Media/antes_de_olvidarte.png">
+    <img id="mini" class="mini" src="Media/brutal.png">
     <div class="nowtext"><div id="nowname" class="nowname">Selecciona una canción</div><div id="time" class="time">0:00 / 0:00</div></div>
     <div class="controls">
       <button onclick="prev()">⏮</button>
@@ -74,8 +74,8 @@ footer{text-align:center;color:#756b62;font-size:11px;padding:20px}
 <audio id="audio"></audio>
 <script>
 const tracks=[
- {name:"Antes de olvidarte",audio:"Media/antes_de_olvidarte.mp3",cover:"Media/antes_de_olvidarte.png"},
- {name:"Brutal",audio:"Media/brutal.mp3",cover:"Media/brutal.png"}
+ {name:"Antes de olvidarte",audio:"Media/antes_de_olvidarte.mp3",cover:"Media/brutal.png"},
+ {name:"Brutal",audio:"Media/brutal.mp3",cover:"Media/antes_de_olvidarte.png"}
 ];
 let i=0, audio=document.getElementById('audio');
 function load(){audio.src=tracks[i].audio;document.getElementById('mini').src=tracks[i].cover;document.getElementById('nowname').textContent=tracks[i].name}
