@@ -429,7 +429,11 @@ time.textContent="0:00 / 0:00";
 
 function playTrack(index){
 
-i=index;
+i=index;document.querySelectorAll(".track").forEach(function(track){
+  track.classList.remove("active");
+});
+
+document.querySelectorAll(".track")[index].classList.add("active");
 
 loadTrack();
 
