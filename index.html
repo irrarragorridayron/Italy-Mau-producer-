@@ -71,7 +71,7 @@ footer{text-align:center;color:#756b62;font-size:11px;padding:20px}
   <input id="progress" class="progress" type="range" min="0" max="100" value="0">
 </div>
 
-<audio id="audio" preload="auto"></audio>
+<audio id="audio"></audio>
 <script>
 const tracks=[
  {name:"Antes de olvidarte",audio:"Media/antes_de_olvidarte.mp3",cover:"Media/antes_de_olvidarte.png"},
@@ -80,7 +80,6 @@ const tracks=[
 let i=0, audio=document.getElementById('audio');
 function load(){
   audio.src=tracks[i].audio;
-  audio.preload="auto";
   document.getElementById('mini').src=tracks[i].cover;
   document.getElementById('nowname').textContent=tracks[i].name;
 }
