@@ -86,9 +86,19 @@ function load(){
 function playTrack(n){
   i=n;
   load();
-  audio.load();
-  audio.play().catch(error=>console.log("Error de audio:",error));
-  document.getElementById('main').textContent='⏸';
+
+  const playPromise = audio.play();
+
+  if (playPromise !== undefined) {
+    playPromise
+      .then(() => {
+        document.getElementById('main').textContent='⏸';
+      })
+      .catch(error => {
+        console.log("Error de audio:", error);
+        document.getElementById('main').textContent='▶';
+      });
+  }
 }
 function toggle(){
   if(audio.paused){
