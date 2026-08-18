@@ -562,7 +562,36 @@ return minutes+":"+secs;
 }
 
 
-loadTrack();
+function shareTrack(index){
+
+  const track = tracks[index];
+
+  const shareData = {
+    title: track.name + " — El DIM",
+    text: "Escucha " + track.name + " de El DIM — Italy Mau Producer",
+    url: track.audio
+  };
+
+  if (navigator.share) {
+
+    navigator.share(shareData)
+      .catch(function(error){
+        console.log("Compartir cancelado:", error);
+      });
+
+  } else {
+
+    navigator.clipboard.writeText(track.audio)
+      .then(function(){
+        alert("Enlace de la canción copiado");
+      })
+      .catch(function(){
+        alert("No se pudo copiar el enlace");
+      });
+
+  }
+
+  }loadTrack();
 
 
 if("serviceWorker" in navigator){
