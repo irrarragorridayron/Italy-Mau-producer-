@@ -1,17 +1,10 @@
-const CACHE_NAME = "italy-mau-producer-v3";
+const CACHE_NAME = "italy-mau-producer-v4";
 
 const APP_SHELL = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
-
   "./Media/logo.png",
-  "./Media/antes_de_olvidarte.png",
-  "./Media/brutal.png",
-
-  "./Media/antes_de_olvidarte.mp3",
-  "./Media/brutal.mp3",
-
   "./Icons/icon-192.png",
   "./Icons/icon-512.png"
 ];
@@ -37,16 +30,18 @@ self.addEventListener("activate", event => {
 });
 
 self.addEventListener("fetch", event => {
+
   if (event.request.method !== "GET") return;
 
   event.respondWith(
-    caches.match(event.request).then(cached => {
-      if (cached) {
-        return cached;
-      }
+    fetch(event.request)
+      .then(response => {
 
-      return fetch(event.request).then(response => {
-        if (response && response.status === 200) {
+        if (
+          response &&
+          response.status === 200 &&
+          event.request.url.includes(self.location.origin)
+        ) {
           const copy = response.clone();
 
           caches.open(CACHE_NAME).then(cache => {
@@ -55,7 +50,9 @@ self.addEventListener("fetch", event => {
         }
 
         return response;
-      });
-    })
+
+      })
+      .catch(() => caches.match(event.request))
   );
+
 });
