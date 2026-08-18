@@ -68,61 +68,575 @@ footer{text-align:center;color:#756b62;font-size:11px;padding:20px}
       <button onclick="next()">⏭</button>
     </div>
   </div>
-  <input id="progress" class="progress" type="range" min="0" max="100" value="0">
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#050505">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./Iconos/icon-192.png">
+<title>Italy Mau Producer — El DIM</title>
+
+<style>
+:root{
+  --gold:#e7ad54;
+  --gold2:#ffd98a;
+  --bg:#050505;
+  --card:#11100e;
+  --muted:#a9a19a
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:radial-gradient(circle at 50% -10%,#2a1b0b 0,#090807 34%,#050505 70%);
+  color:#fff;
+  font-family:Arial,sans-serif
+}
+
+.app{
+  max-width:760px;
+  margin:auto;
+  min-height:100vh;
+  padding-bottom:120px
+}
+
+header{
+  text-align:center;
+  padding:28px 20px 18px;
+  border-bottom:1px solid #2b2115
+}
+
+.logo{
+  width:180px;
+  height:180px;
+  object-fit:contain;
+  filter:drop-shadow(0 0 16px #9a5f1d)
+}
+
+h1{
+  font-size:27px;
+  letter-spacing:3px;
+  margin:4px 0;
+  color:var(--gold2)
+}
+
+.artist{
+  color:#fff;
+  font-size:16px;
+  letter-spacing:4px
+}
+
+.bio{
+  color:#c8c0b7;
+  line-height:1.5;
+  font-size:14px;
+  max-width:560px;
+  margin:14px auto
+}
+
+section{
+  padding:22px 18px
+}
+
+.title{
+  font-size:20px;
+  margin:0 0 14px;
+  color:var(--gold2);
+  letter-spacing:1px
+}
+
+.track{
+  display:flex;
+  align-items:center;
+  gap:13px;
+  background:linear-gradient(135deg,#17130e,#0d0d0d);
+  border:1px solid #342717;
+  border-radius:16px;
+  padding:10px;
+  margin:10px 0;
+  box-shadow:0 5px 20px #0008
+}
+
+.cover{
+  width:72px;
+  height:72px;
+  object-fit:cover;
+  border-radius:11px
+}
+
+.info{
+  flex:1
+}
+
+.name{
+  font-weight:700;
+  font-size:16px
+}
+
+.sub{
+  font-size:12px;
+  color:var(--gold);
+  margin-top:5px
+}
+
+.play{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  border:1px solid var(--gold);
+  background:#0a0908;
+  color:var(--gold2);
+  font-size:18px
+}
+
+.player{
+  position:fixed;
+  left:50%;
+  bottom:12px;
+  transform:translateX(-50%);
+  width:min(720px,calc(100% - 24px));
+  background:#0d0c0aee;
+  backdrop-filter:blur(14px);
+  border:1px solid #6e4a20;
+  border-radius:18px;
+  padding:12px 15px;
+  box-shadow:0 0 30px #8b551c44
+}
+
+.now{
+  display:flex;
+  align-items:center;
+  gap:10px
+}
+
+.mini{
+  width:48px;
+  height:48px;
+  object-fit:cover;
+  border-radius:8px
+}
+
+.nowtext{
+  flex:1
+}
+
+.nowname{
+  font-weight:700
+}
+
+.time{
+  font-size:11px;
+  color:#bdb4aa;
+  margin-top:4px
+}
+
+.controls{
+  display:flex;
+  align-items:center;
+  gap:10px
+}
+
+.controls button{
+  background:none;
+  border:0;
+  color:var(--gold2);
+  font-size:22px
+}
+
+.controls .main{
+  border:1px solid var(--gold);
+  border-radius:50%;
+  width:44px;
+  height:44px
+}
+
+.progress{
+  width:100%;
+  accent-color:var(--gold);
+  margin-top:6px
+}
+
+footer{
+  text-align:center;
+  color:#756b62;
+  font-size:11px;
+  padding:20px
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<header>
+
+  <img class="logo"
+       src="Media/logo.png"
+       alt="Italy Mau Producer">
+
+  <h1>ITALY MAU PRODUCER</h1>
+
+  <div class="artist">EL DIM</div>
+
+  <p class="bio">
+    Nacido en febrero de 1987, amante de la música y el espectáculo en general,
+    original y muy positivo, con ganas de triunfar y sentirme útil.
+  </p>
+
+</header>
+
+<section>
+
+  <h2 class="title">🎵 MIS CANCIONES</h2>
+
+  <!-- VICIO -->
+  <div class="track">
+
+    <img
+      class="cover"
+      src="https://xnhhrtzybrpdpuzsrwpr.supabase.co/storage/v1/object/public/portadas/portada-vicio.png"
+      alt="Portada Vicio">
+
+    <div class="info">
+
+      <div class="name">
+        Vicio
+      </div>
+
+      <div class="sub">
+        El DIM • 2026
+      </div>
+
+    </div>
+
+    <button
+      class="play"
+      onclick="playTrack(0)">
+      ▶
+    </button>
+
+  </div>
+
+
+  <!-- REINA AZAFATA -->
+  <div class="track">
+
+    <img
+      class="cover"
+      src="https://xnhhrtzybrpdpuzsrwpr.supabase.co/storage/v1/object/public/portadas/portada-reina-azafata.png"
+      alt="Portada Reina Azafata">
+
+    <div class="info">
+
+      <div class="name">
+        Mi reina azafata
+      </div>
+
+      <div class="sub">
+        El DIM • 2026
+      </div>
+
+    </div>
+
+    <button
+      class="play"
+      onclick="playTrack(1)">
+      ▶
+    </button>
+
+  </div>
+
+</section>
+
+
+<section>
+
+  <h2 class="title">👤 SOBRE EL DIM</h2>
+
+  <div
+    class="track"
+    style="display:block;padding:18px">
+
+    <div
+      style="color:#d8d0c7;line-height:1.65">
+
+      Apasionado por la música y el espectáculo,
+      con una visión original y positiva.
+      Este espacio reúne sus canciones y futuros
+      lanzamientos bajo la identidad de Italy Mau Producer.
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<footer>
+  ITALY MAU PRODUCER • EL DIM
+</footer>
+
 </div>
 
-<audio id="audio"></audio>
+
+<!-- REPRODUCTOR -->
+
+<div class="player">
+
+  <div class="now">
+
+    <img
+      id="mini"
+      class="mini"
+      src="https://xnhhrtzybrpdpuzsrwpr.supabase.co/storage/v1/object/public/portadas/portada-vicio.png">
+
+    <div class="nowtext">
+
+      <div
+        id="nowname"
+        class="nowname">
+        Selecciona una canción
+      </div>
+
+      <div
+        id="time"
+        class="time">
+        0:00 / 0:00
+      </div>
+
+    </div>
+
+    <div class="controls">
+
+      <button onclick="prev()">
+        ⏮
+      </button>
+
+      <button
+        id="main"
+        class="main"
+        onclick="toggle()">
+        ▶
+      </button>
+
+      <button onclick="next()">
+        ⏭
+      </button>
+
+    </div>
+
+  </div>
+
+  <input
+    id="progress"
+    class="progress"
+    type="range"
+    min="0"
+    max="100"
+    value="0">
+
+</div>
+
+
+<audio id="audio" preload="metadata"></audio>
+
+
 <script>
-const tracks=[
- {name:"Antes de olvidarte",audio:"Media/antes_de_olvidarte.mp3",cover:"Media/antes_de_olvidarte.png"},
- {name:"Brutal",audio:"Media/brutal.mp3",cover:"Media/brutal.png"}
+
+const tracks = [
+
+  {
+    name:"Vicio",
+    audio:"https://xnhhrtzybrpdpuzsrwpr.supabase.co/storage/v1/object/public/songs/Vicio%202026.mp3",
+    cover:"https://xnhhrtzybrpdpuzsrwpr.supabase.co/storage/v1/object/public/portadas/portada-vicio.png"
+  },
+
+  {
+    name:"Mi reina azafata",
+    audio:"https://xnhhrtzybrpdpuzsrwpr.supabase.co/storage/v1/object/public/songs/Mi%20reina%20azafata%202026.mp3",
+    cover:"https://xnhhrtzybrpdpuzsrwpr.supabase.co/storage/v1/object/public/portadas/portada-reina-azafata.png"
+  }
+
 ];
-let i=0, audio=document.getElementById('audio');
+
+
+let i = 0;
+
+const audio = document.getElementById('audio');
+
+
 function load(){
-  audio.src=tracks[i].audio;
-  document.getElementById('mini').src=tracks[i].cover;
-  document.getElementById('nowname').textContent=tracks[i].name;
+
+  audio.src = tracks[i].audio;
+
+  document.getElementById('mini').src =
+    tracks[i].cover;
+
+  document.getElementById('nowname').textContent =
+    tracks[i].name;
+
 }
+
+
 function playTrack(n){
-  i=n;
+
+  i = n;
+
   load();
 
   const playPromise = audio.play();
 
-  if (playPromise !== undefined) {
+  if(playPromise !== undefined){
+
     playPromise
       .then(() => {
-        document.getElementById('main').textContent='⏸';
+
+        document.getElementById('main').textContent = '⏸';
+
       })
       .catch(error => {
-        console.log("Error de audio:", error);
-        document.getElementById('main').textContent='▶';
+
+        console.log("Error de audio:",error);
+
+        document.getElementById('main').textContent = '▶';
+
       });
+
   }
+
 }
+
+
 function toggle(){
+
   if(audio.paused){
-    audio.play().catch(error => console.log("Error de audio:", error));
-    document.getElementById('main').textContent='⏸';
+
+    audio.play()
+      .then(() => {
+
+        document.getElementById('main').textContent = '⏸';
+
+      })
+      .catch(error =>
+        console.log("Error de audio:",error)
+      );
+
   }else{
+
     audio.pause();
-    document.getElementById('main').textContent='▶';
+
+    document.getElementById('main').textContent = '▶';
+
   }
-  }
-function prev(){i=(i-1+tracks.length)%tracks.length;playTrack(i)}
-function next(){i=(i+1)%tracks.length;playTrack(i)}
-audio.addEventListener('timeupdate',()=>{let p=document.getElementById('progress');p.value=audio.duration?(audio.currentTime/audio.duration)*100:0;document.getElementById('time').textContent=fmt(audio.currentTime)+" / "+fmt(audio.duration)})
-audio.addEventListener('ended',next)
-document.getElementById('progress').addEventListener('input',e=>{if(audio.duration)audio.currentTime=(e.target.value/100)*audio.duration})
-function fmt(x){if(!isFinite(x))return"0:00";let m=Math.floor(x/60),s=Math.floor(x%60).toString().padStart(2,'0');return m+":"+s}
-load();
-</script>
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js").catch(console.error);
-  });
+
 }
+
+
+function prev(){
+
+  i = (i - 1 + tracks.length) % tracks.length;
+
+  playTrack(i);
+
+}
+
+
+function next(){
+
+  i = (i + 1) % tracks.length;
+
+  playTrack(i);
+
+}
+
+
+audio.addEventListener('timeupdate', () => {
+
+  const p = document.getElementById('progress');
+
+  p.value = audio.duration
+    ? (audio.currentTime / audio.duration) * 100
+    : 0;
+
+  document.getElementById('time').textContent =
+    fmt(audio.currentTime) +
+    " / " +
+    fmt(audio.duration);
+
+});
+
+
+audio.addEventListener('play', () => {
+
+  document.getElementById('main').textContent = '⏸';
+
+});
+
+
+audio.addEventListener('pause', () => {
+
+  document.getElementById('main').textContent = '▶';
+
+});
+
+
+audio.addEventListener('ended', next);
+
+
+document
+  .getElementById('progress')
+  .addEventListener('input', e => {
+
+    if(audio.duration){
+
+      audio.currentTime =
+        (e.target.value / 100) * audio.duration;
+
+    }
+
+  });
+
+
+function fmt(x){
+
+  if(!isFinite(x))
+    return "0:00";
+
+  let m = Math.floor(x / 60);
+
+  let s = Math.floor(x % 60)
+    .toString()
+    .padStart(2,'0');
+
+  return m + ":" + s;
+
+}
+
+
+load();
+
 </script>
+
+
+<script>
+
+if("serviceWorker" in navigator){
+
+  window.addEventListener("load", () => {
+
+    navigator.serviceWorker
+      .register("./sw.js")
+      .catch(console.error);
+
+  });
+
+}
+
+</script>
+
 </body>
-</html>
+                              </html>
