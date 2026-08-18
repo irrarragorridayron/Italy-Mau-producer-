@@ -78,7 +78,12 @@ const tracks=[
  {name:"Brutal",audio:"Media/brutal.mp3",cover:"Media/brutal.png"}
 ];
 let i=0, audio=document.getElementById('audio');
-function load(){audio.src=tracks[i].audio;document.getElementById('mini').src=tracks[i].cover;document.getElementById('nowname').textContent=tracks[i].name}
+function load(){
+  audio.src=tracks[i].audio;
+  audio.preload="auto";
+  document.getElementById('mini').src=tracks[i].cover;
+  document.getElementById('nowname').textContent=tracks[i].name;
+}
 function playTrack(n){
   i=n;
   load();
