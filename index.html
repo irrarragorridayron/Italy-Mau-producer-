@@ -378,7 +378,14 @@ value="0">
 <audio id="audio" preload="metadata"></audio>
 
 
-<script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>const SUPABASE_URL = "https://xnhhrtzybrpdpuzsrwpr.supabase.co";
+
+const SUPABASE_KEY = "sb_publishable_Wht8vPKELs2i3b98N0aviQ_XY6yx6hB";
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
 const tracks = [
 
