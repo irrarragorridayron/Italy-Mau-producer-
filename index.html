@@ -304,27 +304,21 @@ alt="Mi reina azafata">
 Mi reina azafata
 </div>
 
-<div class="sub">
-El DIM • 2026
-</div>
+<section>
 
-</div>
+<h2 class="title">🎵 MIS CANCIONES</h2>
 
-<button
-class="play"
-onclick="playTrack(2)">
-▶
-</button>
-  <button class="share" onclick="shareTrack(2)">
-📤
-</button>
+<div id="listaCanciones">
+
+<!-- Las canciones aparecerán automáticamente desde Supabase -->
+
+<div style="text-align:center;color:#c8c0b7;padding:20px;">
+Cargando canciones...
+</div>
 
 </div>
 
 </section>
-
-
-<section>
 
 <h2 class="title">👤 SOBRE EL DIM</h2>
 
@@ -605,70 +599,346 @@ audio.currentTime=
 function formatTime(seconds){
 
 if(!isFinite(seconds)){
+const SUPABASE_URL = "https://xnhhrtzybrpdpuzsrwpr.supabase.co";
 
-return "0:00";
+const SUPABASE_KEY = "sb_publishable_Wht8vPKELs2i3b98N0aviQ_XY6yx6hB";
+
+
+const supabaseClient = supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+
+let tracks = [];
+
+let i = 0;
+
+
+const audio = document.getElementById("audio");
+const main = document.getElementById("main");
+const mini = document.getElementById("mini");
+const nowname = document.getElementById("nowname");
+const progress = document.getElementById("progress");
+const time = document.getElementById("time");
+
+
+
+async function cargarCanciones(){
+
+const {data,error}= await supabaseClient
+.from("canciones")
+.select("*")
+.order("id",{ascending:false});
+
+
+if(error){
+
+console.log("Error cargando canciones:",error);
+
+return;
 
 }
 
-const minutes=Math.floor(seconds/60);
 
-const secs=Math.floor(seconds%60)
+tracks = data.map(cancion=>({
+
+name:cancion.titulo,
+audio:cancion.audio_url,
+cover:cancion.portada_url
+
+}));
+
+
+mostrarCanciones();
+
+}
+
+
+
+function mostrarCanciones(){
+
+const lista=document.getElementById("listaCanciones");
+
+lista.innerHTML="";
+
+
+tracks.forEach((track,index)=>{
+
+
+lista.innerHTML += `
+
+
+<div class="track">
+
+
+<img
+class="cover"
+src="${track.cover}"
+alt="${track.name}">
+
+
+<div class="info">
+
+<div class="name">
+${track.name}
+</div>
+
+
+<div class="sub">
+El DIM • 2026
+</div>
+
+</div>
+
+
+
+<button
+class="play"
+onclick="playTrack(${index})">
+▶
+</button>
+
+
+
+<button
+class="share"
+onclick="shareTrack(${index})">
+📤
+</button>
+
+
+</div>
+
+
+`;
+
+
+});
+
+
+}
+
+
+
+function loadTrack(){
+
+
+if(!tracks[i]) return;
+
+
+audio.src=tracks[i].audio;
+
+mini.src=tracks[i].cover;
+
+nowname.textContent=tracks[i].name;
+
+progress.value=0;
+
+time.textContent="0:00 / 0:00";
+
+
+}
+
+
+
+
+function playTrack(index){
+
+
+i=index;
+
+
+loadTrack();
+
+
+audio.play()
+.then(()=>{
+
+main.textContent="⏸";
+
+})
+.catch(error=>{
+
+console.log(error);
+
+});
+
+
+}
+
+
+
+
+function toggle(){
+
+
+if(audio.paused){
+
+
+audio.play();
+
+main.textContent="⏸";
+
+
+}else{
+
+
+audio.pause();
+
+main.textContent="▶";
+
+
+}
+
+
+}
+
+
+
+function prev(){
+
+i=(i-1+tracks.length)%tracks.length;
+
+playTrack(i);
+
+}
+
+
+
+function next(){
+
+i=(i+1)%tracks.length;
+
+playTrack(i);
+
+}
+
+
+
+
+audio.addEventListener("play",()=>{
+
+main.textContent="⏸";
+
+});
+
+
+
+audio.addEventListener("pause",()=>{
+
+main.textContent="▶";
+
+});
+
+
+
+audio.addEventListener("timeupdate",()=>{
+
+
+if(audio.duration){
+
+progress.value=(audio.currentTime/audio.duration)*100;
+
+}
+
+
+time.textContent=
+formatTime(audio.currentTime)+" / "+
+formatTime(audio.duration);
+
+
+});
+
+
+
+
+audio.addEventListener("ended",()=>{
+
+next();
+
+});
+
+
+
+progress.addEventListener("input",()=>{
+
+
+if(audio.duration){
+
+audio.currentTime=
+(progress.value/100)*audio.duration;
+
+}
+
+
+});
+
+
+
+
+function formatTime(seconds){
+
+
+if(!isFinite(seconds)) return "0:00";
+
+
+let m=Math.floor(seconds/60);
+
+let s=Math.floor(seconds%60)
 .toString()
 .padStart(2,"0");
 
-return minutes+":"+secs;
+
+return m+":"+s;
+
 
 }
+
+
+
 
 
 function shareTrack(index){
 
-  const track = tracks[index];
 
-  const shareData = {
-    title: track.name + " — El DIM",
-    text: "Escucha " + track.name + " de El DIM — Italy Mau Producer",
-    url: track.audio
-  };
-
-  if (navigator.share) {
-
-    navigator.share(shareData)
-      .catch(function(error){
-        console.log("Compartir cancelado:", error);
-      });
-
-  } else {
-
-    navigator.clipboard.writeText(track.audio)
-      .then(function(){
-        alert("Enlace de la canción copiado");
-      })
-      .catch(function(){
-        alert("No se pudo copiar el enlace");
-      });
-
-  }
-
-  }loadTrack();
+const track=tracks[index];
 
 
-if("serviceWorker" in navigator){
+const shareData={
 
-window.addEventListener("load",function(){
+title:track.name+" — El DIM",
 
-navigator.serviceWorker
-.register("./sw.js")
-.catch(function(error){
+text:"Escucha "+track.name+" de El DIM — Italy Mau Producer",
 
-console.log("Service Worker:",error);
+url:track.audio
 
-});
+};
 
-});
+
+
+if(navigator.share){
+
+
+navigator.share(shareData);
+
+
+}else{
+
+
+navigator.clipboard.writeText(track.audio);
+
+alert("Enlace copiado");
+
 
 }
 
+
+}
+
+
+
+cargarCanciones();
 </script>
 
 </body>
