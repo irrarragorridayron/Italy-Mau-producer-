@@ -1,202 +1,679 @@
+index.html completo corregido
+
 <!doctype html>
 <html lang="es">
+
 <head>
+
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#050505">
-<link rel="manifest" href="./manifest.webmanifest">
-<link rel="apple-touch-icon" href="./Iconos/icon-192.png">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
+<meta name="theme-color"
+content="#050505">
+
+<link rel="manifest"
+href="./manifest.webmanifest">
+
+<link rel="apple-touch-icon"
+href="./Iconos/icon-192.png">
+
 <title>Italy Mau Producer — El DIM</title>
 
+
 <style>
+
 :root{
   --gold:#e7ad54;
   --gold2:#ffd98a;
+  --dark:#050505;
+  --card:#0d0d0d;
 }
 
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
+
 
 body{
+
   margin:0;
-  background:radial-gradient(circle at 50% -10%,#2a1b0b 0,#090807 34%,#050505 70%);
-  color:#fff;
+
+  background:
+  radial-gradient(
+    circle at 50% -10%,
+    #2a1b0b 0,
+    #090807 34%,
+    #050505 70%
+  );
+
+  color:white;
+
   font-family:Arial,sans-serif;
+
 }
+
 
 .app{
+
   max-width:760px;
+
   margin:auto;
+
   min-height:100vh;
-  padding-bottom:140px;
+
+  padding-bottom:150px;
+
 }
+
+
+/* =========================
+   CABECERA
+========================= */
 
 header{
+
   text-align:center;
+
   padding:28px 20px 18px;
+
   border-bottom:1px solid #2b2115;
+
 }
+
 
 .logo{
+
   width:180px;
+
   height:180px;
+
   object-fit:contain;
-  filter:drop-shadow(0 0 16px #9a5f1d);
+
+  filter:
+  drop-shadow(
+    0 0 16px #9a5f1d
+  );
+
 }
+
 
 h1{
+
   font-size:27px;
+
   letter-spacing:3px;
+
   margin:4px 0;
+
   color:var(--gold2);
+
 }
+
 
 .artist{
+
   font-size:16px;
+
   letter-spacing:4px;
+
 }
+
 
 .bio{
+
   color:#c8c0b7;
+
   line-height:1.5;
+
   font-size:14px;
+
   max-width:560px;
+
   margin:14px auto;
+
 }
+
+
+/* =========================
+   SECCIONES
+========================= */
 
 section{
+
   padding:22px 18px;
+
 }
+
 
 .title{
+
   font-size:20px;
+
   margin:0 0 14px;
+
   color:var(--gold2);
+
   letter-spacing:1px;
+
 }
+
+
+/* =========================
+   TARJETAS
+========================= */
 
 .track{
+
   display:flex;
+
   align-items:center;
+
   gap:13px;
-  background:linear-gradient(135deg,#17130e,#0d0d0d);
+
+  background:
+  linear-gradient(
+    135deg,
+    #17130e,
+    #0d0d0d
+  );
+
   border:1px solid #342717;
+
   border-radius:16px;
+
   padding:10px;
+
   margin:10px 0;
-  box-shadow:0 5px 20px #0008;
+
+  box-shadow:
+  0 5px 20px #0008;
+
 }
+
 
 .cover{
+
   width:72px;
+
   height:72px;
+
   object-fit:cover;
+
   border-radius:11px;
+
 }
+
 
 .info{
+
   flex:1;
+
+  min-width:0;
+
 }
+
 
 .name{
+
   font-weight:700;
+
   font-size:16px;
+
+  white-space:nowrap;
+
+  overflow:hidden;
+
+  text-overflow:ellipsis;
+
 }
+
 
 .sub{
+
   font-size:12px;
+
   color:var(--gold);
+
   margin-top:5px;
+
 }
+
+
+/* =========================
+   BOTON PLAY
+========================= */
 
 .play{
+
   width:44px;
+
   height:44px;
+
+  flex-shrink:0;
+
   border-radius:50%;
+
   border:1px solid var(--gold);
+
   background:#0a0908;
+
   color:var(--gold2);
+
   font-size:18px;
+
 }
+
+
+/* =========================
+   BOTON COMPARTIR
+========================= */
+
+.share{
+
+  width:42px;
+
+  height:42px;
+
+  flex-shrink:0;
+
+  border-radius:50%;
+
+  border:1px solid var(--gold);
+
+  background:
+  linear-gradient(
+    145deg,
+    #17110a,
+    #080706
+  );
+
+  color:var(--gold2);
+
+  font-size:18px;
+
+  cursor:pointer;
+
+  box-shadow:
+  0 0 10px #9a5f1d44;
+
+}
+
+
+.share:active{
+
+  transform:scale(.92);
+
+}
+
+
+/* =========================
+   BOTON AGREGAR
+========================= */
+
+.add-button{
+
+  width:100%;
+
+  padding:14px;
+
+  margin-top:8px;
+
+  border-radius:14px;
+
+  border:1px solid var(--gold);
+
+  background:
+  linear-gradient(
+    135deg,
+    #2a1b0b,
+    #100d09
+  );
+
+  color:var(--gold2);
+
+  font-size:15px;
+
+  font-weight:bold;
+
+  cursor:pointer;
+
+}
+
+
+.add-button:active{
+
+  transform:scale(.98);
+
+}
+
+
+/* =========================
+   PANEL DE SUBIDA
+========================= */
+
+.upload-panel{
+
+  display:none;
+
+  margin-top:15px;
+
+  padding:18px;
+
+  border-radius:16px;
+
+  border:1px solid #6e4a20;
+
+  background:#0d0c0a;
+
+}
+
+
+.upload-panel.active{
+
+  display:block;
+
+}
+
+
+.upload-panel h3{
+
+  margin-top:0;
+
+  color:var(--gold2);
+
+}
+
+
+.upload-panel label{
+
+  display:block;
+
+  margin-top:12px;
+
+  margin-bottom:6px;
+
+  font-size:13px;
+
+  color:#c8c0b7;
+
+}
+
+
+.upload-panel input{
+
+  width:100%;
+
+  padding:11px;
+
+  border-radius:10px;
+
+  border:1px solid #4a3722;
+
+  background:#080706;
+
+  color:white;
+
+}
+
+
+.upload-submit{
+
+  width:100%;
+
+  margin-top:18px;
+
+  padding:13px;
+
+  border:1px solid var(--gold);
+
+  border-radius:12px;
+
+  background:#17100a;
+
+  color:var(--gold2);
+
+  font-weight:bold;
+
+}
+
+
+.cancel-button{
+
+  width:100%;
+
+  margin-top:8px;
+
+  padding:11px;
+
+  border:1px solid #444;
+
+  border-radius:12px;
+
+  background:#111;
+
+  color:#bbb;
+
+}
+
+
+/* =========================
+   MENSAJES
+========================= */
+
+.message{
+
+  margin-top:12px;
+
+  padding:10px;
+
+  border-radius:10px;
+
+  font-size:13px;
+
+  display:none;
+
+}
+
+
+.message.show{
+
+  display:block;
+
+}
+
+
+.message.success{
+
+  color:#9cffb0;
+
+  background:#0b2411;
+
+  border:1px solid #245c30;
+
+}
+
+
+.message.error{
+
+  color:#ff9999;
+
+  background:#260d0d;
+
+  border:1px solid #6b2222;
+
+}
+
+
+/* =========================
+   REPRODUCTOR
+========================= */
 
 .player{
+
   position:fixed;
+
   left:50%;
+
   bottom:12px;
+
   transform:translateX(-50%);
-  width:min(720px,calc(100% - 24px));
+
+  width:min(
+    720px,
+    calc(100% - 24px)
+  );
+
   background:#0d0c0aee;
+
   backdrop-filter:blur(14px);
+
   border:1px solid #6e4a20;
+
   border-radius:18px;
+
   padding:12px 15px;
-  box-shadow:0 0 30px #8b551c44;
+
+  box-shadow:
+  0 0 30px #8b551c44;
+
+  z-index:1000;
+
 }
+
 
 .now{
+
   display:flex;
+
   align-items:center;
+
   gap:10px;
+
 }
+
 
 .mini{
+
   width:48px;
+
   height:48px;
+
   object-fit:cover;
+
   border-radius:8px;
+
 }
+
 
 .nowtext{
+
   flex:1;
+
+  min-width:0;
+
 }
+
 
 .nowname{
+
   font-weight:700;
+
+  white-space:nowrap;
+
+  overflow:hidden;
+
+  text-overflow:ellipsis;
+
 }
+
 
 .time{
+
   font-size:11px;
+
   color:#bdb4aa;
+
   margin-top:4px;
+
 }
+
 
 .controls{
+
   display:flex;
+
   align-items:center;
+
   gap:8px;
+
 }
+
 
 .controls button{
+
   background:none;
+
   border:0;
+
   color:var(--gold2);
+
   font-size:21px;
+
 }
+
 
 .controls .main{
+
   border:1px solid var(--gold);
+
   border-radius:50%;
+
   width:44px;
+
   height:44px;
+
 }
+
 
 .progress{
+
   width:100%;
+
   accent-color:var(--gold);
+
   margin-top:6px;
+
 }
 
+
+/* =========================
+   FOOTER
+========================= */
+
 footer{
+
   text-align:center;
+
   color:#756b62;
+
   font-size:11px;
+
   padding:20px;
+
 }
+
 </style>
+
 </head>
+
 
 <body>
 
+
 <div class="app">
+
 
 <header>
 
@@ -205,133 +682,210 @@ class="logo"
 src="Media/logo.png"
 alt="Italy Mau Producer">
 
-<h1>ITALY MAU PRODUCER</h1>
 
-<div class="artist">EL DIM</div>
+<h1>
+ITALY MAU PRODUCER
+</h1>
+
+
+<div class="artist">
+EL DIM
+</div>
+
 
 <p class="bio">
-Nacido en febrero de 1987, amante de la música y el espectáculo en general,
-original y muy positivo, con ganas de triunfar y sentirme útil.
+
+Nacido en febrero de 1987,
+amante de la música y el espectáculo
+en general, original y muy positivo,
+con ganas de triunfar y sentirme útil.
+
 </p>
 
 </header>
 
 
-<section>
 
-<h2 class="title">🎵 MIS CANCIONES</h2>
-
-
-<!-- BRUTAL 2026 -->
-
-<div class="track">
-
-<img
-class="cover"
-src="https://xnhhrtzybrpdpuzsrwpr.supabase.co/storage/v1/object/public/portadas/portada%20brutal.png"
-alt="Brutal 2026">
-
-<div class="info">
-
-<div class="name">
-Brutal 2026
-</div>
-
-<div class="sub">
-El DIM • 2026
-</div>
-
-</div>
-
-<button
-class="play"
-onclick="playTrack(0)">
-▶
-</button>
-
-<button
-class="share"
-onclick="shareTrack(0)">
-🇨🇺
-</button>
-
-</div>
-  <!-- VICIO -->
-
-<div class="track">
-
-<img
-class="cover"
-src="https://xnhhrtzybrpdpuzsrwpr.supabase.co/storage/v1/object/public/portadas/portada-vicio.png"
-alt="Vicio">
-
-<div class="info">
-
-<div class="name">
-Vicio
-</div>
-
-<div class="sub">
-El DIM • 2026
-</div>
-
-</div>
-
-<button
-class="play"
-onclick="playTrack(1)">
-▶
-</button>
-  <button class="share" onclick="shareTrack(1)">
-📤
-</button>
-
-</div>
-
-
-<!-- MI REINA AZAFATA -->
-
-<div class="track">
-
-<img
-class="cover"
-src="https://xnhhrtzybrpdpuzsrwpr.supabase.co/storage/v1/object/public/portadas/portada-reina-azafata.png"
-alt="Mi reina azafata">
-
-<div class="info">
-
-<div class="name">
-Mi reina azafata
-</div>
+<!-- =========================
+     CANCIONES
+========================= -->
 
 <section>
 
-<h2 class="title">🎵 MIS CANCIONES</h2>
+<h2 class="title">
+🎵 MIS CANCIONES
+</h2>
+
 
 <div id="listaCanciones">
 
-<!-- Las canciones aparecerán automáticamente desde Supabase -->
+<div style="
+text-align:center;
+color:#c8c0b7;
+padding:20px;
+">
 
-<div style="text-align:center;color:#c8c0b7;padding:20px;">
 Cargando canciones...
+
 </div>
+
+</div>
+
+
+
+<!-- BOTON AGREGAR -->
+
+<button
+class="add-button"
+onclick="toggleUpload()">
+
+＋ AGREGAR NUEVA CANCIÓN
+
+</button>
+
+
+
+<!-- =========================
+     PANEL DE SUBIDA
+========================= -->
+
+<div
+id="uploadPanel"
+class="upload-panel">
+
+
+<h3>
+🎵 Nueva canción
+</h3>
+
+
+<label>
+Título
+</label>
+
+<input
+id="uploadTitulo"
+type="text"
+placeholder="Nombre de la canción"
+required>
+
+
+<label>
+Artista
+</label>
+
+<input
+id="uploadArtista"
+type="text"
+placeholder="El DIM"
+value="El DIM">
+
+
+<label>
+Género
+</label>
+
+<input
+id="uploadGenero"
+type="text"
+placeholder="Reggaetón, urbano, etc.">
+
+
+<label>
+Año
+</label>
+
+<input
+id="uploadAnio"
+type="number"
+placeholder="2026"
+value="2026">
+
+
+<label>
+🎵 Archivo MP3
+</label>
+
+<input
+id="uploadAudio"
+type="file"
+accept="audio/mpeg,audio/mp3,audio/*">
+
+
+<label>
+🖼️ Portada
+</label>
+
+<input
+id="uploadPortada"
+type="file"
+accept="image/*">
+
+
+<button
+class="upload-submit"
+onclick="subirCancion()">
+
+⬆️ SUBIR CANCIÓN
+
+</button>
+
+
+<button
+class="cancel-button"
+onclick="toggleUpload()">
+
+Cancelar
+
+</button>
+
+
+<div
+id="uploadMessage"
+class="message">
+</div>
+
 
 </div>
 
 </section>
 
-<h2 class="title">👤 SOBRE EL DIM</h2>
+
+
+<!-- =========================
+     SOBRE EL DIM
+========================= -->
+
+<section>
+
+<h2 class="title">
+👤 SOBRE EL DIM
+</h2>
+
 
 <div
 class="track"
-style="display:block;padding:18px">
+style="
+display:block;
+padding:18px;
+">
 
-<div style="color:#d8d0c7;line-height:1.65">
 
-Apasionado por la música y el espectáculo,
-con una visión original y positiva.
-Este espacio reúne sus canciones y futuros
-lanzamientos bajo la identidad de Italy Mau Producer.
+<div style="
+color:#d8d0c7;
+line-height:1.65;
+">
+
+
+Apasionado por la música
+y el espectáculo,
+con una visión original
+y positiva.
+
+Este espacio reúne sus canciones
+y futuros lanzamientos bajo
+la identidad de Italy Mau Producer.
+
 
 </div>
 
@@ -340,57 +894,87 @@ lanzamientos bajo la identidad de Italy Mau Producer.
 </section>
 
 
+
 <footer>
+
 ITALY MAU PRODUCER • EL DIM
+
 </footer>
+
 
 </div>
 
 
-<!-- REPRODUCTOR -->
+
+<!-- =========================
+     REPRODUCTOR
+========================= -->
 
 <div class="player">
 
+
 <div class="now">
+
 
 <img
 id="mini"
 class="mini"
-src="https://xnhhrtzybrpdpuzsrwpr.supabase.co/storage/v1/object/public/portadas/portada-vicio.png"
+src="Media/logo.png"
 alt="Portada">
 
+
 <div class="nowtext">
+
 
 <div
 id="nowname"
 class="nowname">
+
 Selecciona una canción
+
 </div>
+
 
 <div
 id="time"
 class="time">
+
 0:00 / 0:00
-</div>
 
 </div>
+
+
+</div>
+
 
 <div class="controls">
 
-<button onclick="prev()">⏮</button>
+
+<button onclick="prev()">
+⏮
+</button>
+
 
 <button
 id="main"
 class="main"
 onclick="toggle()">
+
 ▶
+
 </button>
 
-<button onclick="next()">⏭</button>
+
+<button onclick="next()">
+⏭
+</button>
+
 
 </div>
 
+
 </div>
+
 
 <input
 id="progress"
@@ -400,294 +984,276 @@ min="0"
 max="100"
 value="0">
 
+
 </div>
 
 
-<audio id="audio" preload="metadata"></audio>
 
+<audio
+id="audio"
+preload="metadata">
+</audio>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>const SUPABASE_URL = "https://xnhhrtzybrpdpuzsrwpr.supabase.co";
 
-const SUPABASE_KEY = "sb_publishable_Wht8vPKELs2i3b98N0aviQ_XY6yx6hB";
 
-const supabaseClient = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+<!-- SUPABASE -->
 
-const tracks = [
-let tracks = [];
+<script src="
+https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2
+"></script>
 
-async function cargarCanciones(){
 
-const { data, error } = await supabaseClient
-.from("canciones")
-.select("*")
-.order("id");
 
+<script>
 
-if(error){
-console.log("Error cargando canciones:", error);
-return;
-}
 
+/* =========================
+   SUPABASE
+========================= */
 
-tracks = data.map(cancion => ({
-name: cancion.titulo,
-audio: cancion.audio_url,
-cover: cancion.portada_url
-}));
+const SUPABASE_URL =
+"https://xnhhrtzybrpdpuzsrwpr.supabase.co";
 
 
-console.log("Canciones cargadas:", tracks);
+const SUPABASE_KEY =
+"sb_publishable_Wht8vPKELs2i3b98N0aviQ_XY6yx6hB";
 
-}
 
-cargarCanciones();
-
-
-let i=0;
-
-const audio=document.getElementById("audio");
-
-const main=document.getElementById("main");
-
-const mini=document.getElementById("mini");
-
-const nowname=document.getElementById("nowname");
-
-const progress=document.getElementById("progress");
-
-const time=document.getElementById("time");
-
-
-function loadTrack(){
-
-audio.src=tracks[i].audio;
-
-mini.src=tracks[i].cover;
-
-nowname.textContent=tracks[i].name;
-
-progress.value=0;
-
-time.textContent="0:00 / 0:00";
-
-}
-
-
-function playTrack(index){
-
-i=index;document.querySelectorAll(".track").forEach(function(track){
-  track.classList.remove("active");
-});
-
-document.querySelectorAll(".track")[index].classList.add("active");
-
-loadTrack();
-
-audio.play()
-.then(function(){
-
-main.textContent="⏸";
-
-})
-.catch(function(error){
-
-console.log("No se pudo reproducir:",error);
-
-main.textContent="▶";
-
-});
-
-}
-
-
-function toggle(){
-
-if(audio.paused){
-
-audio.play()
-.then(function(){
-
-main.textContent="⏸";
-
-})
-.catch(function(error){
-
-console.log("No se pudo reproducir:",error);
-
-});
-
-}else{
-
-audio.pause();
-
-main.textContent="▶";
-
-}
-
-}
-
-
-function prev(){
-
-i=(i-1+tracks.length)%tracks.length;
-
-playTrack(i);
-
-}
-
-
-function next(){
-
-i=(i+1)%tracks.length;
-
-playTrack(i);
-
-}
-
-
-audio.addEventListener("play",function(){
-
-main.textContent="⏸";
-
-});
-
-
-audio.addEventListener("pause",function(){
-
-main.textContent="▶";
-
-});
-
-
-audio.addEventListener("timeupdate",function(){
-
-if(audio.duration){
-
-progress.value=(audio.currentTime/audio.duration)*100;
-
-}
-
-time.textContent=
-formatTime(audio.currentTime)+" / "+
-formatTime(audio.duration);
-
-});
-
-
-audio.addEventListener("ended",function(){
-
-next();
-
-});
-
-
-progress.addEventListener("input",function(){
-
-if(audio.duration){
-
-audio.currentTime=
-(progress.value/100)*audio.duration;
-
-}
-
-});
-
-
-function formatTime(seconds){
-
-if(!isFinite(seconds)){
-const SUPABASE_URL = "https://xnhhrtzybrpdpuzsrwpr.supabase.co";
-
-const SUPABASE_KEY = "sb_publishable_Wht8vPKELs2i3b98N0aviQ_XY6yx6hB";
-
-
-const supabaseClient = supabase.createClient(
+const supabaseClient =
+supabase.createClient(
 SUPABASE_URL,
 SUPABASE_KEY
 );
 
+
+
+/* =========================
+   VARIABLES
+========================= */
 
 let tracks = [];
 
 let i = 0;
 
 
-const audio = document.getElementById("audio");
-const main = document.getElementById("main");
-const mini = document.getElementById("mini");
-const nowname = document.getElementById("nowname");
-const progress = document.getElementById("progress");
-const time = document.getElementById("time");
+const audio =
+document.getElementById("audio");
 
 
+const main =
+document.getElementById("main");
+
+
+const mini =
+document.getElementById("mini");
+
+
+const nowname =
+document.getElementById("nowname");
+
+
+const progress =
+document.getElementById("progress");
+
+
+const time =
+document.getElementById("time");
+
+
+
+/* =========================
+   CARGAR CANCIONES
+========================= */
 
 async function cargarCanciones(){
 
-const {data,error}= await supabaseClient
+
+const {data,error} =
+await supabaseClient
+
 .from("canciones")
-.select("*")
-.order("id",{ascending:false});
+
+.select(
+"id,titulo,artista,genero,anio,audio_url,portada_url,fecha"
+)
+
+.order(
+"id",
+{
+ascending:false
+}
+);
 
 
 if(error){
 
-console.log("Error cargando canciones:",error);
+console.error(
+"Error cargando canciones:",
+error
+);
+
+
+document.getElementById(
+"listaCanciones"
+).innerHTML = `
+
+<div style="
+text-align:center;
+color:#ff7777;
+padding:20px;
+">
+
+No se pudieron cargar las canciones.
+
+<br><br>
+
+${escapeHTML(error.message)}
+
+</div>
+
+`;
 
 return;
 
 }
 
 
-tracks = data.map(cancion=>({
+tracks =
+data.map(cancion => ({
+
+id:cancion.id,
 
 name:cancion.titulo,
+
+artist:cancion.artista,
+
+genre:cancion.genero,
+
+year:cancion.anio,
+
 audio:cancion.audio_url,
-cover:cancion.portada_url
+
+cover:cancion.portada_url,
+
+date:cancion.fecha
 
 }));
 
 
 mostrarCanciones();
 
+
 }
 
 
+/* =========================
+   MOSTRAR CANCIONES
+========================= */
 
 function mostrarCanciones(){
 
-const lista=document.getElementById("listaCanciones");
+
+const lista =
+document.getElementById(
+"listaCanciones"
+);
+
 
 lista.innerHTML="";
 
 
-tracks.forEach((track,index)=>{
+if(tracks.length===0){
+
+lista.innerHTML=`
+
+<div style="
+text-align:center;
+color:#c8c0b7;
+padding:25px;
+">
+
+Todavía no hay canciones disponibles.
+
+</div>
+
+`;
+
+return;
+
+}
 
 
-lista.innerHTML += `
+tracks.forEach(
+(track,index)=>{
 
 
-<div class="track">
+const tarjeta =
+document.createElement("div");
+
+
+tarjeta.className="track";
+
+
+tarjeta.innerHTML=`
 
 
 <img
 class="cover"
-src="${track.cover}"
-alt="${track.name}">
+src="${escapeAttribute(track.cover || "Media/logo.png")}"
+alt="${escapeAttribute(track.name)}"
+onerror="this.src='Media/logo.png'"
+>
 
 
 <div class="info">
 
+
 <div class="name">
-${track.name}
+
+${escapeHTML(track.name)}
+
 </div>
 
 
 <div class="sub">
-El DIM • 2026
+
+${escapeHTML(
+track.artist || "El DIM"
+)}
+
+${
+track.year
+?
+" • "+escapeHTML(
+String(track.year)
+)
+:
+""
+}
+
 </div>
+
+
+${
+track.genre
+?
+`
+
+<div style="
+font-size:11px;
+color:#8f857a;
+margin-top:4px;
+">
+
+${escapeHTML(track.genre)}
+
+</div>
+
+`
+:
+""
+}
+
 
 </div>
 
@@ -695,23 +1261,29 @@ El DIM • 2026
 
 <button
 class="play"
-onclick="playTrack(${index})">
+onclick="playTrack(${index})"
+aria-label="Reproducir">
+
 ▶
+
 </button>
 
 
 
 <button
 class="share"
-onclick="shareTrack(${index})">
+onclick="shareTrack(${index})"
+aria-label="Compartir">
+
 📤
+
 </button>
 
 
-</div>
-
-
 `;
+
+
+lista.appendChild(tarjeta);
 
 
 });
@@ -720,30 +1292,83 @@ onclick="shareTrack(${index})">
 }
 
 
+/* =========================
+   SEGURIDAD
+========================= */
+
+function escapeHTML(text){
+
+return String(text)
+
+.replace(/&/g,"&amp;")
+
+.replace(/</g,"&lt;")
+
+.replace(/>/g,"&gt;")
+
+.replace(/"/g,"&quot;")
+
+.replace(/'/g,"&#039;");
+
+}
+
+
+function escapeAttribute(text){
+
+return escapeHTML(text);
+
+}
+
+
+/* =========================
+   REPRODUCTOR
+========================= */
 
 function loadTrack(){
 
 
-if(!tracks[i]) return;
+if(!tracks[i]){
+
+return;
+
+}
 
 
-audio.src=tracks[i].audio;
+audio.src =
+tracks[i].audio;
 
-mini.src=tracks[i].cover;
 
-nowname.textContent=tracks[i].name;
+mini.src =
+tracks[i].cover ||
+"Media/logo.png";
+
+
+nowname.textContent =
+tracks[i].name;
+
 
 progress.value=0;
 
-time.textContent="0:00 / 0:00";
+
+time.textContent =
+"0:00 / 0:00";
 
 
 }
 
 
-
+/* =========================
+   REPRODUCIR
+========================= */
 
 function playTrack(index){
+
+
+if(!tracks[index]){
+
+return;
+
+}
 
 
 i=index;
@@ -753,11 +1378,60 @@ loadTrack();
 
 
 audio.play()
+
 .then(()=>{
 
 main.textContent="⏸";
 
 })
+
+.catch(error=>{
+
+console.log(
+"No se pudo reproducir:",
+error
+);
+
+main.textContent="▶";
+
+});
+
+
+}
+
+
+/* =========================
+   PLAY / PAUSA
+========================= */
+
+function toggle(){
+
+
+if(!tracks.length){
+
+return;
+
+}
+
+
+if(audio.paused){
+
+
+if(!audio.src){
+
+loadTrack();
+
+}
+
+
+audio.play()
+
+.then(()=>{
+
+main.textContent="⏸";
+
+})
+
 .catch(error=>{
 
 console.log(error);
@@ -765,27 +1439,12 @@ console.log(error);
 });
 
 
-}
-
-
-
-
-function toggle(){
-
-
-if(audio.paused){
-
-
-audio.play();
-
-main.textContent="⏸";
-
-
 }else{
 
 
 audio.pause();
 
+
 main.textContent="▶";
 
 
@@ -795,79 +1454,123 @@ main.textContent="▶";
 }
 
 
+/* =========================
+   ANTERIOR
+========================= */
 
 function prev(){
 
-i=(i-1+tracks.length)%tracks.length;
+
+if(!tracks.length){
+
+return;
+
+}
+
+
+i =
+(i-1+tracks.length)
+%
+tracks.length;
+
 
 playTrack(i);
 
 }
 
 
+/* =========================
+   SIGUIENTE
+========================= */
 
 function next(){
 
-i=(i+1)%tracks.length;
+
+if(!tracks.length){
+
+return;
+
+}
+
+
+i =
+(i+1)
+%
+tracks.length;
+
 
 playTrack(i);
 
 }
 
 
+/* =========================
+   EVENTOS AUDIO
+========================= */
 
-
-audio.addEventListener("play",()=>{
+audio.addEventListener(
+"play",
+()=>{
 
 main.textContent="⏸";
 
 });
 
 
-
-audio.addEventListener("pause",()=>{
+audio.addEventListener(
+"pause",
+()=>{
 
 main.textContent="▶";
 
 });
 
 
-
-audio.addEventListener("timeupdate",()=>{
+audio.addEventListener(
+"timeupdate",
+()=>{
 
 
 if(audio.duration){
 
-progress.value=(audio.currentTime/audio.duration)*100;
+progress.value =
+(audio.currentTime /
+audio.duration)*100;
 
 }
 
 
-time.textContent=
-formatTime(audio.currentTime)+" / "+
+time.textContent =
+formatTime(audio.currentTime)
++
+" / "
++
 formatTime(audio.duration);
 
 
 });
 
 
-
-
-audio.addEventListener("ended",()=>{
+audio.addEventListener(
+"ended",
+()=>{
 
 next();
 
 });
 
 
-
-progress.addEventListener("input",()=>{
+progress.addEventListener(
+"input",
+()=>{
 
 
 if(audio.duration){
 
-audio.currentTime=
-(progress.value/100)*audio.duration;
+audio.currentTime =
+(progress.value/100)
+*
+audio.duration;
 
 }
 
@@ -875,71 +1578,527 @@ audio.currentTime=
 });
 
 
-
+/* =========================
+   TIEMPO
+========================= */
 
 function formatTime(seconds){
 
 
-if(!isFinite(seconds)) return "0:00";
+if(!isFinite(seconds)){
+
+return "0:00";
+
+}
 
 
-let m=Math.floor(seconds/60);
+const minutes =
+Math.floor(seconds/60);
 
-let s=Math.floor(seconds%60)
+
+const secondsPart =
+Math.floor(seconds%60)
 .toString()
 .padStart(2,"0");
 
 
-return m+":"+s;
-
+return minutes+
+":"+
+secondsPart;
 
 }
 
 
+/* =========================
+   COMPARTIR
+========================= */
+
+async function shareTrack(index){
 
 
+if(!tracks[index]){
 
-function shareTrack(index){
+return;
+
+}
 
 
-const track=tracks[index];
+const track =
+tracks[index];
 
 
 const shareData={
 
-title:track.name+" — El DIM",
+title:
+track.name+
+" — "+
+(track.artist || "El DIM"),
 
-text:"Escucha "+track.name+" de El DIM — Italy Mau Producer",
+text:
+"🎵 Escucha "+
+track.name+
+" de "+
+(track.artist || "El DIM")+
+" — Italy Mau Producer",
 
-url:track.audio
+url:
+track.audio
 
 };
 
 
+try{
+
 
 if(navigator.share){
 
-
-navigator.share(shareData);
-
+await navigator.share(
+shareData
+);
 
 }else{
 
 
-navigator.clipboard.writeText(track.audio);
+await navigator.clipboard.writeText(
+track.audio
+);
 
-alert("Enlace copiado");
+
+alert(
+"Enlace de la canción copiado"
+);
 
 
 }
 
 
+}catch(error){
+
+console.log(
+"Compartir cancelado:",
+error
+);
+
+}
+
 }
 
 
+/* =========================
+   PANEL DE SUBIDA
+========================= */
+
+function toggleUpload(){
+
+
+const panel =
+document.getElementById(
+"uploadPanel"
+);
+
+
+panel.classList.toggle(
+"active"
+);
+
+
+}
+
+
+/* =========================
+   MENSAJE SUBIDA
+========================= */
+
+function uploadMessage(
+text,
+type
+){
+
+
+const message =
+document.getElementById(
+"uploadMessage"
+);
+
+
+message.textContent=text;
+
+
+message.className=
+"message show "+
+type;
+
+}
+
+
+/* =========================
+   SUBIR CANCION
+========================= */
+
+async function subirCancion(){
+
+
+const titulo =
+document.getElementById(
+"uploadTitulo"
+).value.trim();
+
+
+const artista =
+document.getElementById(
+"uploadArtista"
+).value.trim()
+||
+"El DIM";
+
+
+const genero =
+document.getElementById(
+"uploadGenero"
+).value.trim();
+
+
+const anio =
+document.getElementById(
+"uploadAnio"
+).value;
+
+
+const audioFile =
+document.getElementById(
+"uploadAudio"
+).files[0];
+
+
+const portadaFile =
+document.getElementById(
+"uploadPortada"
+).files[0];
+
+
+if(!titulo){
+
+uploadMessage(
+"Escribe el título de la canción.",
+"error"
+);
+
+return;
+
+}
+
+
+if(!audioFile){
+
+uploadMessage(
+"Selecciona el archivo MP3.",
+"error"
+);
+
+return;
+
+}
+
+
+if(!portadaFile){
+
+uploadMessage(
+"Selecciona la portada.",
+"error"
+);
+
+return;
+
+}
+
+
+try{
+
+
+uploadMessage(
+"Subiendo canción...",
+"success"
+);
+
+
+/* =========================
+   NOMBRES DE ARCHIVOS
+========================= */
+
+const timestamp =
+Date.now();
+
+
+const audioPath =
+timestamp+
+"-"+
+limpiarNombre(audioFile.name);
+
+
+const portadaPath =
+timestamp+
+"-"+
+limpiarNombre(portadaFile.name);
+
+
+
+/* =========================
+   SUBIR AUDIO
+========================= */
+
+const audioUpload =
+await supabaseClient
+.storage
+.from("songs")
+.upload(
+audioPath,
+audioFile,
+{
+cacheControl:"3600",
+upsert:false,
+contentType:
+audioFile.type ||
+"audio/mpeg"
+}
+);
+
+
+if(audioUpload.error){
+
+throw audioUpload.error;
+
+}
+
+
+
+/* =========================
+   SUBIR PORTADA
+========================= */
+
+const portadaUpload =
+await supabaseClient
+.storage
+.from("portadas")
+.upload(
+portadaPath,
+portadaFile,
+{
+cacheControl:"3600",
+upsert:false,
+contentType:
+portadaFile.type ||
+"image/png"
+}
+);
+
+
+if(portadaUpload.error){
+
+throw portadaUpload.error;
+
+}
+
+
+
+/* =========================
+   URL AUDIO
+========================= */
+
+const audioURL =
+supabaseClient
+.storage
+.from("songs")
+.getPublicUrl(
+audioPath
+).data.publicUrl;
+
+
+
+/* =========================
+   URL PORTADA
+========================= */
+
+const portadaURL =
+supabaseClient
+.storage
+.from("portadas")
+.getPublicUrl(
+portadaPath
+).data.publicUrl;
+
+
+
+/* =========================
+   INSERTAR EN TABLA
+========================= */
+
+const {error} =
+await supabaseClient
+.from("canciones")
+.insert({
+
+titulo:titulo,
+
+artista:artista,
+
+genero:
+genero || null,
+
+anio:
+anio
+?
+Number(anio)
+:
+new Date().getFullYear(),
+
+audio_url:
+audioURL,
+
+portada_url:
+portadaURL,
+
+fecha:
+new Date().toISOString()
+
+});
+
+
+if(error){
+
+throw error;
+
+}
+
+
+/* =========================
+   ÉXITO
+========================= */
+
+uploadMessage(
+"✅ Canción subida correctamente.",
+"success"
+);
+
+
+document.getElementById(
+"uploadTitulo"
+).value="";
+
+
+document.getElementById(
+"uploadGenero"
+).value="";
+
+
+document.getElementById(
+"uploadAudio"
+).value="";
+
+
+document.getElementById(
+"uploadPortada"
+).value="";
+
+
+await cargarCanciones();
+
+
+}catch(error){
+
+
+console.error(
+"Error subiendo canción:",
+error
+);
+
+
+uploadMessage(
+"❌ Error: "+
+(error.message || error),
+"error"
+);
+
+}
+
+}
+
+
+/* =========================
+   LIMPIAR NOMBRE
+========================= */
+
+function limpiarNombre(nombre){
+
+return nombre
+
+.normalize("NFD")
+.replace(/[\u0300-\u036f]/g,"")
+
+.replace(
+/[^a-zA-Z0-9._-]/g,
+"_"
+);
+
+}
+
+
+/* =========================
+   INICIAR
+========================= */
 
 cargarCanciones();
+
+
+
+/* =========================
+   SERVICE WORKER
+========================= */
+
+if(
+"serviceWorker"
+in navigator
+){
+
+window.addEventListener(
+"load",
+()=>{
+
+navigator.serviceWorker
+
+.register("./sw.js")
+
+.catch(error=>{
+
+console.log(
+"Service Worker:",
+error
+);
+
+});
+
+});
+
+}
+
 </script>
 
+
 </body>
+
 </html>
+
+Qué cambia esta versión
+
+- Ya no tienes que escribir las canciones dentro del HTML.
+- La app consulta automáticamente la tabla "canciones".
+- Cuando agregues una nueva fila a Supabase, aparecerá automáticamente.
+- Mantiene "título", "artista", "género", "año", audio, portada y fecha.
+- El botón 📤 compartir funciona para cada canción.
+- El reproductor se adapta a las canciones que encuentre.
+- Se corrigió el problema de JavaScript que tenía tu versión anterior.
+- Se eliminó la duplicación de "tracks", "supabaseClient" y funciones que tenías en el código anterior.
+- Ahora aparece ＋ AGREGAR NUEVA CANCIÓN.
+- Desde ese panel puedes seleccionar MP3 + portada, introducir título, artista, género y año.
+- La app sube el MP3 al bucket "songs", la portada a "portadas" y después crea automáticamente el registro en "canciones".
+
+Importante: si al probar AGREGAR NUEVA CANCIÓN aparece un error de permisos, no significa que el código esté mal. Significa que tenemos que configurar las políticas de los buckets "song
