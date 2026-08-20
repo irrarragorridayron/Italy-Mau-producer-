@@ -1241,6 +1241,12 @@ let tracks = [];
 
 let i = 0;
 
+/* =========================
+   MODO DE REPRODUCCIÓN
+========================= */
+
+let playMode = "seguido";
+
 
 const audio =
 document.getElementById("audio");
@@ -1700,21 +1706,86 @@ playTrack(i);
 
 function next(){
 
+  if(!tracks.length){
+    return;
+  }
 
-if(!tracks.length){
+  /* 🔂 BUCLE UNA */
+  if(playMode === "una"){
 
-return;
+    audio.currentTime = 0;
 
-}
+    audio.play();
 
-
-i =
-(i+1)
-%
-tracks.length;
+    return;
+  }
 
 
-playTrack(i);
+  /* 🔀 ALEATORIO */
+
+  if(playMode === "aleatorio"){
+
+    if(tracks.length === 1){
+
+      playTrack(0);
+
+      return;
+    }
+
+    let nuevoIndice;
+
+    do{
+
+      nuevoIndice =
+        Math.floor(
+          Math.random() * tracks.length
+        );
+
+    }while(nuevoIndice === i);
+
+    i = nuevoIndice;
+
+    playTrack(i);
+
+    return;
+  }
+
+
+  /* 🔁 BUCLE TODAS */
+
+  if(playMode === "todas"){
+
+    i =
+      (i + 1) %
+      tracks.length;
+
+    playTrack(i);
+
+    return;
+  }
+
+
+  /* ▶️ SEGUIDO */
+
+  if(playMode === "seguido"){
+
+    if(i >= tracks.length - 1){
+
+      audio.pause();
+
+      audio.currentTime = 0;
+
+      main.textContent = "▶";
+
+      return;
+    }
+
+    i++;
+
+    playTrack(i);
+
+    return;
+  }
 
 }
 
