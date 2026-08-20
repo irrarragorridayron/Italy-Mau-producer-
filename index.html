@@ -1830,6 +1830,57 @@ function next(){
 
 
 /* =========================
+   CAMBIAR MODO
+========================= */
+
+function setPlayMode(mode){
+
+  playMode = mode;
+
+  document
+    .querySelectorAll(".mode-button")
+    .forEach(button => {
+      button.classList.remove("active");
+    });
+
+
+  if(mode === "aleatorio"){
+
+    document
+      .getElementById("modeRandom")
+      .classList.add("active");
+
+  }
+
+
+  if(mode === "seguido"){
+
+    document
+      .getElementById("modeSequential")
+      .classList.add("active");
+
+  }
+
+
+  if(mode === "una"){
+
+    document
+      .getElementById("modeOne")
+      .classList.add("active");
+
+  }
+
+
+  if(mode === "todas"){
+
+    document
+      .getElementById("modeAll")
+      .classList.add("active");
+
+  }
+
+  }
+  /* =========================
    EVENTOS AUDIO
 ========================= */
 
