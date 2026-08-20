@@ -239,27 +239,57 @@ section{
 }
 
 
-/* =========================
-   BOTON PLAY
-========================= */
+ /* =========================
+    BOTONES DE CANCIONES
+ ========================= */
 
-.play{
+.play,
+.share,
+.delete{
 
   width:44px;
-
   height:44px;
 
   flex-shrink:0;
 
   border-radius:50%;
 
+  cursor:pointer;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    background .18s ease;
+
+}
+
+
+/* =========================
+   BOTON PLAY
+========================= */
+
+.play{
+
   border:1px solid var(--gold);
 
-  background:#0a0908;
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #3a2812,
+      #0b0907 70%
+    );
 
   color:var(--gold2);
 
   font-size:18px;
+
+  box-shadow:
+    0 0 8px #e7ad5422,
+    inset 0 0 8px #e7ad5411;
 
 }
 
@@ -270,61 +300,90 @@ section{
 
 .share{
 
-  width:42px;
-
-  height:42px;
-
-  flex-shrink:0;
-
-  border-radius:50%;
-
-  border:1px solid var(--gold);
+  border:1px solid #c99442;
 
   background:
-  linear-gradient(
-    145deg,
-    #17110a,
-    #080706
-  );
+    radial-gradient(
+      circle at 35% 30%,
+      #33230f,
+      #0b0907 70%
+    );
 
-  color:var(--gold2);
+  color:#ffd98a;
 
-  font-size:18px;
-
-  cursor:pointer;
+  font-size:17px;
 
   box-shadow:
-  0 0 10px #9a5f1d44;
+    0 0 8px #e7ad5422;
 
 }
 
 
-.share:active{
+/* =========================
+   BOTON ELIMINAR
+========================= */
 
-  transform:scale(.92);
+.delete{
 
-}.delete{
-  width:42px;
-  height:42px;
-  flex-shrink:0;
-  border-radius:50%;
-  border:1px solid #8b3030;
-  background:linear-gradient(
-    145deg,
-    #260d0d,
-    #100707
-  );
-  color:#ff8c8c;
+  border:1px solid #a94444;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #3a1414,
+      #0b0707 70%
+    );
+
+  color:#ff9b9b;
+
   font-size:17px;
-  cursor:pointer;
-  box-shadow:0 0 10px #8b303044;
+
+  box-shadow:
+    0 0 8px #a9444422;
+
 }
 
+
+/* =========================
+   EFECTO AL TOCAR
+========================= */
+
+.play:active,
+.share:active,
 .delete:active{
-  transform:scale(.92);
+
+  transform:scale(.88);
+
+}
+
+
+/* =========================
+   EFECTO AL PASAR / ACTIVAR
+========================= */
+
+.play:hover{
+
+  transform:scale(1.06);
+
+  box-shadow:
+    0 0 16px #e7ad5466;
+}
+
+.share:hover{
+
+  transform:scale(1.06);
+
+  box-shadow:
+    0 0 16px #e7ad5466;
+}
+
+.delete:hover{
+
+  transform:scale(1.06);
+
+  box-shadow:
+    0 0 16px #a9444466;
   }
-
-
 /* =========================
    BOTON AGREGAR
 ========================= */
