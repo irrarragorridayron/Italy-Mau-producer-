@@ -904,7 +904,7 @@ EL DIM
 Nacido en febrero de 1987,
 amante de la música y el espectáculo
 en general, original y muy positivo,
-con ganas de triunfar y sentirme útil.
+con ganas de crear y sentirme útil.
 
 </p>
 
@@ -1190,6 +1190,45 @@ min="0"
 max="100"
 value="0">
 
+
+</div>
+  <!-- =========================
+     MODOS DE REPRODUCCIÓN
+========================= -->
+
+<div class="play-modes">
+
+  <button
+    id="modeRandom"
+    class="mode-button"
+    onclick="setPlayMode('aleatorio')"
+    title="Aleatorio">
+    🔀
+  </button>
+
+  <button
+    id="modeSequential"
+    class="mode-button active"
+    onclick="setPlayMode('seguido')"
+    title="Seguido">
+    ▶️
+  </button>
+
+  <button
+    id="modeOne"
+    class="mode-button"
+    onclick="setPlayMode('una')"
+    title="Bucle una">
+    🔂¹
+  </button>
+
+  <button
+    id="modeAll"
+    class="mode-button"
+    onclick="setPlayMode('todas')"
+    title="Bucle todas">
+    🔁
+  </button>
 
 </div>
 
