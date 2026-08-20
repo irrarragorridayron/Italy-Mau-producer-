@@ -1711,6 +1711,149 @@ error
 
 
 /* =========================
+   ELIMINAR CANCIÓN
+========================= */
+
+async function eliminarCancion(index){
+
+    if(!tracks[index]){
+        return;
+    }
+
+    const track = tracks[index];
+
+    const confirmar = confirm(
+        "¿Seguro que quieres eliminar la canción:\n\n" +
+        track.name +
+        "\n\nEsta acción no se puede deshacer."
+    );
+
+    if(!confirmar){
+        return;
+    }
+
+    try{
+
+        /* DETENER REPRODUCCIÓN */
+
+        if(i === index){
+
+            audio.pause();
+            audio.currentTime = 0;
+            audio.removeAttribute("src");
+            audio.load();
+
+            main.textContent = "▶";
+            nowname.textContent = "Selecciona una canción";
+            mini.src = "Media/logo.png";
+            progress.value = 0;
+            time.textContent = "0:00 / 0:00";
+        }
+
+
+        /* OBTENER RUTA DEL MP3 */
+
+        let audioPath = null;
+
+        if(track.audio){
+
+            const marker =
+                "/storage/v1/object/public/songs/";
+
+            if(track.audio.includes(marker)){
+
+                audioPath =
+                    decodeURIComponent(
+                        track.audio.split(marker)[1]
+                    );
+            }
+        }
+
+
+        /* OBTENER RUTA DE LA PORTADA */
+
+        let coverPath = null;
+
+        if(track.cover){
+
+            const marker =
+                "/storage/v1/object/public/portadas/";
+
+            if(track.cover.includes(marker)){
+
+                coverPath =
+                    decodeURIComponent(
+                        track.cover.split(marker)[1]
+                    );
+            }
+        }
+
+
+        /* ELIMINAR MP3 */
+
+        if(audioPath){
+
+            const {error:audioError} =
+                await supabaseClient
+                .storage
+                .from("songs")
+                .remove([audioPath]);
+
+            if(audioError){
+                throw audioError;
+            }
+        }
+
+
+        /* ELIMINAR PORTADA */
+
+        if(coverPath){
+
+            const {error:coverError} =
+                await supabaseClient
+                .storage
+                .from("portadas")
+                .remove([coverPath]);
+
+            if(coverError){
+                throw coverError;
+            }
+        }
+
+
+        /* ELIMINAR REGISTRO DE LA TABLA */
+
+        const {error:deleteError} =
+            await supabaseClient
+            .from("canciones")
+            .delete()
+            .eq("id", track.id);
+
+        if(deleteError){
+            throw deleteError;
+        }
+
+
+        /* RECARGAR LISTA */
+
+        await cargarCanciones();
+
+        alert("✅ Canción eliminada correctamente.");
+
+    }catch(error){
+
+        console.error(
+            "Error eliminando canción:",
+            error
+        );
+
+        alert(
+            "❌ No se pudo eliminar la canción.\n\n" +
+            error.message
+        );
+    }
+  }
+  /* =========================
    PANEL DE SUBIDA
 ========================= */
 
