@@ -361,29 +361,159 @@ section{
    EFECTO AL PASAR / ACTIVAR
 ========================= */
 
-.play:hover{
+ /* =========================
+    BOTONES MODERNOS
+ ========================= */
 
-  transform:scale(1.06);
+.play,
+.share,
+.delete{
+
+  width:46px;
+  height:46px;
+
+  min-width:46px;
+  min-height:46px;
+
+  flex-shrink:0;
+
+  border-radius:50%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:0;
+
+  cursor:pointer;
+
+  font-family:Arial,sans-serif;
+
+  transition:
+    transform .15s ease,
+    box-shadow .15s ease;
+
+}
+
+
+/* =========================
+   PLAY
+========================= */
+
+.play{
+
+  border:2px solid #ffd98a;
+
+  background:
+    linear-gradient(
+      145deg,
+      #e7ad54,
+      #6e3d0b
+    );
+
+  color:#ffffff;
+
+  font-size:20px;
+
+  font-weight:bold;
 
   box-shadow:
-    0 0 16px #e7ad5466;
+    0 0 8px #e7ad5488,
+    0 0 18px #e7ad5433;
+
+}
+
+
+/* =========================
+   COMPARTIR
+========================= */
+
+.share{
+
+  border:2px solid #ffd98a;
+
+  background:
+    linear-gradient(
+      145deg,
+      #33200b,
+      #100a04
+    );
+
+  color:#ffd98a;
+
+  font-size:19px;
+
+  box-shadow:
+    0 0 8px #e7ad5466;
+
+}
+
+
+/* =========================
+   ELIMINAR
+========================= */
+
+.delete{
+
+  border:2px solid #ff7070;
+
+  background:
+    linear-gradient(
+      145deg,
+      #601818,
+      #180606
+    );
+
+  color:#ffffff;
+
+  font-size:18px;
+
+  box-shadow:
+    0 0 8px #ff444466;
+
+}
+
+
+/* =========================
+   EFECTO AL TOCAR
+========================= */
+
+.play:active,
+.share:active,
+.delete:active{
+
+  transform:scale(.82);
+
+}
+
+
+/* =========================
+   BRILLO
+========================= */
+
+.play:hover{
+
+  box-shadow:
+    0 0 12px #ffd98a,
+    0 0 28px #e7ad5488;
+
 }
 
 .share:hover{
 
-  transform:scale(1.06);
-
   box-shadow:
-    0 0 16px #e7ad5466;
+    0 0 12px #ffd98a,
+    0 0 24px #e7ad5466;
+
 }
 
 .delete:hover{
 
-  transform:scale(1.06);
-
   box-shadow:
-    0 0 16px #a9444466;
-  }
+    0 0 12px #ff7070,
+    0 0 24px #ff444466;
+
+}
 /* =========================
    BOTON AGREGAR
 ========================= */
