@@ -515,6 +515,117 @@ section{
 
 }
 /* =========================
+   MODOS DE REPRODUCCIÓN
+========================= */
+
+.play-modes{
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  gap:10px;
+
+  margin-top:10px;
+
+  padding:8px 0;
+
+}
+
+
+.mode-button{
+
+  width:42px;
+
+  height:42px;
+
+  border-radius:50%;
+
+  border:1px solid #5b4525;
+
+  background:
+    linear-gradient(
+      145deg,
+      #18130d,
+      #070605
+    );
+
+  color:#a99b86;
+
+  font-size:18px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  cursor:pointer;
+
+  transition:
+    transform .15s ease,
+    box-shadow .2s ease,
+    color .2s ease,
+    border-color .2s ease;
+
+}
+
+
+/* MODO ACTIVO */
+
+.mode-button.active{
+
+  color:#ffd98a;
+
+  border-color:#e7ad54;
+
+  background:
+    linear-gradient(
+      145deg,
+      #3a2811,
+      #100b05
+    );
+
+  box-shadow:
+    0 0 8px #e7ad5488,
+    0 0 18px #e7ad5433;
+
+}
+
+
+/* EFECTO AL TOCAR */
+
+.mode-button:active{
+
+  transform:scale(.86);
+
+}
+
+
+/* EFECTO AL PASAR */
+
+.mode-button:hover{
+
+  color:#ffffff;
+
+  border-color:#ffd98a;
+
+  box-shadow:
+    0 0 12px #e7ad5466;
+
+}
+
+
+/* BUCLE UNA */
+
+#modeOne{
+
+  font-size:16px;
+
+}
+  /* =========================
    BOTON AGREGAR
 ========================= */
 
