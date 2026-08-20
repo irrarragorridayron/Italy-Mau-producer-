@@ -1276,6 +1276,15 @@ aria-label="Compartir">
 📤
 
 </button>
+<button
+class="delete"
+onclick="eliminarCancion(${index})"
+aria-label="Eliminar"
+title="Eliminar canción">
+
+🗑️
+
+</button>
 
 
 `;
@@ -2085,18 +2094,3 @@ error
 
 </html>
 
-Qué cambia esta versión
-
-- Ya no tienes que escribir las canciones dentro del HTML.
-- La app consulta automáticamente la tabla "canciones".
-- Cuando agregues una nueva fila a Supabase, aparecerá automáticamente.
-- Mantiene "título", "artista", "género", "año", audio, portada y fecha.
-- El botón 📤 compartir funciona para cada canción.
-- El reproductor se adapta a las canciones que encuentre.
-- Se corrigió el problema de JavaScript que tenía tu versión anterior.
-- Se eliminó la duplicación de "tracks", "supabaseClient" y funciones que tenías en el código anterior.
-- Ahora aparece ＋ AGREGAR NUEVA CANCIÓN.
-- Desde ese panel puedes seleccionar MP3 + portada, introducir título, artista, género y año.
-- La app sube el MP3 al bucket "songs", la portada a "portadas" y después crea automáticamente el registro en "canciones".
-
-Importante: si al probar AGREGAR NUEVA CANCIÓN aparece un error de permisos, no significa que el código esté mal. Significa que tenemos que configurar las políticas de los buckets "song
