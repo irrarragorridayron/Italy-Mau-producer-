@@ -462,14 +462,122 @@ section{
       145deg,
       #601818,
       #180606
+/* =========================
+   BOTONES DE CANCIONES
+   ESTILO PREMIUM METÁLICO
+========================= */
+
+.play,
+.share,
+.delete{
+
+  width:64px;
+  height:64px;
+
+  min-width:64px;
+  min-height:64px;
+
+  flex-shrink:0;
+
+  border-radius:50%;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  padding:0;
+
+  cursor:pointer;
+
+  font-family:Arial,sans-serif;
+
+  transition:
+    transform .15s ease,
+    box-shadow .2s ease,
+    filter .2s ease;
+}
+
+
+/* =========================
+   PLAY — AZUL METÁLICO
+========================= */
+
+.play{
+
+  border:2px solid #6ec8ff;
+
+  background:
+    radial-gradient(
+      circle at 35% 25%,
+      #071b2d 0%,
+      #02070d 48%,
+      #000000 100%
     );
 
-  color:#ffffff;
+  color:#38aaff;
 
-  font-size:18px;
+  font-size:27px;
 
   box-shadow:
-    0 0 8px #ff444466;
+    0 0 6px #168cffaa,
+    0 0 18px #168cff55,
+    inset 0 0 12px #168cff33;
+
+}
+
+
+/* =========================
+   COMPARTIR — DORADO
+========================= */
+
+.share{
+
+  border:2px solid #ffd98a;
+
+  background:
+    radial-gradient(
+      circle at 35% 25%,
+      #3a2810 0%,
+      #120d05 50%,
+      #000000 100%
+    );
+
+  color:#ffd98a;
+
+  font-size:24px;
+
+  box-shadow:
+    0 0 7px #e7ad5488,
+    0 0 18px #e7ad5444,
+    inset 0 0 12px #e7ad5422;
+
+}
+
+
+/* =========================
+   ELIMINAR — ROJO METÁLICO
+========================= */
+
+.delete{
+
+  border:2px solid #ff6565;
+
+  background:
+    radial-gradient(
+      circle at 35% 25%,
+      #3a0d0d 0%,
+      #120404 50%,
+      #000000 100%
+    );
+
+  color:#ff4d4d;
+
+  font-size:24px;
+
+  box-shadow:
+    0 0 7px #ff333388,
+    0 0 18px #ff222244,
+    inset 0 0 12px #ff222222;
 
 }
 
@@ -482,36 +590,55 @@ section{
 .share:active,
 .delete:active{
 
-  transform:scale(.82);
+  transform:scale(.88);
 
 }
 
 
 /* =========================
-   BRILLO
+   BRILLO PLAY
 ========================= */
 
 .play:hover{
 
+  filter:brightness(1.25);
+
   box-shadow:
-    0 0 12px #ffd98a,
-    0 0 28px #e7ad5488;
+    0 0 10px #38aaff,
+    0 0 25px #168cff99,
+    0 0 45px #168cff44;
 
 }
+
+
+/* =========================
+   BRILLO COMPARTIR
+========================= */
 
 .share:hover{
 
+  filter:brightness(1.2);
+
   box-shadow:
-    0 0 12px #ffd98a,
-    0 0 24px #e7ad5466;
+    0 0 10px #ffd98a,
+    0 0 25px #e7ad5488,
+    0 0 45px #e7ad5444;
 
 }
 
+
+/* =========================
+   BRILLO ELIMINAR
+========================= */
+
 .delete:hover{
 
+  filter:brightness(1.2);
+
   box-shadow:
-    0 0 12px #ff7070,
-    0 0 24px #ff444466;
+    0 0 10px #ff6565,
+    0 0 25px #ff333399,
+    0 0 45px #ff222244;
 
 }
 /* =========================
