@@ -1,1192 +1,795 @@
 <!doctype html>
 <html lang="es">
-
 <head>
-
 <meta charset="utf-8">
-
-<meta name="viewport"
-content="width=device-width,initial-scale=1">
-
-<meta name="theme-color"
-content="#050505">
-
-<link rel="manifest"
-href="./manifest.webmanifest">
-
-<link rel="apple-touch-icon"
-href="./Iconos/icon-192.png">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#050505">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./Icons/icon-192.png">
 <title>Italy Mau Producer — El DIM</title>
 
-
 <style>
-
 :root{
   --gold:#e7ad54;
   --gold2:#ffd98a;
+  --gold3:#b87522;
+  --blue:#168cff;
+  --blue2:#6ec8ff;
+  --red:#ff3f46;
   --dark:#050505;
   --card:#0d0d0d;
+  --muted:#a9a19a;
 }
-
-*{
-  box-sizing:border-box;
-}
-
-
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
-
   margin:0;
-
-  background:
-  radial-gradient(
-    circle at 50% -10%,
-    #2a1b0b 0,
-    #090807 34%,
-    #050505 70%
-  );
-
-  color:white;
-
+  color:#fff;
   font-family:Arial,sans-serif;
-
+  background:
+    radial-gradient(circle at 50% -8%,#3a2410 0,#120d08 24%,#050505 60%),
+    #050505;
 }
-
+button,input{font:inherit}
+button{touch-action:manipulation}
 
 .app{
-
-  max-width:760px;
-
+  width:min(100%,900px);
   margin:auto;
-
   min-height:100vh;
-
-  padding-bottom:150px;
-
+  padding-bottom:190px;
 }
 
-
-/* =========================
-   CABECERA
-========================= */
-
+/* CABECERA */
 header{
-
+  position:relative;
   text-align:center;
-
-  padding:28px 20px 18px;
-
-  border-bottom:1px solid #2b2115;
-
+  padding:20px 18px 24px;
+  overflow:hidden;
+  border-bottom:1px solid #4a3216;
+  background:
+    radial-gradient(circle at 20% 20%,#2a1908 0,transparent 28%),
+    radial-gradient(circle at 85% 65%,#2a1908 0,transparent 30%);
+}
+header:before,
+header:after{
+  content:"";
+  position:absolute;
+  width:60%;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:.7;
+  transform:rotate(-28deg);
+}
+header:before{left:-25%;top:85px}
+header:after{
+  right:-25%;
+  bottom:55px;
+  transform:rotate(-28deg);
 }
 
+.top-button{
+  position:absolute;
+  top:18px;
+  width:54px;
+  height:54px;
+  border-radius:50%;
+  border:1px solid var(--gold);
+  background:linear-gradient(145deg,#241707,#080604);
+  color:var(--gold2);
+  font-size:25px;
+  box-shadow:0 0 12px #e7ad5444;
+  z-index:2;
+}
+.top-left{left:18px}
+.top-right{right:18px}
 
 .logo{
-
-  width:180px;
-
-  height:180px;
-
+  position:relative;
+  z-index:1;
+  width:210px;
+  height:210px;
   object-fit:contain;
-
-  filter:
-  drop-shadow(
-    0 0 16px #9a5f1d
-  );
-
+  filter:drop-shadow(0 0 20px #b8752288);
 }
-
 
 h1{
-
-  font-size:27px;
-
-  letter-spacing:3px;
-
-  margin:4px 0;
-
+  position:relative;
+  z-index:1;
+  margin:2px 0 3px;
   color:var(--gold2);
-
+  font-size:25px;
+  letter-spacing:3px;
 }
-
 
 .artist{
-
-  font-size:16px;
-
-  letter-spacing:4px;
-
+  position:relative;
+  z-index:1;
+  color:#fff;
+  font-size:15px;
+  letter-spacing:5px;
 }
-
 
 .bio{
-
-  color:#c8c0b7;
-
+  position:relative;
+  z-index:1;
+  max-width:650px;
+  margin:14px auto 0;
+  color:#ddd5cc;
+  font-size:15px;
   line-height:1.5;
-
-  font-size:14px;
-
-  max-width:560px;
-
-  margin:14px auto;
-
 }
 
-
-/* =========================
-   SECCIONES
-========================= */
-
+/* SECCIONES */
 section{
-
-  padding:22px 18px;
-
+  padding:22px 18px 8px;
 }
-
 
 .title{
-
-  font-size:20px;
-
   margin:0 0 14px;
-
   color:var(--gold2);
-
+  font-size:22px;
   letter-spacing:1px;
-
+  text-transform:uppercase;
 }
 
+.title-icon{
+  font-size:24px;
+  margin-right:7px;
+}
 
-/* =========================
-   TARJETAS
-========================= */
-
+/* CANCIONES */
 .track{
-
   display:flex;
-
   align-items:center;
-
-  gap:13px;
-
-  background:
-  linear-gradient(
-    135deg,
-    #17130e,
-    #0d0d0d
-  );
-
-  border:1px solid #342717;
-
-  border-radius:16px;
-
-  padding:10px;
-
-  margin:10px 0;
-
+  gap:14px;
+  padding:11px;
+  margin:11px 0;
+  border:1px solid #67471f;
+  border-radius:18px;
+  background:linear-gradient(135deg,#17120c,#090909);
   box-shadow:
-  0 5px 20px #0008;
-
+    0 7px 24px #000b,
+    inset 0 0 16px #e7ad5408;
 }
-
 
 .cover{
-
-  width:72px;
-
-  height:72px;
-
+  width:92px;
+  height:92px;
+  flex:0 0 92px;
   object-fit:cover;
-
-  border-radius:11px;
-
+  border-radius:13px;
+  border:1px solid #8b5d21;
+  box-shadow:0 0 12px #000;
 }
-
 
 .info{
-
   flex:1;
-
   min-width:0;
-
 }
-
 
 .name{
-
-  font-weight:700;
-
-  font-size:16px;
-
+  font-size:18px;
+  font-weight:800;
   white-space:nowrap;
-
   overflow:hidden;
-
   text-overflow:ellipsis;
-
 }
-
 
 .sub{
-
-  font-size:12px;
-
+  margin-top:6px;
   color:var(--gold);
-
-  margin-top:5px;
-
+  font-size:14px;
 }
 
+.genre{
+  margin-top:5px;
+  color:#a49b92;
+  font-size:12px;
+}
 
- /* =========================
-    BOTONES DE CANCIONES
- ========================= */
+.wave{
+  height:24px;
+  margin-top:8px;
+  display:flex;
+  align-items:center;
+  gap:2px;
+  overflow:hidden;
+}
+
+.wave i{
+  display:block;
+  width:2px;
+  min-width:2px;
+  background:var(--gold);
+  border-radius:2px;
+  opacity:.9;
+}
+
+.track-buttons{
+  display:flex;
+  gap:9px;
+  flex-shrink:0;
+}
 
 .play,
 .share,
 .delete{
-
-  width:44px;
-  height:44px;
-
-  flex-shrink:0;
-
+  width:66px;
+  height:66px;
+  min-width:66px;
   border-radius:50%;
-
-  cursor:pointer;
-
   display:flex;
   align-items:center;
   justify-content:center;
-
-  transition:
-    transform .18s ease,
-    box-shadow .18s ease,
-    background .18s ease;
-
+  padding:0;
+  border:2px solid;
+  cursor:pointer;
+  transition:.18s ease;
 }
-
-
-/* =========================
-   BOTON PLAY
-========================= */
 
 .play{
-
-  border:1px solid var(--gold);
-
+  border-color:var(--blue2);
+  color:#39aaff;
   background:
     radial-gradient(
-      circle at 35% 30%,
-      #3a2812,
-      #0b0907 70%
+      circle at 35% 25%,
+      #071b2d,
+      #02070d 55%,
+      #000
     );
-
-  color:var(--gold2);
-
-  font-size:18px;
-
+  font-size:29px;
   box-shadow:
-    0 0 8px #e7ad5422,
-    inset 0 0 8px #e7ad5411;
-
+    0 0 8px #168cffaa,
+    0 0 22px #168cff44,
+    inset 0 0 12px #168cff33;
 }
-
-
-/* =========================
-   BOTON COMPARTIR
-========================= */
 
 .share{
-
-  border:1px solid #c99442;
-
+  border-color:var(--gold2);
+  color:var(--gold2);
   background:
     radial-gradient(
-      circle at 35% 30%,
-      #33230f,
-      #0b0907 70%
+      circle at 35% 25%,
+      #3a2810,
+      #120d05 55%,
+      #000
     );
-
-  color:#ffd98a;
-
-  font-size:17px;
-
-  box-shadow:
-    0 0 8px #e7ad5422;
-
-}
-
-
-/* =========================
-   BOTON ELIMINAR
-========================= */
-
-.delete{
-
-  border:1px solid #a94444;
-
-  background:
-    radial-gradient(
-      circle at 35% 30%,
-      #3a1414,
-      #0b0707 70%
-    );
-
-  color:#ff9b9b;
-
-  font-size:17px;
-
-  box-shadow:
-    0 0 8px #a9444422;
-
-}
-
-
-/* =========================
-   EFECTO AL TOCAR
-========================= */
-
-.play:active,
-.share:active,
-.delete:active{
-
-  transform:scale(.88);
-
-}
-
-
-/* =========================
-   EFECTO AL PASAR / ACTIVAR
-========================= */
-
- /* =========================
-    BOTONES MODERNOS
- ========================= */
-
-.play,
-.share,
-.delete{
-
-  width:46px;
-  height:46px;
-
-  min-width:46px;
-  min-height:46px;
-
-  flex-shrink:0;
-
-  border-radius:50%;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  padding:0;
-
-  cursor:pointer;
-
-  font-family:Arial,sans-serif;
-
-  transition:
-    transform .15s ease,
-    box-shadow .15s ease;
-
-}
-
-
-/* =========================
-   PLAY
-========================= */
-
-.play{
-
-  border:2px solid #ffd98a;
-
-  background:
-    linear-gradient(
-      145deg,
-      #e7ad54,
-      #6e3d0b
-    );
-
-  color:#ffffff;
-
-  font-size:20px;
-
-  font-weight:bold;
-
+  font-size:25px;
   box-shadow:
     0 0 8px #e7ad5488,
-    0 0 18px #e7ad5433;
-
+    0 0 20px #e7ad5433;
 }
-
-
-/* =========================
-   COMPARTIR
-========================= */
-
-.share{
-
-  border:2px solid #ffd98a;
-
-  background:
-    linear-gradient(
-      145deg,
-      #33200b,
-      #100a04
-    );
-
-  color:#ffd98a;
-
-  font-size:19px;
-
-  box-shadow:
-    0 0 8px #e7ad5466;
-
-}
-
-
-/* =========================
-   ELIMINAR
-========================= */
 
 .delete{
-
-  border:2px solid #ff7070;
-
-  background:
-    linear-gradient(
-      145deg,
-      #601818,
-      #180606
-/* =========================
-   BOTONES DE CANCIONES
-   ESTILO PREMIUM METÁLICO
-========================= */
-
-.play,
-.share,
-.delete{
-
-  width:64px;
-  height:64px;
-
-  min-width:64px;
-  min-height:64px;
-
-  flex-shrink:0;
-
-  border-radius:50%;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  padding:0;
-
-  cursor:pointer;
-
-  font-family:Arial,sans-serif;
-
-  transition:
-    transform .15s ease,
-    box-shadow .2s ease,
-    filter .2s ease;
-}
-
-
-/* =========================
-   PLAY — AZUL METÁLICO
-========================= */
-
-.play{
-
-  border:2px solid #6ec8ff;
-
-  background:
-    radial-gradient(
-      circle at 35% 25%,
-      #071b2d 0%,
-      #02070d 48%,
-      #000000 100%
-    );
-
-  color:#38aaff;
-
-  font-size:27px;
-
-  box-shadow:
-    0 0 6px #168cffaa,
-    0 0 18px #168cff55,
-    inset 0 0 12px #168cff33;
-
-}
-
-
-/* =========================
-   COMPARTIR — DORADO
-========================= */
-
-.share{
-
-  border:2px solid #ffd98a;
-
-  background:
-    radial-gradient(
-      circle at 35% 25%,
-      #3a2810 0%,
-      #120d05 50%,
-      #000000 100%
-    );
-
-  color:#ffd98a;
-
-  font-size:24px;
-
-  box-shadow:
-    0 0 7px #e7ad5488,
-    0 0 18px #e7ad5444,
-    inset 0 0 12px #e7ad5422;
-
-}
-
-
-/* =========================
-   ELIMINAR — ROJO METÁLICO
-========================= */
-
-.delete{
-
-  border:2px solid #ff6565;
-
-  background:
-    radial-gradient(
-      circle at 35% 25%,
-      #3a0d0d 0%,
-      #120404 50%,
-      #000000 100%
-    );
-
+  border-color:#ff6565;
   color:#ff4d4d;
-
-  font-size:24px;
-
+  background:
+    radial-gradient(
+      circle at 35% 25%,
+      #3a0d0d,
+      #120404 55%,
+      #000
+    );
+  font-size:25px;
   box-shadow:
-    0 0 7px #ff333388,
-    0 0 18px #ff222244,
-    inset 0 0 12px #ff222222;
-
+    0 0 8px #ff333388,
+    0 0 20px #ff222244;
 }
-
-
-/* =========================
-   EFECTO AL TOCAR
-========================= */
 
 .play:active,
 .share:active,
 .delete:active{
-
-  transform:scale(.88);
-
+  transform:scale(.87);
 }
-
-
-/* =========================
-   BRILLO PLAY
-========================= */
 
 .play:hover{
-
-  filter:brightness(1.25);
-
+  filter:brightness(1.2);
   box-shadow:
-    0 0 10px #38aaff,
-    0 0 25px #168cff99,
-    0 0 45px #168cff44;
-
+    0 0 12px #38aaff,
+    0 0 28px #168cff99;
 }
-
-
-/* =========================
-   BRILLO COMPARTIR
-========================= */
 
 .share:hover{
-
   filter:brightness(1.2);
-
   box-shadow:
-    0 0 10px #ffd98a,
-    0 0 25px #e7ad5488,
-    0 0 45px #e7ad5444;
-
+    0 0 12px #ffd98a,
+    0 0 28px #e7ad5488;
 }
-
-
-/* =========================
-   BRILLO ELIMINAR
-========================= */
 
 .delete:hover{
-
   filter:brightness(1.2);
-
   box-shadow:
-    0 0 10px #ff6565,
-    0 0 25px #ff333399,
-    0 0 45px #ff222244;
-
+    0 0 12px #ff6565,
+    0 0 28px #ff333399;
 }
-/* =========================
+  /* =========================
    MODOS DE REPRODUCCIÓN
 ========================= */
 
 .play-modes{
-
   display:flex;
-
   justify-content:center;
-
   align-items:center;
-
-  gap:10px;
-
-  margin-top:10px;
-
-  padding:8px 0;
-
+  gap:12px;
+  margin:14px 0 4px;
+  padding:9px 0;
 }
-
 
 .mode-button{
-
-  width:42px;
-
-  height:42px;
-
+  width:46px;
+  height:46px;
+  min-width:46px;
   border-radius:50%;
-
   border:1px solid #5b4525;
-
-  background:
-    linear-gradient(
-      145deg,
-      #18130d,
-      #070605
-    );
-
-  color:#a99b86;
-
-  font-size:18px;
-
+  background:linear-gradient(145deg,#18130d,#070605);
+  color:#8f857a;
   display:flex;
-
   align-items:center;
-
   justify-content:center;
-
+  padding:0;
   cursor:pointer;
-
-  transition:
-    transform .15s ease,
-    box-shadow .2s ease,
-    color .2s ease,
-    border-color .2s ease;
-
+  transition:.18s ease;
 }
-
-
-/* MODO ACTIVO */
 
 .mode-button.active{
-
-  color:#ffd98a;
-
-  border-color:#e7ad54;
-
-  background:
-    linear-gradient(
-      145deg,
-      #3a2811,
-      #100b05
-    );
-
+  color:var(--gold2);
+  border-color:var(--gold);
+  background:linear-gradient(145deg,#3a2811,#100b05);
   box-shadow:
-    0 0 8px #e7ad5488,
-    0 0 18px #e7ad5433;
-
+    0 0 9px #e7ad5488,
+    0 0 20px #e7ad5433;
 }
-
-
-/* EFECTO AL TOCAR */
-
-.mode-button:active{
-
-  transform:scale(.86);
-
-}
-
-
-/* EFECTO AL PASAR */
 
 .mode-button:hover{
-
-  color:#ffffff;
-
-  border-color:#ffd98a;
-
-  box-shadow:
-    0 0 12px #e7ad5466;
-
+  color:#fff;
+  border-color:var(--gold2);
+  box-shadow:0 0 14px #e7ad5466;
 }
 
-
-/* BUCLE UNA */
+.mode-button:active{
+  transform:scale(.86);
+}
 
 #modeOne{
-
-  font-size:16px;
-
+  font-size:15px;
 }
-  /* =========================
-   BOTON AGREGAR
+
+/* =========================
+   BOTÓN AGREGAR
 ========================= */
 
 .add-button{
-
   width:100%;
-
-  padding:14px;
-
-  margin-top:8px;
-
-  border-radius:14px;
-
+  padding:15px;
+  margin:14px 0 0;
+  border-radius:15px;
   border:1px solid var(--gold);
-
   background:
-  linear-gradient(
-    135deg,
-    #2a1b0b,
-    #100d09
-  );
-
+    linear-gradient(
+      135deg,
+      #2a1b0b,
+      #100d09
+    );
   color:var(--gold2);
-
   font-size:15px;
-
   font-weight:bold;
-
   cursor:pointer;
-
+  box-shadow:
+    0 0 12px #e7ad5422;
+  transition:.18s ease;
 }
 
+.add-button:hover{
+  box-shadow:
+    0 0 12px #e7ad5466,
+    0 0 25px #e7ad5422;
+}
 
 .add-button:active{
-
   transform:scale(.98);
-
 }
-
 
 /* =========================
    PANEL DE SUBIDA
 ========================= */
 
 .upload-panel{
-
   display:none;
-
   margin-top:15px;
-
   padding:18px;
-
-  border-radius:16px;
-
+  border-radius:18px;
   border:1px solid #6e4a20;
-
-  background:#0d0c0a;
-
+  background:
+    linear-gradient(
+      145deg,
+      #15110b,
+      #090807
+    );
+  box-shadow:
+    0 8px 28px #000b;
 }
-
 
 .upload-panel.active{
-
   display:block;
-
 }
-
 
 .upload-panel h3{
-
-  margin-top:0;
-
+  margin:0 0 12px;
   color:var(--gold2);
-
+  font-size:20px;
 }
-
 
 .upload-panel label{
-
   display:block;
-
-  margin-top:12px;
-
-  margin-bottom:6px;
-
-  font-size:13px;
-
+  margin:13px 0 6px;
   color:#c8c0b7;
-
+  font-size:13px;
 }
-
 
 .upload-panel input{
-
   width:100%;
-
-  padding:11px;
-
-  border-radius:10px;
-
+  padding:12px;
+  border-radius:11px;
   border:1px solid #4a3722;
-
   background:#080706;
-
-  color:white;
-
+  color:#fff;
+  outline:none;
 }
 
+.upload-panel input:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 10px #e7ad5422;
+}
 
 .upload-submit{
-
   width:100%;
-
   margin-top:18px;
-
-  padding:13px;
-
+  padding:14px;
   border:1px solid var(--gold);
-
-  border-radius:12px;
-
-  background:#17100a;
-
+  border-radius:13px;
+  background:
+    linear-gradient(
+      145deg,
+      #3a2811,
+      #100b05
+    );
   color:var(--gold2);
-
   font-weight:bold;
-
+  cursor:pointer;
 }
-
 
 .cancel-button{
-
   width:100%;
-
-  margin-top:8px;
-
-  padding:11px;
-
+  margin-top:9px;
+  padding:12px;
   border:1px solid #444;
-
-  border-radius:12px;
-
+  border-radius:13px;
   background:#111;
-
   color:#bbb;
-
+  cursor:pointer;
 }
-
 
 /* =========================
    MENSAJES
 ========================= */
 
 .message{
-
-  margin-top:12px;
-
-  padding:10px;
-
-  border-radius:10px;
-
-  font-size:13px;
-
   display:none;
-
+  margin-top:12px;
+  padding:11px;
+  border-radius:11px;
+  font-size:13px;
 }
-
 
 .message.show{
-
   display:block;
-
 }
-
 
 .message.success{
-
   color:#9cffb0;
-
   background:#0b2411;
-
   border:1px solid #245c30;
-
 }
-
 
 .message.error{
-
   color:#ff9999;
-
   background:#260d0d;
-
   border:1px solid #6b2222;
-
 }
 
+/* =========================
+   SOBRE EL DIM
+========================= */
+
+.about-card{
+  display:block;
+  padding:20px;
+  border-radius:18px;
+  border:1px solid #342717;
+  background:
+    linear-gradient(
+      145deg,
+      #17130e,
+      #0d0d0d
+    );
+  color:#d8d0c7;
+  line-height:1.7;
+  box-shadow:0 6px 22px #0008;
+}
 
 /* =========================
    REPRODUCTOR
 ========================= */
 
 .player{
-
   position:fixed;
-
   left:50%;
-
-  bottom:12px;
-
+  bottom:10px;
   transform:translateX(-50%);
-
-  width:min(
-    720px,
-    calc(100% - 24px)
-  );
-
-  background:#0d0c0aee;
-
-  backdrop-filter:blur(14px);
-
-  border:1px solid #6e4a20;
-
-  border-radius:18px;
-
-  padding:12px 15px;
-
+  width:min(860px,calc(100% - 16px));
+  padding:12px 14px 10px;
+  border:1px solid #745021;
+  border-radius:21px;
+  background:#0b0a09ee;
+  backdrop-filter:blur(18px);
   box-shadow:
-  0 0 30px #8b551c44;
-
+    0 0 25px #8b551c44,
+    0 10px 35px #000c;
   z-index:1000;
-
 }
-
 
 .now{
-
   display:flex;
-
   align-items:center;
-
-  gap:10px;
-
+  gap:11px;
 }
-
 
 .mini{
-
-  width:48px;
-
-  height:48px;
-
+  width:55px;
+  height:55px;
+  flex:0 0 55px;
   object-fit:cover;
-
-  border-radius:8px;
-
+  border-radius:10px;
+  border:1px solid #745021;
 }
-
 
 .nowtext{
-
   flex:1;
-
   min-width:0;
-
 }
-
 
 .nowname{
-
-  font-weight:700;
-
+  color:#fff;
+  font-weight:800;
+  font-size:14px;
   white-space:nowrap;
-
   overflow:hidden;
-
   text-overflow:ellipsis;
-
 }
-
 
 .time{
-
+  margin-top:5px;
+  color:#aaa19a;
   font-size:11px;
-
-  color:#bdb4aa;
-
-  margin-top:4px;
-
 }
-
 
 .controls{
-
   display:flex;
-
   align-items:center;
-
-  gap:8px;
-
+  gap:5px;
 }
-
 
 .controls button{
-
-  background:none;
-
+  width:42px;
+  height:42px;
   border:0;
-
+  background:none;
   color:var(--gold2);
-
   font-size:21px;
-
+  cursor:pointer;
+  border-radius:50%;
 }
 
+.controls button:active{
+  transform:scale(.88);
+}
 
 .controls .main{
-
+  width:48px;
+  height:48px;
   border:1px solid var(--gold);
-
   border-radius:50%;
-
-  width:44px;
-
-  height:44px;
-
+  background:
+    radial-gradient(
+      circle at 35% 25%,
+      #3a2810,
+      #0c0905
+    );
+  box-shadow:0 0 12px #e7ad5444;
 }
-
 
 .progress{
-
+  display:block;
   width:100%;
-
+  height:5px;
+  margin-top:8px;
   accent-color:var(--gold);
-
-  margin-top:6px;
-
+  cursor:pointer;
 }
-
 
 /* =========================
    FOOTER
 ========================= */
 
 footer{
-
   text-align:center;
-
   color:#756b62;
-
   font-size:11px;
-
-  padding:20px;
-
+  padding:22px 20px;
 }
 
+/* =========================
+   MÓVIL
+========================= */
+
+@media(max-width:600px){
+
+  .app{
+    padding-bottom:205px;
+  }
+
+  .logo{
+    width:175px;
+    height:175px;
+  }
+
+  h1{
+    font-size:21px;
+    letter-spacing:2px;
+  }
+
+  .artist{
+    font-size:14px;
+    letter-spacing:4px;
+  }
+
+  .track{
+    gap:9px;
+    padding:9px;
+  }
+
+  .cover{
+    width:68px;
+    height:68px;
+    flex-basis:68px;
+  }
+
+  .track-buttons{
+    gap:5px;
+  }
+
+  .play,
+  .share,
+  .delete{
+    width:45px;
+    height:45px;
+    min-width:45px;
+    font-size:19px;
+  }
+
+  .name{
+    font-size:14px;
+  }
+
+  .sub{
+    font-size:11px;
+  }
+
+  .genre{
+    font-size:10px;
+  }
+
+  .player{
+    bottom:7px;
+    width:calc(100% - 10px);
+  }
+
+  .mini{
+    width:47px;
+    height:47px;
+    flex-basis:47px;
+  }
+
+  .controls button{
+    width:36px;
+    height:36px;
+    font-size:18px;
+  }
+
+  .controls .main{
+    width:43px;
+    height:43px;
+  }
+}
 </style>
-
 </head>
-
 
 <body>
 
-
 <div class="app">
 
-
 <header>
+
+<button
+class="top-button top-left"
+onclick="window.scrollTo({top:0,behavior:'smooth'})"
+aria-label="Inicio">
+⌂
+</button>
+
+<button
+class="top-button top-right"
+onclick="toggleUpload()"
+aria-label="Agregar canción">
+＋
+</button>
 
 <img
 class="logo"
 src="Media/logo.png"
-alt="Italy Mau Producer">
+alt="Italy Mau Producer"
+onerror="this.src='Media/logo.png'">
 
-
-<h1>
-ITALY MAU PRODUCER
-</h1>
-
+<h1>ITALY MAU PRODUCER</h1>
 
 <div class="artist">
 EL DIM
 </div>
 
-
 <p class="bio">
-
 Nacido en febrero de 1987,
 amante de la música y el espectáculo
 en general, original y muy positivo,
 con ganas de crear y sentirme útil.
-
 </p>
 
 </header>
 
 
-
 <!-- =========================
-     CANCIONES
+     MIS CANCIONES
 ========================= -->
 
 <section>
 
 <h2 class="title">
-🎵 MIS CANCIONES
+<span class="title-icon">🎵</span>
+MIS CANCIONES
 </h2>
-
 
 <div id="listaCanciones">
 
 <div style="
 text-align:center;
 color:#c8c0b7;
-padding:20px;
+padding:25px;
 ">
-
 Cargando canciones...
-
 </div>
 
 </div>
 
 
-
-<!-- BOTON AGREGAR -->
+<!-- =========================
+     AGREGAR CANCIÓN
+========================= -->
 
 <button
 class="add-button"
 onclick="toggleUpload()">
-
 ＋ AGREGAR NUEVA CANCIÓN
-
 </button>
-
 
 
 <!-- =========================
@@ -1197,11 +800,9 @@ onclick="toggleUpload()">
 id="uploadPanel"
 class="upload-panel">
 
-
 <h3>
 🎵 Nueva canción
 </h3>
-
 
 <label>
 Título
@@ -1269,18 +870,14 @@ accept="image/*">
 <button
 class="upload-submit"
 onclick="subirCancion()">
-
 ⬆️ SUBIR CANCIÓN
-
 </button>
 
 
 <button
 class="cancel-button"
 onclick="toggleUpload()">
-
 Cancelar
-
 </button>
 
 
@@ -1289,11 +886,9 @@ id="uploadMessage"
 class="message">
 </div>
 
-
 </div>
 
 </section>
-
 
 
 <!-- =========================
@@ -1303,40 +898,29 @@ class="message">
 <section>
 
 <h2 class="title">
-👤 SOBRE EL DIM
+<span class="title-icon">👤</span>
+SOBRE EL DIM
 </h2>
 
-
-<div
-class="track"
-style="
-display:block;
-padding:18px;
-">
-
-
-<div style="
-color:#d8d0c7;
-line-height:1.65;
-">
-
+<div class="about-card">
 
 Apasionado por la música
 y el espectáculo,
 con una visión original
 y positiva.
 
+<br><br>
+
 Este espacio reúne sus canciones
 y futuros lanzamientos bajo
-la identidad de Italy Mau Producer.
-
-
-</div>
+la identidad de
+<strong style="color:#ffd98a;">
+Italy Mau Producer.
+</strong>
 
 </div>
 
 </section>
-
 
 
 <footer>
@@ -1345,56 +929,45 @@ ITALY MAU PRODUCER • EL DIM
 
 </footer>
 
-
 </div>
-
-
-
 <!-- =========================
      REPRODUCTOR
 ========================= -->
 
 <div class="player">
 
-
 <div class="now">
-
 
 <img
 id="mini"
 class="mini"
 src="Media/logo.png"
-alt="Portada">
+alt="Portada"
+onerror="this.src='Media/logo.png'">
 
 
 <div class="nowtext">
 
-
 <div
 id="nowname"
 class="nowname">
-
 Selecciona una canción
-
 </div>
-
 
 <div
 id="time"
 class="time">
-
 0:00 / 0:00
-
 </div>
-
 
 </div>
 
 
 <div class="controls">
 
-
-<button onclick="prev()">
+<button
+onclick="prev()"
+aria-label="Canción anterior">
 ⏮
 </button>
 
@@ -1402,20 +975,19 @@ class="time">
 <button
 id="main"
 class="main"
-onclick="toggle()">
-
+onclick="toggle()"
+aria-label="Reproducir o pausar">
 ▶
-
 </button>
 
 
-<button onclick="next()">
+<button
+onclick="next()"
+aria-label="Canción siguiente">
 ⏭
 </button>
 
-
 </div>
-
 
 </div>
 
@@ -1426,81 +998,63 @@ class="progress"
 type="range"
 min="0"
 max="100"
-value="0">
+value="0"
+aria-label="Progreso de la canción">
 
 
-<div class="play-modes">
-
-  <button
-    id="modeRandom"
-    class="mode-button"
-    onclick="setPlayMode('aleatorio')">
-    🔀
-  </button>
-
-  <button
-    id="modeSequential"
-    class="mode-button active"
-    onclick="setPlayMode('seguido')">
-    ▶️
-  </button>
-
-  <button
-    id="modeOne"
-    class="mode-button"
-    onclick="setPlayMode('una')">
-    🔂¹
-  </button>
-
-  <button
-    id="modeAll"
-    class="mode-button"
-    onclick="setPlayMode('todas')">
-    🔁
-  </button>
-
-</div>
 <!-- =========================
      MODOS DE REPRODUCCIÓN
 ========================= -->
 
 <div class="play-modes">
 
-  <button
-    id="modeRandom"
-    class="mode-button"
-    onclick="setPlayMode('aleatorio')"
-    title="Aleatorio">
-    🔀
-  </button>
+<button
+id="modeRandom"
+class="mode-button"
+onclick="setPlayMode('aleatorio')"
+title="Aleatorio"
+aria-label="Aleatorio">
+🔀
+</button>
 
-  <button
-    id="modeSequential"
-    class="mode-button active"
-    onclick="setPlayMode('seguido')"
-    title="Seguido">
-    ▶️
-  </button>
 
-  <button
-    id="modeOne"
-    class="mode-button"
-    onclick="setPlayMode('una')"
-    title="Bucle una">
-    🔂¹
-  </button>
+<button
+id="modeSequential"
+class="mode-button active"
+onclick="setPlayMode('seguido')"
+title="Seguido"
+aria-label="Seguido">
+▶️
+</button>
 
-  <button
-    id="modeAll"
-    class="mode-button"
-    onclick="setPlayMode('todas')"
-    title="Bucle todas">
-    🔁
-  </button>
+
+<button
+id="modeOne"
+class="mode-button"
+onclick="setPlayMode('una')"
+title="Bucle una"
+aria-label="Bucle una">
+🔂¹
+</button>
+
+
+<button
+id="modeAll"
+class="mode-button"
+onclick="setPlayMode('todas')"
+title="Bucle todas"
+aria-label="Bucle todas">
+🔁
+</button>
+
+</div>
 
 </div>
 
 
+<!-- =========================
+     AUDIO
+========================= -->
 
 <audio
 id="audio"
@@ -1508,17 +1062,12 @@ preload="metadata">
 </audio>
 
 
+<!-- =========================
+     SUPABASE
+========================= -->
 
-<!-- SUPABASE -->
-
-<script src="
-https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2
-"></script>
-
-
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-
 
 /* =========================
    SUPABASE
@@ -1527,17 +1076,14 @@ https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2
 const SUPABASE_URL =
 "https://xnhhrtzybrpdpuzsrwpr.supabase.co";
 
-
 const SUPABASE_KEY =
 "sb_publishable_Wht8vPKELs2i3b98N0aviQ_XY6yx6hB";
 
-
 const supabaseClient =
 supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
-
 
 
 /* =========================
@@ -1548,36 +1094,26 @@ let tracks = [];
 
 let i = 0;
 
-/* =========================
-   MODO DE REPRODUCCIÓN
-========================= */
-
 let playMode = "seguido";
 
 
 const audio =
 document.getElementById("audio");
 
-
 const main =
 document.getElementById("main");
-
 
 const mini =
 document.getElementById("mini");
 
-
 const nowname =
 document.getElementById("nowname");
-
 
 const progress =
 document.getElementById("progress");
 
-
 const time =
 document.getElementById("time");
-
 
 
 /* =========================
@@ -1586,81 +1122,74 @@ document.getElementById("time");
 
 async function cargarCanciones(){
 
-
-const {data,error} =
-await supabaseClient
-
-.from("canciones")
-
-.select(
-"id,titulo,artista,genero,anio,audio_url,portada_url,fecha"
-)
-
-.order(
-"id",
-{
-ascending:false
-}
-);
+  const {data,error} =
+  await supabaseClient
+  .from("canciones")
+  .select(
+    "id,titulo,artista,genero,anio,audio_url,portada_url,fecha"
+  )
+  .order(
+    "id",
+    {
+      ascending:false
+    }
+  );
 
 
-if(error){
+  if(error){
 
-console.error(
-"Error cargando canciones:",
-error
-);
+    console.error(
+      "Error cargando canciones:",
+      error
+    );
 
+    document.getElementById(
+      "listaCanciones"
+    ).innerHTML = `
 
-document.getElementById(
-"listaCanciones"
-).innerHTML = `
+      <div style="
+        text-align:center;
+        color:#ff7777;
+        padding:20px;
+      ">
 
-<div style="
-text-align:center;
-color:#ff7777;
-padding:20px;
-">
+        No se pudieron cargar las canciones.
 
-No se pudieron cargar las canciones.
+        <br><br>
 
-<br><br>
+        ${escapeHTML(error.message)}
 
-${escapeHTML(error.message)}
+      </div>
 
-</div>
+    `;
 
-`;
-
-return;
-
-}
+    return;
+  }
 
 
-tracks =
-data.map(cancion => ({
+  tracks =
+  data.map(cancion => ({
 
-id:cancion.id,
+    id:cancion.id,
 
-name:cancion.titulo,
+    name:cancion.titulo,
 
-artist:cancion.artista,
+    artist:cancion.artista,
 
-genre:cancion.genero,
+    genre:cancion.genero,
 
-year:cancion.anio,
+    year:cancion.anio,
 
-audio:cancion.audio_url,
+    audio:cancion.audio_url,
 
-cover:cancion.portada_url,
+    cover:cancion.portada_url,
 
-date:cancion.fecha
+    date:cancion.fecha
 
-}));
+  }));
 
 
-mostrarCanciones();
-
+  mostrarCanciones();
 
 }
 
@@ -1671,151 +1200,179 @@ mostrarCanciones();
 
 function mostrarCanciones(){
 
-
-const lista =
-document.getElementById(
-"listaCanciones"
-);
-
-
-lista.innerHTML="";
+  const lista =
+  document.getElementById(
+    "listaCanciones"
+  );
 
 
-if(tracks.length===0){
+  lista.innerHTML="";
 
-lista.innerHTML=`
 
-<div style="
-text-align:center;
-color:#c8c0b7;
-padding:25px;
-">
+  if(tracks.length===0){
 
-Todavía no hay canciones disponibles.
+    lista.innerHTML=`
 
-</div>
+      <div style="
+        text-align:center;
+        color:#c8c0b7;
+        padding:25px;
+      ">
 
-`;
+        Todavía no hay canciones disponibles.
 
-return;
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  tracks.forEach(
+    (track,index)=>{
+
+      const tarjeta =
+      document.createElement("div");
+
+      tarjeta.className="track";
+
+
+      tarjeta.innerHTML=`
+
+        <img
+          class="cover"
+          src="${escapeAttribute(
+            track.cover || "Media/logo.png"
+          )}"
+          alt="${escapeAttribute(
+            track.name
+          )}"
+          onerror="this.src='Media/logo.png'"
+        >
+
+
+        <div class="info">
+
+          <div class="name">
+            ${escapeHTML(track.name)}
+          </div>
+
+
+          <div class="sub">
+
+            ${escapeHTML(
+              track.artist || "El DIM"
+            )}
+
+            ${
+              track.year
+              ?
+              " • "+escapeHTML(
+                String(track.year)
+              )
+              :
+              ""
+            }
+
+          </div>
+
+
+          ${
+            track.genre
+            ?
+            `
+            <div class="genre">
+              ${escapeHTML(track.genre)}
+            </div>
+            `
+            :
+            ""
+          }
+
+
+          <div class="wave">
+
+            ${crearOnda()}
+
+          </div>
+
+        </div>
+
+
+        <div class="track-buttons">
+
+          <button
+            class="play"
+            onclick="playTrack(${index})"
+            aria-label="Reproducir"
+            title="Reproducir">
+
+            ▶
+
+          </button>
+
+
+          <button
+            class="share"
+            onclick="shareTrack(${index})"
+            aria-label="Compartir"
+            title="Compartir">
+
+            📤
+
+          </button>
+
+
+          <button
+            class="delete"
+            onclick="eliminarCancion(${index})"
+            aria-label="Eliminar"
+            title="Eliminar canción">
+
+            🗑️
+
+          </button>
+
+        </div>
+
+      `;
+
+
+      lista.appendChild(tarjeta);
+
+    }
+  );
 
 }
 
 
-tracks.forEach(
-(track,index)=>{
+/* =========================
+   ONDA DECORATIVA
+========================= */
+
+function crearOnda(){
+
+  let html="";
+
+  const alturas=[
+    7,14,10,20,12,17,8,22,
+    13,19,9,15,23,11,18,7,
+    16,21,10,14,19,8,17,12
+  ];
 
 
-const tarjeta =
-document.createElement("div");
+  alturas.forEach(
+    altura=>{
+
+      html +=
+      `<i style="height:${altura}px"></i>`;
+
+    }
+  );
 
 
-tarjeta.className="track";
-
-
-tarjeta.innerHTML=`
-
-
-<img
-class="cover"
-src="${escapeAttribute(track.cover || "Media/logo.png")}"
-alt="${escapeAttribute(track.name)}"
-onerror="this.src='Media/logo.png'"
->
-
-
-<div class="info">
-
-
-<div class="name">
-
-${escapeHTML(track.name)}
-
-</div>
-
-
-<div class="sub">
-
-${escapeHTML(
-track.artist || "El DIM"
-)}
-
-${
-track.year
-?
-" • "+escapeHTML(
-String(track.year)
-)
-:
-""
-}
-
-</div>
-
-
-${
-track.genre
-?
-`
-
-<div style="
-font-size:11px;
-color:#8f857a;
-margin-top:4px;
-">
-
-${escapeHTML(track.genre)}
-
-</div>
-
-`
-:
-""
-}
-
-
-</div>
-
-
-
-<button
-class="play"
-onclick="playTrack(${index})"
-aria-label="Reproducir">
-
-▶
-
-</button>
-
-
-
-<button
-class="share"
-onclick="shareTrack(${index})"
-aria-label="Compartir">
-
-📤
-
-</button>
-<button
-class="delete"
-onclick="eliminarCancion(${index})"
-aria-label="Eliminar"
-title="Eliminar canción">
-
-🗑️
-
-</button>
-
-
-`;
-
-
-lista.appendChild(tarjeta);
-
-
-});
-
+  return html;
 
 }
 
@@ -1826,104 +1383,84 @@ lista.appendChild(tarjeta);
 
 function escapeHTML(text){
 
-return String(text)
+  return String(text)
 
-.replace(/&/g,"&amp;")
+    .replace(/&/g,"&amp;")
 
-.replace(/</g,"&lt;")
+    .replace(/</g,"&lt;")
 
-.replace(/>/g,"&gt;")
+    .replace(/>/g,"&gt;")
 
-.replace(/"/g,"&quot;")
+    .replace(/"/g,"&quot;")
 
-.replace(/'/g,"&#039;");
+    .replace(/'/g,"&#039;");
 
 }
 
 
 function escapeAttribute(text){
 
-return escapeHTML(text);
+  return escapeHTML(text);
 
 }
-
-
-/* =========================
-   REPRODUCTOR
+  /* =========================
+   CARGAR TRACK ACTUAL
 ========================= */
 
 function loadTrack(){
 
+  if(!tracks[i]){
+    return;
+  }
 
-if(!tracks[i]){
+  audio.src =
+    tracks[i].audio;
 
-return;
+  mini.src =
+    tracks[i].cover ||
+    "Media/logo.png";
 
-}
+  nowname.textContent =
+    tracks[i].name;
 
+  progress.value=0;
 
-audio.src =
-tracks[i].audio;
-
-
-mini.src =
-tracks[i].cover ||
-"Media/logo.png";
-
-
-nowname.textContent =
-tracks[i].name;
-
-
-progress.value=0;
-
-
-time.textContent =
-"0:00 / 0:00";
-
+  time.textContent =
+    "0:00 / 0:00";
 
 }
 
 
 /* =========================
-   REPRODUCIR
+   REPRODUCIR CANCIÓN
 ========================= */
 
 function playTrack(index){
 
+  if(!tracks[index]){
+    return;
+  }
 
-if(!tracks[index]){
+  i=index;
 
-return;
+  loadTrack();
 
-}
+  audio.play()
+  .then(()=>{
 
+    main.textContent="⏸";
 
-i=index;
+  })
+  .catch(error=>{
 
+    console.log(
+      "No se pudo reproducir:",
+      error
+    );
 
-loadTrack();
+    main.textContent="▶";
 
-
-audio.play()
-
-.then(()=>{
-
-main.textContent="⏸";
-
-})
-
-.catch(error=>{
-
-console.log(
-"No se pudo reproducir:",
-error
-);
-
-main.textContent="▶";
-
-});
-
+  });
 
 }
 
@@ -1934,50 +1471,36 @@ main.textContent="▶";
 
 function toggle(){
 
-
-if(!tracks.length){
-
-return;
-
-}
+  if(!tracks.length){
+    return;
+  }
 
 
-if(audio.paused){
+  if(audio.paused){
 
+    if(!audio.src){
+      loadTrack();
+    }
 
-if(!audio.src){
+    audio.play()
+    .then(()=>{
 
-loadTrack();
+      main.textContent="⏸";
 
-}
+    })
+    .catch(error=>{
 
+      console.log(error);
 
-audio.play()
+    });
 
-.then(()=>{
+  }else{
 
-main.textContent="⏸";
+    audio.pause();
 
-})
+    main.textContent="▶";
 
-.catch(error=>{
-
-console.log(error);
-
-});
-
-
-}else{
-
-
-audio.pause();
-
-
-main.textContent="▶";
-
-
-}
-
+  }
 
 }
 
@@ -1988,21 +1511,21 @@ main.textContent="▶";
 
 function prev(){
 
-
-if(!tracks.length){
-
-return;
-
-}
+  if(!tracks.length){
+    return;
+  }
 
 
-i =
-(i-1+tracks.length)
-%
-tracks.length;
+  i--;
+
+  if(i<0){
+
+    i=tracks.length-1;
+
+  }
 
 
-playTrack(i);
+  playTrack(i);
 
 }
 
@@ -2017,102 +1540,42 @@ function next(){
     return;
   }
 
-  /* 🔂 BUCLE UNA */
-  if(playMode === "una"){
 
-    audio.currentTime = 0;
+  i++;
 
-    audio.play();
+  if(i>=tracks.length){
 
-    return;
+    i=0;
+
   }
 
 
-  /* 🔀 ALEATORIO */
-
-  if(playMode === "aleatorio"){
-
-    if(tracks.length === 1){
-
-      playTrack(0);
-
-      return;
-    }
-
-    let nuevoIndice;
-
-    do{
-
-      nuevoIndice =
-        Math.floor(
-          Math.random() * tracks.length
-        );
-
-    }while(nuevoIndice === i);
-
-    i = nuevoIndice;
-
-    playTrack(i);
-
-    return;
-  }
-
-
-  /* 🔁 BUCLE TODAS */
-
-  if(playMode === "todas"){
-
-    i =
-      (i + 1) %
-      tracks.length;
-
-    playTrack(i);
-
-    return;
-  }
-
-
-  /* ▶️ SEGUIDO */
-
-  if(playMode === "seguido"){
-
-    if(i >= tracks.length - 1){
-
-      audio.pause();
-
-      audio.currentTime = 0;
-
-      main.textContent = "▶";
-
-      return;
-    }
-
-    i++;
-
-    playTrack(i);
-
-    return;
-  }
+  playTrack(i);
 
 }
 
 
 /* =========================
-   CAMBIAR MODO
+   MODOS DE REPRODUCCIÓN
 ========================= */
 
 function setPlayMode(mode){
 
-  playMode = mode;
+  playMode=mode;
+
 
   document
     .querySelectorAll(".mode-button")
-    .forEach(button => {
-      button.classList.remove("active");
+    .forEach(button=>{
+
+      button.classList.remove(
+        "active"
+      );
+
     });
 
 
-  if(mode === "aleatorio"){
+  if(mode==="aleatorio"){
 
     document
       .getElementById("modeRandom")
@@ -2121,7 +1584,7 @@ function setPlayMode(mode){
   }
 
 
-  if(mode === "seguido"){
+  if(mode==="seguido"){
 
     document
       .getElementById("modeSequential")
@@ -2130,7 +1593,7 @@ function setPlayMode(mode){
   }
 
 
-  if(mode === "una"){
+  if(mode==="una"){
 
     document
       .getElementById("modeOne")
@@ -2139,7 +1602,7 @@ function setPlayMode(mode){
   }
 
 
-  if(mode === "todas"){
+  if(mode==="todas"){
 
     document
       .getElementById("modeAll")
@@ -2147,183 +1610,290 @@ function setPlayMode(mode){
 
   }
 
-  }
-  /* =========================
-   EVENTOS AUDIO
-========================= */
-
-audio.addEventListener(
-"play",
-()=>{
-
-main.textContent="⏸";
-
-});
-
-
-audio.addEventListener(
-"pause",
-()=>{
-
-main.textContent="▶";
-
-});
-
-
-audio.addEventListener(
-"timeupdate",
-()=>{
-
-
-if(audio.duration){
-
-progress.value =
-(audio.currentTime /
-audio.duration)*100;
-
 }
-
-
-time.textContent =
-formatTime(audio.currentTime)
-+
-" / "
-+
-formatTime(audio.duration);
-
-
-});
-
-
-audio.addEventListener(
-"ended",
-()=>{
-
-next();
-
-});
-
-
-progress.addEventListener(
-"input",
-()=>{
-
-
-if(audio.duration){
-
-audio.currentTime =
-(progress.value/100)
-*
-audio.duration;
-
-}
-
-
-});
 
 
 /* =========================
-   TIEMPO
+   CUANDO TERMINA UNA CANCIÓN
+========================= */
+
+audio.addEventListener(
+  "ended",
+  ()=>{
+
+    if(!tracks.length){
+      return;
+    }
+
+
+    /* BUCLE UNA */
+
+    if(playMode==="una"){
+
+      audio.currentTime=0;
+
+      audio.play();
+
+      return;
+
+    }
+
+
+    /* ALEATORIO */
+
+    if(playMode==="aleatorio"){
+
+      if(tracks.length===1){
+
+        i=0;
+
+      }else{
+
+        let nuevo;
+
+        do{
+
+          nuevo=
+          Math.floor(
+            Math.random()*
+            tracks.length
+          );
+
+        }while(nuevo===i);
+
+        i=nuevo;
+
+      }
+
+      playTrack(i);
+
+      return;
+
+    }
+
+
+    /* BUCLE TODAS */
+
+    if(playMode==="todas"){
+
+      i++;
+
+      if(i>=tracks.length){
+
+        i=0;
+
+      }
+
+      playTrack(i);
+
+      return;
+
+    }
+
+
+    /* SEGUIDO */
+
+    if(playMode==="seguido"){
+
+      i++;
+
+      if(i>=tracks.length){
+
+        /*
+          Al terminar la última
+          vuelve a la primera.
+        */
+
+        i=0;
+
+      }
+
+      playTrack(i);
+
+    }
+
+  }
+);
+
+
+/* =========================
+   ACTUALIZAR TIEMPO
+========================= */
+
+audio.addEventListener(
+  "timeupdate",
+  ()=>{
+
+    if(!audio.duration){
+      return;
+    }
+
+
+    const porcentaje =
+      (audio.currentTime /
+      audio.duration) * 100;
+
+
+    progress.value =
+      porcentaje;
+
+
+    time.textContent =
+      formatTime(
+        audio.currentTime
+      )
+      +
+      " / "
+      +
+      formatTime(
+        audio.duration
+      );
+
+  }
+);
+
+
+/* =========================
+   CAMBIAR POSICIÓN
+========================= */
+
+progress.addEventListener(
+  "input",
+  ()=>{
+
+    if(!audio.duration){
+      return;
+    }
+
+
+    audio.currentTime =
+      (progress.value / 100)
+      * audio.duration;
+
+  }
+);
+
+
+/* =========================
+   ESTADO PLAY / PAUSA
+========================= */
+
+audio.addEventListener(
+  "play",
+  ()=>{
+
+    main.textContent="⏸";
+
+  }
+);
+
+
+audio.addEventListener(
+  "pause",
+  ()=>{
+
+    main.textContent="▶";
+
+  }
+);
+
+
+/* =========================
+   FORMATO DE TIEMPO
 ========================= */
 
 function formatTime(seconds){
 
-
-if(!isFinite(seconds)){
-
-return "0:00";
-
-}
+  if(!Number.isFinite(seconds)){
+    return "0:00";
+  }
 
 
-const minutes =
-Math.floor(seconds/60);
+  const minutos =
+    Math.floor(
+      seconds / 60
+    );
 
 
-const secondsPart =
-Math.floor(seconds%60)
-.toString()
-.padStart(2,"0");
+  const segundos =
+    Math.floor(
+      seconds % 60
+    );
 
 
-return minutes+
-":"+
-secondsPart;
+  return minutos +
+    ":" +
+    String(segundos)
+      .padStart(2,"0");
 
-}
-
+  }
+  <script>
 
 /* =========================
-   COMPARTIR
+   COMPARTIR CANCIÓN
 ========================= */
 
 async function shareTrack(index){
 
+  if(!tracks[index]){
+    return;
+  }
 
-if(!tracks[index]){
+  const track=tracks[index];
 
-return;
-
-}
-
-
-const track =
-tracks[index];
-
-
-const shareData={
-
-title:
-track.name+
-" — "+
-(track.artist || "El DIM"),
-
-text:
-"🎵 Escucha "+
-track.name+
-" de "+
-(track.artist || "El DIM")+
-" — Italy Mau Producer",
-
-url:
-track.audio
-
-};
+  const texto =
+    track.name +
+    " — " +
+    (track.artist || "El DIM");
 
 
-try{
+  if(
+    navigator.share
+  ){
+
+    try{
+
+      await navigator.share({
+
+        title:track.name,
+
+        text:texto,
+
+        url:track.audio
+
+      });
+
+    }catch(error){
+
+      console.log(
+        "Compartir cancelado:",
+        error
+      );
+
+    }
+
+    return;
+
+  }
 
 
-if(navigator.share){
+  try{
 
-await navigator.share(
-shareData
-);
+    await navigator.clipboard.writeText(
+      track.audio
+    );
 
-}else{
+    alert(
+      "Enlace de la canción copiado."
+    );
 
+  }catch(error){
 
-await navigator.clipboard.writeText(
-track.audio
-);
+    alert(
+      "No se pudo copiar el enlace."
+    );
 
-
-alert(
-"Enlace de la canción copiado"
-);
-
-
-}
-
-
-}catch(error){
-
-console.log(
-"Compartir cancelado:",
-error
-);
-
-}
+  }
 
 }
 
@@ -2334,543 +1904,514 @@ error
 
 async function eliminarCancion(index){
 
-    if(!tracks[index]){
-        return;
-    }
+  if(!tracks[index]){
+    return;
+  }
 
-    const track = tracks[index];
 
-    const confirmar = confirm(
-        "¿Seguro que quieres eliminar la canción:\n\n" +
-        track.name +
-        "\n\nEsta acción no se puede deshacer."
+  const track =
+    tracks[index];
+
+
+  const confirmar =
+    confirm(
+      "¿Quieres eliminar la canción \"" +
+      track.name +
+      "\"?"
     );
 
-    if(!confirmar){
-        return;
-    }
 
-    try{
-
-        /* DETENER REPRODUCCIÓN */
-
-        if(i === index){
-
-            audio.pause();
-            audio.currentTime = 0;
-            audio.removeAttribute("src");
-            audio.load();
-
-            main.textContent = "▶";
-            nowname.textContent = "Selecciona una canción";
-            mini.src = "Media/logo.png";
-            progress.value = 0;
-            time.textContent = "0:00 / 0:00";
-        }
-
-
-        /* OBTENER RUTA DEL MP3 */
-
-        let audioPath = null;
-
-        if(track.audio){
-
-            const marker =
-                "/storage/v1/object/public/songs/";
-
-            if(track.audio.includes(marker)){
-
-                audioPath =
-                    decodeURIComponent(
-                        track.audio.split(marker)[1]
-                    );
-            }
-        }
-
-
-        /* OBTENER RUTA DE LA PORTADA */
-
-        let coverPath = null;
-
-        if(track.cover){
-
-            const marker =
-                "/storage/v1/object/public/portadas/";
-
-            if(track.cover.includes(marker)){
-
-                coverPath =
-                    decodeURIComponent(
-                        track.cover.split(marker)[1]
-                    );
-            }
-        }
-
-
-        /* ELIMINAR MP3 */
-
-        if(audioPath){
-
-            const {error:audioError} =
-                await supabaseClient
-                .storage
-                .from("songs")
-                .remove([audioPath]);
-
-            if(audioError){
-                throw audioError;
-            }
-        }
-
-
-        /* ELIMINAR PORTADA */
-
-        if(coverPath){
-
-            const {error:coverError} =
-                await supabaseClient
-                .storage
-                .from("portadas")
-                .remove([coverPath]);
-
-            if(coverError){
-                throw coverError;
-            }
-        }
-
-
-        /* ELIMINAR REGISTRO DE LA TABLA */
-
-        const {error:deleteError} =
-            await supabaseClient
-            .from("canciones")
-            .delete()
-            .eq("id", track.id);
-
-        if(deleteError){
-            throw deleteError;
-        }
-
-
-        /* RECARGAR LISTA */
-
-        await cargarCanciones();
-
-        alert("✅ Canción eliminada correctamente.");
-
-    }catch(error){
-
-        console.error(
-            "Error eliminando canción:",
-            error
-        );
-
-        alert(
-            "❌ No se pudo eliminar la canción.\n\n" +
-            error.message
-        );
-    }
+  if(!confirmar){
+    return;
   }
-  /* =========================
-   PANEL DE SUBIDA
+
+
+  try{
+
+    const {error} =
+      await supabaseClient
+      .from("canciones")
+      .delete()
+      .eq("id",track.id);
+
+
+    if(error){
+
+      throw error;
+
+    }
+
+
+    /*
+      Si eliminamos la canción que
+      estaba seleccionada, limpiamos
+      el reproductor.
+    */
+
+    if(i===index){
+
+      audio.pause();
+
+      audio.removeAttribute(
+        "src"
+      );
+
+      audio.load();
+
+      mini.src=
+        "Media/logo.png";
+
+      nowname.textContent=
+        "Selecciona una canción";
+
+      time.textContent=
+        "0:00 / 0:00";
+
+      progress.value=0;
+
+      main.textContent="▶";
+
+      i=0;
+
+    }
+
+
+    await cargarCanciones();
+
+
+  }catch(error){
+
+    console.error(
+      "Error eliminando:",
+      error
+    );
+
+
+    alert(
+      "No se pudo eliminar la canción:\n\n" +
+      error.message
+    );
+
+  }
+
+}
+
+
+/* =========================
+   MOSTRAR / OCULTAR SUBIDA
 ========================= */
 
 function toggleUpload(){
 
+  const panel =
+    document.getElementById(
+      "uploadPanel"
+    );
 
-const panel =
-document.getElementById(
-"uploadPanel"
-);
+
+  panel.classList.toggle(
+    "active"
+  );
 
 
-panel.classList.toggle(
-"active"
-);
+  if(
+    panel.classList.contains(
+      "active"
+    )
+  ){
 
+    panel.scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+
+  }
 
 }
 
 
 /* =========================
-   MENSAJE SUBIDA
+   MENSAJE DE SUBIDA
 ========================= */
 
-function uploadMessage(
-text,
-type
+function mostrarMensaje(
+  texto,
+  tipo
 ){
 
-
-const message =
-document.getElementById(
-"uploadMessage"
-);
-
-
-message.textContent=text;
+  const mensaje =
+    document.getElementById(
+      "uploadMessage"
+    );
 
 
-message.className=
-"message show "+
-type;
+  mensaje.textContent=
+    texto;
+
+
+  mensaje.className=
+    "message show " +
+    tipo;
 
 }
 
 
 /* =========================
-   SUBIR CANCION
+   SUBIR CANCIÓN
 ========================= */
 
 async function subirCancion(){
 
-
-const titulo =
-document.getElementById(
-"uploadTitulo"
-).value.trim();
-
-
-const artista =
-document.getElementById(
-"uploadArtista"
-).value.trim()
-||
-"El DIM";
+  const titulo =
+    document
+      .getElementById(
+        "uploadTitulo"
+      )
+      .value
+      .trim();
 
 
-const genero =
-document.getElementById(
-"uploadGenero"
-).value.trim();
+  const artista =
+    document
+      .getElementById(
+        "uploadArtista"
+      )
+      .value
+      .trim();
 
 
-const anio =
-document.getElementById(
-"uploadAnio"
-).value;
+  const genero =
+    document
+      .getElementById(
+        "uploadGenero"
+      )
+      .value
+      .trim();
 
 
-const audioFile =
-document.getElementById(
-"uploadAudio"
-).files[0];
+  const anio =
+    document
+      .getElementById(
+        "uploadAnio"
+      )
+      .value;
 
 
-const portadaFile =
-document.getElementById(
-"uploadPortada"
-).files[0];
+  const audioFile =
+    document
+      .getElementById(
+        "uploadAudio"
+      )
+      .files[0];
 
 
-if(!titulo){
+  const portadaFile =
+    document
+      .getElementById(
+        "uploadPortada"
+      )
+      .files[0];
 
-uploadMessage(
-"Escribe el título de la canción.",
-"error"
-);
 
-return;
+  if(!titulo){
+
+    mostrarMensaje(
+      "Escribe el título de la canción.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(!audioFile){
+
+    mostrarMensaje(
+      "Selecciona el archivo MP3.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(!portadaFile){
+
+    mostrarMensaje(
+      "Selecciona una portada.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  mostrarMensaje(
+    "Subiendo canción...",
+    "success"
+  );
+
+
+  try{
+
+    /*
+      Nombres únicos para evitar
+      conflictos entre archivos.
+    */
+
+    const tiempo =
+      Date.now();
+
+
+    const audioPath =
+      tiempo +
+      "-" +
+      limpiarNombre(
+        audioFile.name
+      );
+
+
+    const portadaPath =
+      tiempo +
+      "-" +
+      limpiarNombre(
+        portadaFile.name
+      );
+
+
+    /* =========================
+       SUBIR MP3
+    ========================= */
+
+    const audioUpload =
+      await supabaseClient
+      .storage
+      .from("canciones")
+      .upload(
+        audioPath,
+        audioFile,
+        {
+          cacheControl:"3600",
+          upsert:false,
+          contentType:
+            audioFile.type ||
+            "audio/mpeg"
+        }
+      );
+
+
+    if(audioUpload.error){
+
+      throw audioUpload.error;
+
+    }
+
+
+    /* =========================
+       SUBIR PORTADA
+    ========================= */
+
+    const portadaUpload =
+      await supabaseClient
+      .storage
+      .from("portadas")
+      .upload(
+        portadaPath,
+        portadaFile,
+        {
+          cacheControl:"3600",
+          upsert:false,
+          contentType:
+            portadaFile.type ||
+            "image/jpeg"
+        }
+      );
+
+
+    if(portadaUpload.error){
+
+      throw portadaUpload.error;
+
+    }
+
+
+    /* =========================
+       OBTENER URL MP3
+    ========================= */
+
+    const audioURL =
+      supabaseClient
+      .storage
+      .from("canciones")
+      .getPublicUrl(
+        audioPath
+      )
+      .data
+      .publicUrl;
+
+
+    /* =========================
+       OBTENER URL PORTADA
+    ========================= */
+
+    const portadaURL =
+      supabaseClient
+      .storage
+      .from("portadas")
+      .getPublicUrl(
+        portadaPath
+      )
+      .data
+      .publicUrl;
+
+
+    /* =========================
+       GUARDAR EN TABLA
+    ========================= */
+
+    const {error} =
+      await supabaseClient
+      .from("canciones")
+      .insert({
+
+        titulo:titulo,
+
+        artista:
+          artista ||
+          "El DIM",
+
+        genero:
+          genero ||
+          null,
+
+        anio:
+          anio
+          ?
+          Number(anio)
+          :
+          null,
+
+        audio_url:
+          audioURL,
+
+        portada_url:
+          portadaURL
+
+      });
+
+
+    if(error){
+
+      throw error;
+
+    }
+
+
+    mostrarMensaje(
+      "¡Canción subida correctamente! 🎵",
+      "success"
+    );
+
+
+    /* =========================
+       LIMPIAR FORMULARIO
+    ========================= */
+
+    document
+      .getElementById(
+        "uploadTitulo"
+      )
+      .value="";
+
+
+    document
+      .getElementById(
+        "uploadGenero"
+      )
+      .value="";
+
+
+    document
+      .getElementById(
+        "uploadAudio"
+      )
+      .value="";
+
+
+    document
+      .getElementById(
+        "uploadPortada"
+      )
+      .value="";
+
+
+    /* =========================
+       ACTUALIZAR LISTA
+    ========================= */
+
+    await cargarCanciones();
+
+
+  }catch(error){
+
+    console.error(
+      "Error subiendo canción:",
+      error
+    );
+
+
+    mostrarMensaje(
+      "Error: " +
+      error.message,
+      "error"
+    );
+
+  }
 
 }
-
-
-if(!audioFile){
-
-uploadMessage(
-"Selecciona el archivo MP3.",
-"error"
-);
-
-return;
-
-}
-
-
-if(!portadaFile){
-
-uploadMessage(
-"Selecciona la portada.",
-"error"
-);
-
-return;
-
-}
-
-
-try{
-
-
-uploadMessage(
-"Subiendo canción...",
-"success"
-);
 
 
 /* =========================
-   NOMBRES DE ARCHIVOS
-========================= */
-
-const timestamp =
-Date.now();
-
-
-const audioPath =
-timestamp+
-"-"+
-limpiarNombre(audioFile.name);
-
-
-const portadaPath =
-timestamp+
-"-"+
-limpiarNombre(portadaFile.name);
-
-
-
-/* =========================
-   SUBIR AUDIO
-========================= */
-
-const audioUpload =
-await supabaseClient
-.storage
-.from("songs")
-.upload(
-audioPath,
-audioFile,
-{
-cacheControl:"3600",
-upsert:false,
-contentType:
-audioFile.type ||
-"audio/mpeg"
-}
-);
-
-
-if(audioUpload.error){
-
-throw audioUpload.error;
-
-}
-
-
-
-/* =========================
-   SUBIR PORTADA
-========================= */
-
-const portadaUpload =
-await supabaseClient
-.storage
-.from("portadas")
-.upload(
-portadaPath,
-portadaFile,
-{
-cacheControl:"3600",
-upsert:false,
-contentType:
-portadaFile.type ||
-"image/png"
-}
-);
-
-
-if(portadaUpload.error){
-
-throw portadaUpload.error;
-
-}
-
-
-
-/* =========================
-   URL AUDIO
-========================= */
-
-const audioURL =
-supabaseClient
-.storage
-.from("songs")
-.getPublicUrl(
-audioPath
-).data.publicUrl;
-
-
-
-/* =========================
-   URL PORTADA
-========================= */
-
-const portadaURL =
-supabaseClient
-.storage
-.from("portadas")
-.getPublicUrl(
-portadaPath
-).data.publicUrl;
-
-
-
-/* =========================
-   INSERTAR EN TABLA
-========================= */
-
-const {error} =
-await supabaseClient
-.from("canciones")
-.insert({
-
-titulo:titulo,
-
-artista:artista,
-
-genero:
-genero || null,
-
-anio:
-anio
-?
-Number(anio)
-:
-new Date().getFullYear(),
-
-audio_url:
-audioURL,
-
-portada_url:
-portadaURL,
-
-fecha:
-new Date().toISOString()
-
-});
-
-
-if(error){
-
-throw error;
-
-}
-
-
-/* =========================
-   ÉXITO
-========================= */
-
-uploadMessage(
-"✅ Canción subida correctamente.",
-"success"
-);
-
-
-document.getElementById(
-"uploadTitulo"
-).value="";
-
-
-document.getElementById(
-"uploadGenero"
-).value="";
-
-
-document.getElementById(
-"uploadAudio"
-).value="";
-
-
-document.getElementById(
-"uploadPortada"
-).value="";
-
-
-await cargarCanciones();
-
-
-}catch(error){
-
-
-console.error(
-"Error subiendo canción:",
-error
-);
-
-
-uploadMessage(
-"❌ Error: "+
-(error.message || error),
-"error"
-);
-
-}
-
-}
-
-
-/* =========================
-   LIMPIAR NOMBRE
+   LIMPIAR NOMBRE DE ARCHIVO
 ========================= */
 
 function limpiarNombre(nombre){
 
-return nombre
-
-.normalize("NFD")
-.replace(/[\u0300-\u036f]/g,"")
-
-.replace(
-/[^a-zA-Z0-9._-]/g,
-"_"
-);
+  return String(nombre)
+    .normalize("NFD")
+    .replace(
+      /[\u0300-\u036f]/g,
+      ""
+    )
+    .replace(
+      /[^a-zA-Z0-9._-]/g,
+      "-"
+    );
 
 }
 
 
 /* =========================
-   INICIAR
+   INICIAR APP
 ========================= */
 
-cargarCanciones();
+document.addEventListener(
+  "DOMContentLoaded",
+  ()=>{
 
+    cargarCanciones();
 
+    setPlayMode(
+      "seguido"
+    );
 
-/* =========================
-   SERVICE WORKER
-========================= */
-
-if(
-"serviceWorker"
-in navigator
-){
-
-window.addEventListener(
-"load",
-()=>{
-
-navigator.serviceWorker
-
-.register("./sw.js")
-
-.catch(error=>{
-
-console.log(
-"Service Worker:",
-error
+  }
 );
-
-});
-
-});
-
-}
 
 </script>
 
-
 </body>
-
 </html>
-
