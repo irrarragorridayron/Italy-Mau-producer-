@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#151515"/>
+      <stop offset="100%" stop-color="#000000"/>
+    </radialGradient>
+
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fff0a0"/>
+      <stop offset="25%" stop-color="#d88a12"/>
+      <stop offset="50%" stop-color="#fff0a0"/>
+      <stop offset="75%" stop-color="#b86b05"/>
+      <stop offset="100%" stop-color="#ffe58a"/>
+    </linearGradient>
+
+    <linearGradient id="blue" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#5eeaff"/>
+      <stop offset="45%" stop-color="#087cff"/>
+      <stop offset="100%" stop-color="#0027d9"/>
+    </linearGradient>
+
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="7" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="512" height="512" fill="#000"/>
+
+  <circle
+    cx="256"
+    cy="256"
+    r="208"
+    fill="none"
+    stroke="url(#gold)"
+    stroke-width="18"/>
+
+  <circle
+    cx="256"
+    cy="256"
+    r="178"
+    fill="url(#bg)"
+    stroke="#176cff"
+    stroke-width="4"
+    filter="url(#glow)"/>
+
+  <polygon
+    points="205,150 365,256 205,362"
+    fill="url(#blue)"
+    stroke="#ffffff"
+    stroke-width="6"
+    stroke-linejoin="round"
+    filter="url(#glow)"/>
+</svg>
