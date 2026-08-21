@@ -22,15 +22,41 @@ href="./Iconos/icon-192.png">
 
 <style>
 
+/* =========================================================
+   VARIABLES
+========================================================= */
+
 :root{
+
   --gold:#e7ad54;
   --gold2:#ffd98a;
+
+  --blue:#168cff;
+  --blue2:#62c5ff;
+
+  --red:#ff3030;
+  --red2:#ff7777;
+
   --dark:#050505;
-  --card:#0d0d0d;
+  --card:#0c0c0c;
+
+  --text:#ffffff;
+  --muted:#aaa29a;
+
 }
+
+
+/* =========================================================
+   BASE
+========================================================= */
 
 *{
   box-sizing:border-box;
+}
+
+
+html{
+  scroll-behavior:smooth;
 }
 
 
@@ -38,171 +64,318 @@ body{
 
   margin:0;
 
+  min-height:100vh;
+
   background:
-  radial-gradient(
-    circle at 50% -10%,
-    #2a1b0b 0,
-    #090807 34%,
-    #050505 70%
-  );
 
-  color:white;
+    radial-gradient(
+      ellipse at 50% -10%,
+      #30200c 0%,
+      #100d08 25%,
+      #050505 62%
+    );
 
-  font-family:Arial,sans-serif;
+  color:var(--text);
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
 
 }
 
 
+/* =========================================================
+   APP
+========================================================= */
+
 .app{
 
-  max-width:760px;
+  width:100%;
+
+  max-width:1000px;
 
   margin:auto;
 
   min-height:100vh;
 
-  padding-bottom:150px;
+  padding-bottom:180px;
 
 }
 
 
-/* =========================
+/* =========================================================
    CABECERA
-========================= */
+========================================================= */
 
 header{
 
+  position:relative;
+
   text-align:center;
 
-  padding:28px 20px 18px;
+  padding:30px 20px 25px;
 
-  border-bottom:1px solid #2b2115;
+  overflow:hidden;
+
+  border-bottom:1px solid #76501f;
+
+}
+
+
+header::before{
+
+  content:"";
+
+  position:absolute;
+
+  width:420px;
+
+  height:420px;
+
+  left:-180px;
+
+  top:-170px;
+
+  background:
+
+    radial-gradient(
+      circle,
+      #e7ad5420,
+      transparent 65%
+    );
+
+  pointer-events:none;
+
+}
+
+
+header::after{
+
+  content:"";
+
+  position:absolute;
+
+  width:420px;
+
+  height:420px;
+
+  right:-180px;
+
+  bottom:-230px;
+
+  background:
+
+    radial-gradient(
+      circle,
+      #e7ad5420,
+      transparent 65%
+    );
+
+  pointer-events:none;
 
 }
 
 
 .logo{
 
-  width:180px;
+  position:relative;
 
-  height:180px;
+  z-index:2;
+
+  width:210px;
+
+  height:210px;
 
   object-fit:contain;
 
   filter:
-  drop-shadow(
-    0 0 16px #9a5f1d
-  );
+
+    drop-shadow(0 0 10px #e7ad5466)
+    drop-shadow(0 0 28px #9a5f1d55);
 
 }
 
 
 h1{
 
-  font-size:27px;
+  position:relative;
 
-  letter-spacing:3px;
+  z-index:2;
 
-  margin:4px 0;
+  margin:5px 0 4px;
 
   color:var(--gold2);
+
+  font-size:28px;
+
+  letter-spacing:4px;
+
+  font-weight:800;
 
 }
 
 
 .artist{
 
-  font-size:16px;
+  position:relative;
 
-  letter-spacing:4px;
+  z-index:2;
+
+  color:#ffffff;
+
+  font-size:17px;
+
+  letter-spacing:6px;
+
+  font-weight:bold;
 
 }
 
 
 .bio{
 
-  color:#c8c0b7;
+  position:relative;
 
-  line-height:1.5;
+  z-index:2;
 
-  font-size:14px;
+  max-width:650px;
 
-  max-width:560px;
+  margin:16px auto 0;
 
-  margin:14px auto;
+  color:#d1cbc3;
+
+  line-height:1.6;
+
+  font-size:15px;
 
 }
-
-
-/* =========================
+/* =========================================================
    SECCIONES
-========================= */
+========================================================= */
 
 section{
 
-  padding:22px 18px;
+  padding:24px 24px 8px;
 
 }
 
 
 .title{
 
-  font-size:20px;
+  display:flex;
 
-  margin:0 0 14px;
+  align-items:center;
+
+  gap:10px;
+
+  margin:0 0 15px;
 
   color:var(--gold2);
 
+  font-size:24px;
+
   letter-spacing:1px;
+
+  text-shadow:
+    0 0 12px #e7ad5433;
 
 }
 
 
-/* =========================
-   TARJETAS
-========================= */
+/* =========================================================
+   TARJETAS DE CANCIONES
+========================================================= */
 
 .track{
+
+  position:relative;
 
   display:flex;
 
   align-items:center;
 
-  gap:13px;
+  gap:16px;
+
+  width:100%;
+
+  margin:14px 0;
+
+  padding:12px;
 
   background:
-  linear-gradient(
-    135deg,
-    #17130e,
-    #0d0d0d
-  );
 
-  border:1px solid #342717;
+    linear-gradient(
+      135deg,
+      #17130e,
+      #090909 60%,
+      #050505
+    );
 
-  border-radius:16px;
+  border:1px solid #6c4b20;
 
-  padding:10px;
-
-  margin:10px 0;
+  border-radius:20px;
 
   box-shadow:
-  0 5px 20px #0008;
+
+    0 8px 28px #00000099,
+
+    inset 0 0 20px #e7ad5408;
+
+  transition:
+
+    transform .2s ease,
+    border-color .2s ease,
+    box-shadow .2s ease;
 
 }
 
+
+.track:hover{
+
+  transform:translateY(-2px);
+
+  border-color:#d59b48;
+
+  box-shadow:
+
+    0 12px 35px #000,
+
+    0 0 18px #e7ad5422;
+
+}
+
+
+/* =========================================================
+   PORTADA
+========================================================= */
 
 .cover{
 
-  width:72px;
+  width:96px;
 
-  height:72px;
+  height:96px;
+
+  min-width:96px;
 
   object-fit:cover;
 
-  border-radius:11px;
+  border-radius:15px;
+
+  border:1px solid #6d4b20;
+
+  box-shadow:
+
+    0 0 12px #000,
+
+    0 0 12px #e7ad5422;
 
 }
 
+
+/* =========================================================
+   INFORMACIÓN
+========================================================= */
 
 .info{
 
@@ -215,9 +388,9 @@ section{
 
 .name{
 
-  font-weight:700;
+  font-size:20px;
 
-  font-size:16px;
+  font-weight:800;
 
   white-space:nowrap;
 
@@ -225,117 +398,331 @@ section{
 
   text-overflow:ellipsis;
 
+  color:#ffffff;
+
 }
 
 
 .sub{
 
-  font-size:12px;
+  margin-top:7px;
 
   color:var(--gold);
 
+  font-size:14px;
+
+  font-weight:bold;
+
+}
+
+
+.genre{
+
   margin-top:5px;
 
-}
+  color:#9c948c;
 
-
-/* =========================
-   BOTON PLAY
-========================= */
-
-.play{
-
-  width:44px;
-
-  height:44px;
-
-  flex-shrink:0;
-
-  border-radius:50%;
-
-  border:1px solid var(--gold);
-
-  background:#0a0908;
-
-  color:var(--gold2);
-
-  font-size:18px;
+  font-size:12px;
 
 }
 
 
-/* =========================
-   BOTON COMPARTIR
-========================= */
+/* =========================================================
+   ONDA VISUAL
+========================================================= */
 
-.share{
+.wave{
 
-  width:42px;
+  display:flex;
 
-  height:42px;
+  align-items:center;
 
-  flex-shrink:0;
+  gap:2px;
 
-  border-radius:50%;
+  height:30px;
 
-  border:1px solid var(--gold);
+  margin-top:8px;
+
+  overflow:hidden;
+
+}
+
+
+.wave span{
+
+  width:3px;
+
+  min-width:3px;
+
+  height:var(--h);
+
+  border-radius:3px;
 
   background:
-  linear-gradient(
-    145deg,
-    #17110a,
-    #080706
-  );
 
-  color:var(--gold2);
+    linear-gradient(
+      to top,
+      #d89630,
+      #ffd98a
+    );
 
-  font-size:18px;
+  box-shadow:
+    0 0 5px #e7ad5455;
+
+}
+/* =========================================================
+   BOTONES DE CANCIONES
+========================================================= */
+
+.play,
+.share,
+.delete{
+
+  width:64px;
+
+  height:64px;
+
+  min-width:64px;
+
+  min-height:64px;
+
+  flex-shrink:0;
+
+  border-radius:50%;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  padding:0;
 
   cursor:pointer;
 
+  font-family:Arial,sans-serif;
+
+  transition:
+
+    transform .15s ease,
+    box-shadow .2s ease,
+    filter .2s ease;
+
+}
+
+
+/* =========================================================
+   PLAY AZUL METÁLICO
+========================================================= */
+
+.play{
+
+  border:2px solid var(--blue2);
+
+  background:
+
+    radial-gradient(
+      circle at 35% 25%,
+      #10375a 0%,
+      #061321 38%,
+      #010306 75%,
+      #000000 100%
+    );
+
+  color:#38aaff;
+
+  font-size:28px;
+
   box-shadow:
-  0 0 10px #9a5f1d44;
+
+    0 0 7px #168cffaa,
+
+    0 0 20px #168cff55,
+
+    inset 0 0 14px #168cff44;
 
 }
 
 
-.share:active{
+.play:hover{
 
-  transform:scale(.92);
+  filter:brightness(1.3);
+
+  box-shadow:
+
+    0 0 10px #38aaff,
+
+    0 0 28px #168cffaa,
+
+    0 0 48px #168cff44;
 
 }
 
 
-/* =========================
-   BOTON AGREGAR
-========================= */
+/* =========================================================
+   COMPARTIR DORADO
+========================================================= */
+
+.share{
+
+  border:2px solid var(--gold2);
+
+  background:
+
+    radial-gradient(
+      circle at 35% 25%,
+      #51380f 0%,
+      #1b1205 40%,
+      #050403 75%,
+      #000000 100%
+    );
+
+  color:var(--gold2);
+
+  font-size:25px;
+
+  box-shadow:
+
+    0 0 7px #e7ad5488,
+
+    0 0 20px #e7ad5444,
+
+    inset 0 0 14px #e7ad5422;
+
+}
+
+
+.share:hover{
+
+  filter:brightness(1.25);
+
+  box-shadow:
+
+    0 0 10px #ffd98a,
+
+    0 0 28px #e7ad5488,
+
+    0 0 45px #e7ad5444;
+
+}
+
+
+/* =========================================================
+   ELIMINAR ROJO METÁLICO
+========================================================= */
+
+.delete{
+
+  border:2px solid var(--red2);
+
+  background:
+
+    radial-gradient(
+      circle at 35% 25%,
+      #5a1212 0%,
+      #210606 40%,
+      #070101 75%,
+      #000000 100%
+    );
+
+  color:#ff4d4d;
+
+  font-size:25px;
+
+  box-shadow:
+
+    0 0 7px #ff333388,
+
+    0 0 20px #ff222244,
+
+    inset 0 0 14px #ff222222;
+
+}
+
+
+.delete:hover{
+
+  filter:brightness(1.25);
+
+  box-shadow:
+
+    0 0 10px #ff6565,
+
+    0 0 28px #ff333399,
+
+    0 0 45px #ff222244;
+
+}
+
+
+/* =========================================================
+   TOQUE
+========================================================= */
+
+.play:active,
+.share:active,
+.delete:active{
+
+  transform:scale(.86);
+
+}
+
+
+/* =========================================================
+   AGREGAR CANCIÓN
+========================================================= */
 
 .add-button{
 
   width:100%;
 
-  padding:14px;
+  min-height:58px;
 
   margin-top:8px;
 
-  border-radius:14px;
+  padding:14px 20px;
+
+  border-radius:17px;
 
   border:1px solid var(--gold);
 
   background:
-  linear-gradient(
-    135deg,
-    #2a1b0b,
-    #100d09
-  );
+
+    linear-gradient(
+      135deg,
+      #2a1b0b,
+      #0c0906
+    );
 
   color:var(--gold2);
 
-  font-size:15px;
+  font-size:18px;
 
   font-weight:bold;
 
   cursor:pointer;
+
+  box-shadow:
+
+    0 0 12px #e7ad5418,
+
+    inset 0 0 15px #e7ad5408;
+
+  transition:
+
+    transform .15s ease,
+    box-shadow .2s ease;
+
+}
+
+
+.add-button:hover{
+
+  box-shadow:
+
+    0 0 15px #e7ad5455,
+
+    0 0 30px #e7ad5422;
 
 }
 
@@ -347,23 +734,32 @@ section{
 }
 
 
-/* =========================
-   PANEL DE SUBIDA
-========================= */
+/* =========================================================
+   PANEL SUBIDA
+========================================================= */
 
 .upload-panel{
 
   display:none;
 
-  margin-top:15px;
+  margin-top:16px;
 
-  padding:18px;
+  padding:20px;
 
-  border-radius:16px;
+  border-radius:18px;
 
-  border:1px solid #6e4a20;
+  border:1px solid #76501f;
 
-  background:#0d0c0a;
+  background:
+
+    linear-gradient(
+      145deg,
+      #16110a,
+      #090909
+    );
+
+  box-shadow:
+    0 10px 30px #000;
 
 }
 
@@ -377,9 +773,11 @@ section{
 
 .upload-panel h3{
 
-  margin-top:0;
+  margin:0 0 15px;
 
   color:var(--gold2);
+
+  font-size:20px;
 
 }
 
@@ -388,13 +786,11 @@ section{
 
   display:block;
 
-  margin-top:12px;
+  margin:12px 0 6px;
 
-  margin-bottom:6px;
+  color:#d3ccc4;
 
   font-size:13px;
-
-  color:#c8c0b7;
 
 }
 
@@ -403,15 +799,27 @@ section{
 
   width:100%;
 
-  padding:11px;
+  padding:12px;
 
   border-radius:10px;
 
-  border:1px solid #4a3722;
+  border:1px solid #4c3820;
 
-  background:#080706;
+  background:#050505;
 
-  color:white;
+  color:#ffffff;
+
+  outline:none;
+
+}
+
+
+.upload-panel input:focus{
+
+  border-color:var(--gold);
+
+  box-shadow:
+    0 0 8px #e7ad5422;
 
 }
 
@@ -422,17 +830,25 @@ section{
 
   margin-top:18px;
 
-  padding:13px;
+  padding:14px;
 
   border:1px solid var(--gold);
 
   border-radius:12px;
 
-  background:#17100a;
+  background:
+
+    linear-gradient(
+      145deg,
+      #3b260e,
+      #100a04
+    );
 
   color:var(--gold2);
 
   font-weight:bold;
+
+  cursor:pointer;
 
 }
 
@@ -441,36 +857,36 @@ section{
 
   width:100%;
 
-  margin-top:8px;
+  margin-top:9px;
 
-  padding:11px;
+  padding:12px;
 
   border:1px solid #444;
 
   border-radius:12px;
 
-  background:#111;
+  background:#101010;
 
-  color:#bbb;
+  color:#aaa;
+
+  cursor:pointer;
 
 }
-
-
-/* =========================
+/* =========================================================
    MENSAJES
-========================= */
+========================================================= */
 
 .message{
 
+  display:none;
+
   margin-top:12px;
 
-  padding:10px;
+  padding:11px;
 
   border-radius:10px;
 
   font-size:13px;
-
-  display:none;
 
 }
 
@@ -504,9 +920,232 @@ section{
 }
 
 
-/* =========================
-   REPRODUCTOR
-========================= */
+/* =========================================================
+   MODOS DE REPRODUCCIÓN
+========================================================= */
+
+.mode-section{
+
+  margin-top:8px;
+
+}
+
+
+.mode-title{
+
+  margin:0 0 14px;
+
+  color:var(--gold2);
+
+  font-size:22px;
+
+}
+
+
+.play-modes{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap:10px;
+
+}
+
+
+.mode-button{
+
+  min-height:82px;
+
+  border-radius:16px;
+
+  border:1px solid #65491f;
+
+  background:
+
+    linear-gradient(
+      145deg,
+      #18130d,
+      #050505
+    );
+
+  color:#c0b7ac;
+
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  justify-content:center;
+
+  gap:6px;
+
+  cursor:pointer;
+
+  transition:
+
+    transform .15s ease,
+    box-shadow .2s ease,
+    color .2s ease,
+    border-color .2s ease;
+
+}
+
+
+.mode-icon{
+
+  font-size:29px;
+
+  line-height:1;
+
+}
+
+
+.mode-label{
+
+  color:inherit;
+
+  font-size:12px;
+
+  font-weight:bold;
+
+  letter-spacing:.4px;
+
+}
+
+
+.mode-button.active{
+
+  color:var(--gold2);
+
+  border-color:var(--gold);
+
+  background:
+
+    linear-gradient(
+      145deg,
+      #3a2811,
+      #0d0904
+    );
+
+  box-shadow:
+
+    0 0 10px #e7ad5477,
+
+    0 0 25px #e7ad5422;
+
+}
+
+
+.mode-button.active.blue{
+
+  color:#38aaff;
+
+  border-color:#168cff;
+
+  background:
+
+    linear-gradient(
+      145deg,
+      #0b2135,
+      #03070b
+    );
+
+  box-shadow:
+
+    0 0 10px #168cffaa,
+
+    0 0 25px #168cff44;
+
+}
+
+
+.mode-button:active{
+
+  transform:scale(.94);
+
+}
+
+
+.mode-button:hover{
+
+  border-color:var(--gold2);
+
+  box-shadow:
+    0 0 12px #e7ad5444;
+
+}
+
+
+#modeOne .mode-icon{
+
+  font-size:26px;
+
+}
+
+
+/* =========================================================
+   SOBRE EL ARTISTA
+========================================================= */
+
+.about-card{
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:20px;
+
+  padding:22px;
+
+  background:
+
+    linear-gradient(
+      135deg,
+      #16130f,
+      #080808
+    );
+
+  border:1px solid #67491f;
+
+  border-radius:18px;
+
+  box-shadow:
+    0 8px 25px #0008;
+
+}
+
+
+.about-text{
+
+  color:#d3cdc6;
+
+  line-height:1.65;
+
+  font-size:15px;
+
+}
+
+
+.about-logo{
+
+  width:120px;
+
+  height:120px;
+
+  object-fit:contain;
+
+  filter:
+    drop-shadow(0 0 12px #e7ad5455);
+
+}
+/* =========================================================
+   REPRODUCTOR FIJO
+========================================================= */
 
 .player{
 
@@ -519,48 +1158,64 @@ section{
   transform:translateX(-50%);
 
   width:min(
-    720px,
+    960px,
     calc(100% - 24px)
   );
 
-  background:#0d0c0aee;
+  padding:14px 18px;
 
-  backdrop-filter:blur(14px);
+  background:
 
-  border:1px solid #6e4a20;
+    linear-gradient(
+      145deg,
+      #15110bfa,
+      #060606f5
+    );
 
-  border-radius:18px;
+  backdrop-filter:blur(18px);
 
-  padding:12px 15px;
+  border:1px solid #76501f;
+
+  border-radius:22px;
 
   box-shadow:
-  0 0 30px #8b551c44;
+
+    0 0 35px #000,
+
+    0 0 25px #e7ad5422;
 
   z-index:1000;
 
 }
 
 
-.now{
+.player-top{
 
   display:flex;
 
   align-items:center;
 
-  gap:10px;
+  gap:13px;
 
 }
 
 
 .mini{
 
-  width:48px;
+  width:64px;
 
-  height:48px;
+  height:64px;
+
+  min-width:64px;
 
   object-fit:cover;
 
-  border-radius:8px;
+  border-radius:12px;
+
+  border:1px solid #76501f;
+
+  box-shadow:
+    0 0 10px #000;
 
 }
 
@@ -576,7 +1231,11 @@ section{
 
 .nowname{
 
-  font-weight:700;
+  color:#ffffff;
+
+  font-size:17px;
+
+  font-weight:bold;
 
   white-space:nowrap;
 
@@ -589,11 +1248,11 @@ section{
 
 .time{
 
-  font-size:11px;
+  margin-top:5px;
 
-  color:#bdb4aa;
+  color:#a9a19a;
 
-  margin-top:4px;
+  font-size:12px;
 
 }
 
@@ -604,51 +1263,204 @@ section{
 
   align-items:center;
 
-  gap:8px;
+  gap:12px;
 
 }
 
 
 .controls button{
 
-  background:none;
-
   border:0;
+
+  background:none;
 
   color:var(--gold2);
 
-  font-size:21px;
+  font-size:25px;
+
+  width:42px;
+
+  height:42px;
+
+  cursor:pointer;
 
 }
 
 
 .controls .main{
 
-  border:1px solid var(--gold);
+  width:62px;
+
+  height:62px;
 
   border-radius:50%;
 
-  width:44px;
+  border:2px solid var(--gold2);
 
-  height:44px;
+  background:
+
+    radial-gradient(
+      circle at 35% 25%,
+      #4c3511,
+      #090704 70%
+    );
+
+  color:#ffffff;
+
+  font-size:27px;
+
+  box-shadow:
+
+    0 0 10px #e7ad5488,
+
+    inset 0 0 12px #e7ad5422;
 
 }
 
+
+.controls .main:hover{
+
+  box-shadow:
+
+    0 0 14px #ffd98a,
+
+    0 0 30px #e7ad5455;
+
+}
+
+
+/* =========================================================
+   PROGRESO
+========================================================= */
 
 .progress{
 
   width:100%;
 
-  accent-color:var(--gold);
+  height:7px;
 
-  margin-top:6px;
+  margin-top:11px;
+
+  appearance:none;
+
+  background:#2d2a27;
+
+  border-radius:10px;
+
+  outline:none;
 
 }
 
 
-/* =========================
+.progress::-webkit-slider-thumb{
+
+  appearance:none;
+
+  width:18px;
+
+  height:18px;
+
+  border-radius:50%;
+
+  background:#ffd98a;
+
+  border:2px solid #e7ad54;
+
+  box-shadow:
+    0 0 10px #e7ad54aa;
+
+}
+
+
+.progress::-moz-range-thumb{
+
+  width:18px;
+
+  height:18px;
+
+  border-radius:50%;
+
+  background:#ffd98a;
+
+  border:2px solid #e7ad54;
+
+}
+
+
+/* =========================================================
+   MODOS EN EL REPRODUCTOR
+========================================================= */
+
+.player-modes{
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  gap:9px;
+
+  margin-top:12px;
+
+}
+
+
+.player-mode{
+
+  width:39px;
+
+  height:39px;
+
+  border-radius:50%;
+
+  border:1px solid #5e451f;
+
+  background:#0a0907;
+
+  color:#8f877e;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  font-size:17px;
+
+  cursor:pointer;
+
+}
+
+
+.player-mode.active{
+
+  color:var(--gold2);
+
+  border-color:var(--gold);
+
+  box-shadow:
+
+    0 0 8px #e7ad5488,
+
+    inset 0 0 8px #e7ad5422;
+
+}
+
+
+.player-mode.active.one{
+
+  color:#38aaff;
+
+  border-color:#168cff;
+
+  box-shadow:
+    0 0 9px #168cff99;
+
+}
+/* =========================================================
    FOOTER
-========================= */
+========================================================= */
 
 footer{
 
@@ -658,7 +1470,274 @@ footer{
 
   font-size:11px;
 
-  padding:20px;
+  padding:25px 20px;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:700px){
+
+  section{
+
+    padding-left:15px;
+    padding-right:15px;
+
+  }
+
+
+  header{
+
+    padding-top:22px;
+
+  }
+
+
+  .logo{
+
+    width:170px;
+    height:170px;
+
+  }
+
+
+  h1{
+
+    font-size:22px;
+
+    letter-spacing:2px;
+
+  }
+
+
+  .bio{
+
+    font-size:14px;
+
+  }
+
+
+  .track{
+
+    gap:9px;
+
+    padding:9px;
+
+    border-radius:16px;
+
+  }
+
+
+  .cover{
+
+    width:78px;
+    height:78px;
+    min-width:78px;
+
+  }
+
+
+  .name{
+
+    font-size:16px;
+
+  }
+
+
+  .sub{
+
+    font-size:12px;
+
+  }
+
+
+  .play,
+  .share,
+  .delete{
+
+    width:52px;
+    height:52px;
+
+    min-width:52px;
+    min-height:52px;
+
+    font-size:22px;
+
+  }
+
+
+  .wave{
+
+    display:none;
+
+  }
+
+
+  .play-modes{
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+
+  .about-card{
+
+    padding:17px;
+
+  }
+
+
+  .about-logo{
+
+    width:80px;
+    height:80px;
+
+  }
+
+
+  .about-text{
+
+    font-size:14px;
+
+  }
+
+
+  .mini{
+
+    width:52px;
+    height:52px;
+
+    min-width:52px;
+
+  }
+
+
+  .nowname{
+
+    font-size:14px;
+
+  }
+
+
+  .controls{
+
+    gap:3px;
+
+  }
+
+
+  .controls button{
+
+    font-size:20px;
+
+    width:35px;
+
+  }
+
+
+  .controls .main{
+
+    width:52px;
+    height:52px;
+
+    font-size:22px;
+
+  }
+
+
+  .player{
+
+    bottom:7px;
+
+    padding:10px;
+
+    border-radius:18px;
+
+  }
+
+}
+
+
+@media(max-width:430px){
+
+  .track{
+
+    gap:7px;
+
+  }
+
+
+  .cover{
+
+    width:68px;
+    height:68px;
+    min-width:68px;
+
+  }
+
+
+  .play,
+  .share,
+  .delete{
+
+    width:45px;
+    height:45px;
+
+    min-width:45px;
+    min-height:45px;
+
+    border-width:1px;
+
+    font-size:19px;
+
+  }
+
+
+  .name{
+
+    font-size:14px;
+
+  }
+
+
+  .sub{
+
+    font-size:11px;
+
+  }
+
+
+  .info{
+
+    min-width:60px;
+
+  }
+
+
+  .about-logo{
+
+    display:none;
+
+  }
+
+
+  .player-modes{
+
+    gap:5px;
+
+  }
+
+
+  .player-mode{
+
+    width:35px;
+    height:35px;
+
+  }
 
 }
 
@@ -672,6 +1751,11 @@ footer{
 
 <div class="app">
 
+
+<!--
+=======================================================
+     CABECERA
+======================================================== -->
 
 <header>
 
@@ -696,17 +1780,16 @@ EL DIM
 Nacido en febrero de 1987,
 amante de la música y el espectáculo
 en general, original y muy positivo,
-con ganas de triunfar y sentirme útil.
+con ganas de crear y sentirme útil.
 
 </p>
 
 </header>
 
 
-
-<!-- =========================
+<!-- =======================================================
      CANCIONES
-========================= -->
+======================================================== -->
 
 <section>
 
@@ -720,7 +1803,7 @@ con ganas de triunfar y sentirme útil.
 <div style="
 text-align:center;
 color:#c8c0b7;
-padding:20px;
+padding:30px;
 ">
 
 Cargando canciones...
@@ -729,9 +1812,6 @@ Cargando canciones...
 
 </div>
 
-
-
-<!-- BOTON AGREGAR -->
 
 <button
 class="add-button"
@@ -742,10 +1822,9 @@ onclick="toggleUpload()">
 </button>
 
 
-
-<!-- =========================
-     PANEL DE SUBIDA
-========================= -->
+<!-- =====================================================
+     PANEL SUBIDA
+===================================================== -->
 
 <div
 id="uploadPanel"
@@ -764,8 +1843,7 @@ Título
 <input
 id="uploadTitulo"
 type="text"
-placeholder="Nombre de la canción"
-required>
+placeholder="Nombre de la canción">
 
 
 <label>
@@ -786,7 +1864,7 @@ Género
 <input
 id="uploadGenero"
 type="text"
-placeholder="Reggaetón, urbano, etc.">
+placeholder="Reggaetón, urbano, afrobeat...">
 
 
 <label>
@@ -847,50 +1925,127 @@ class="message">
 </div>
 
 </section>
+<!-- 
+  =======================================================
+     MODOS DE REPRODUCCIÓN
+======================================================== -->
 
+<section class="mode-section">
 
-
-<!-- =========================
-     SOBRE EL DIM
-========================= -->
-
-<section>
-
-<h2 class="title">
-👤 SOBRE EL DIM
+<h2 class="mode-title">
+🔀 MODO DE REPRODUCCIÓN
 </h2>
 
 
-<div
-class="track"
-style="
-display:block;
-padding:18px;
-">
+<div class="play-modes">
 
 
-<div style="
-color:#d8d0c7;
-line-height:1.65;
-">
+<button
+id="modeRandom"
+class="mode-button"
+onclick="setPlayMode('aleatorio')">
+
+<span class="mode-icon">
+🔀
+</span>
+
+<span class="mode-label">
+ALEATORIO
+</span>
+
+</button>
 
 
-Apasionado por la música
-y el espectáculo,
-con una visión original
-y positiva.
+<button
+id="modeSequential"
+class="mode-button active"
+onclick="setPlayMode('seguido')">
 
-Este espacio reúne sus canciones
-y futuros lanzamientos bajo
-la identidad de Italy Mau Producer.
+<span class="mode-icon">
+▶
+</span>
+
+<span class="mode-label">
+SEGUIDO
+</span>
+
+</button>
 
 
-</div>
+<button
+id="modeOne"
+class="mode-button"
+onclick="setPlayMode('una')">
+
+<span class="mode-icon">
+🔂¹
+</span>
+
+<span class="mode-label">
+BUCLE UNA
+</span>
+
+</button>
+
+
+<button
+id="modeAll"
+class="mode-button"
+onclick="setPlayMode('todas')">
+
+<span class="mode-icon">
+🔁
+</span>
+
+<span class="mode-label">
+BUCLE TODAS
+</span>
+
+</button>
+
 
 </div>
 
 </section>
 
+
+<!-- =======================================================
+     SOBRE EL ARTISTA
+======================================================== -->
+
+<section>
+
+<h2 class="title">
+👤 SOBRE EL ARTISTA
+</h2>
+
+
+<div class="about-card">
+
+
+<div class="about-text">
+
+Apasionado por la música
+y el espectáculo,
+con una visión original
+y creativa.
+
+Este espacio reúne sus canciones
+y futuros lanzamientos bajo
+la identidad de Italy Mau Producer.
+
+</div>
+
+
+<img
+class="about-logo"
+src="Media/logo.png"
+alt="Italy Mau Producer">
+
+
+</div>
+
+</section>
 
 
 <footer>
@@ -901,17 +2056,14 @@ ITALY MAU PRODUCER • EL DIM
 
 
 </div>
-
-
-
-<!-- =========================
+<!-- =======================================================
      REPRODUCTOR
-========================= -->
+======================================================== -->
 
 <div class="player">
 
 
-<div class="now">
+<div class="player-top">
 
 
 <img
@@ -948,23 +2100,32 @@ class="time">
 <div class="controls">
 
 
-<button onclick="prev()">
+<button
+onclick="prev()"
+aria-label="Anterior">
+
 ⏮
+
 </button>
 
 
 <button
 id="main"
 class="main"
-onclick="toggle()">
+onclick="toggle()"
+aria-label="Reproducir">
 
 ▶
 
 </button>
 
 
-<button onclick="next()">
+<button
+onclick="next()"
+aria-label="Siguiente">
+
 ⏭
+
 </button>
 
 
@@ -983,9 +2144,62 @@ max="100"
 value="0">
 
 
+<div class="player-modes">
+
+
+<button
+id="playerModeRandom"
+class="player-mode"
+onclick="setPlayMode('aleatorio')"
+title="Aleatorio">
+
+🔀
+
+</button>
+
+
+<button
+id="playerModeSequential"
+class="player-mode active"
+onclick="setPlayMode('seguido')"
+title="Seguido">
+
+▶
+
+</button>
+
+
+<button
+id="playerModeOne"
+class="player-mode"
+onclick="setPlayMode('una')"
+title="Bucle una">
+
+🔂¹
+
+</button>
+
+
+<button
+id="playerModeAll"
+class="player-mode"
+onclick="setPlayMode('todas')"
+title="Bucle todas">
+
+🔁
+
+</button>
+
+
 </div>
 
 
+</div>
+
+
+<!-- =======================================================
+     AUDIO
+======================================================== -->
 
 <audio
 id="audio"
@@ -993,21 +2207,19 @@ preload="metadata">
 </audio>
 
 
+<!-- =======================================================
+     SUPABASE
+======================================================== -->
 
-<!-- SUPABASE -->
-
-<script src="
-https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2
-"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+</script>
 
 
 <script>
 
-
-/* =========================
+/* =========================================================
    SUPABASE
-========================= */
+========================================================= */
 
 const SUPABASE_URL =
 "https://xnhhrtzybrpdpuzsrwpr.supabase.co";
@@ -1018,20 +2230,21 @@ const SUPABASE_KEY =
 
 
 const supabaseClient =
-supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
 
-
-/* =========================
+/* =========================================================
    VARIABLES
-========================= */
+========================================================= */
 
 let tracks = [];
 
 let i = 0;
+
+let playMode = "seguido";
 
 
 const audio =
@@ -1056,1031 +2269,1656 @@ document.getElementById("progress");
 
 const time =
 document.getElementById("time");
-
-
-
-/* =========================
-   CARGAR CANCIONES
-========================= */
-
-async function cargarCanciones(){
-
-
-const {data,error} =
-await supabaseClient
-
-.from("canciones")
-
-.select(
-"id,titulo,artista,genero,anio,audio_url,portada_url,fecha"
-)
-
-.order(
-"id",
-{
-ascending:false
-}
-);
-
-
-if(error){
-
-console.error(
-"Error cargando canciones:",
-error
-);
-
-
-document.getElementById(
-"listaCanciones"
-).innerHTML = `
-
-<div style="
-text-align:center;
-color:#ff7777;
-padding:20px;
-">
-
-No se pudieron cargar las canciones.
-
-<br><br>
-
-${escapeHTML(error.message)}
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-tracks =
-data.map(cancion => ({
-
-id:cancion.id,
-
-name:cancion.titulo,
-
-artist:cancion.artista,
-
-genre:cancion.genero,
-
-year:cancion.anio,
-
-audio:cancion.audio_url,
-
-cover:cancion.portada_url,
-
-date:cancion.fecha
-
-}));
-
-
-mostrarCanciones();
-
-
-}
-
-
-/* =========================
-   MOSTRAR CANCIONES
-========================= */
-
-function mostrarCanciones(){
-
-
-const lista =
-document.getElementById(
-"listaCanciones"
-);
-
-
-lista.innerHTML="";
-
-
-if(tracks.length===0){
-
-lista.innerHTML=`
-
-<div style="
-text-align:center;
-color:#c8c0b7;
-padding:25px;
-">
-
-Todavía no hay canciones disponibles.
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-tracks.forEach(
-(track,index)=>{
-
-
-const tarjeta =
-document.createElement("div");
-
-
-tarjeta.className="track";
-
-
-tarjeta.innerHTML=`
-
-
-<img
-class="cover"
-src="${escapeAttribute(track.cover || "Media/logo.png")}"
-alt="${escapeAttribute(track.name)}"
-onerror="this.src='Media/logo.png'"
->
-
-
-<div class="info">
-
-
-<div class="name">
-
-${escapeHTML(track.name)}
-
-</div>
-
-
-<div class="sub">
-
-${escapeHTML(
-track.artist || "El DIM"
-)}
-
-${
-track.year
-?
-" • "+escapeHTML(
-String(track.year)
-)
-:
-""
-}
-
-</div>
-
-
-${
-track.genre
-?
-`
-
-<div style="
-font-size:11px;
-color:#8f857a;
-margin-top:4px;
-">
-
-${escapeHTML(track.genre)}
-
-</div>
-
-`
-:
-""
-}
-
-
-</div>
-
-
-
-<button
-class="play"
-onclick="playTrack(${index})"
-aria-label="Reproducir">
-
-▶
-
-</button>
-
-
-
-<button
-class="share"
-onclick="shareTrack(${index})"
-aria-label="Compartir">
-
-📤
-
-</button>
-
-
-`;
-
-
-lista.appendChild(tarjeta);
-
-
-});
-
-
-}
-
-
-/* =========================
+/* =========================================================
    SEGURIDAD
-========================= */
+========================================================= */
 
 function escapeHTML(text){
 
-return String(text)
+  return String(text ?? "")
 
-.replace(/&/g,"&amp;")
-
-.replace(/</g,"&lt;")
-
-.replace(/>/g,"&gt;")
-
-.replace(/"/g,"&quot;")
-
-.replace(/'/g,"&#039;");
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
 
 }
 
-
-function escapeAttribute(text){
-
-return escapeHTML(text);
-
-}
-
-
-/* =========================
-   REPRODUCTOR
-========================= */
-
-function loadTrack(){
-
-
-if(!tracks[i]){
-
-return;
-
-}
-
-
-audio.src =
-tracks[i].audio;
-
-
-mini.src =
-tracks[i].cover ||
-"Media/logo.png";
-
-
-nowname.textContent =
-tracks[i].name;
-
-
-progress.value=0;
-
-
-time.textContent =
-"0:00 / 0:00";
-
-
-}
-
-
-/* =========================
-   REPRODUCIR
-========================= */
-
-function playTrack(index){
-
-
-if(!tracks[index]){
-
-return;
-
-}
-
-
-i=index;
-
-
-loadTrack();
-
-
-audio.play()
-
-.then(()=>{
-
-main.textContent="⏸";
-
-})
-
-.catch(error=>{
-
-console.log(
-"No se pudo reproducir:",
-error
-);
-
-main.textContent="▶";
-
-});
-
-
-}
-
-
-/* =========================
-   PLAY / PAUSA
-========================= */
-
-function toggle(){
-
-
-if(!tracks.length){
-
-return;
-
-}
-
-
-if(audio.paused){
-
-
-if(!audio.src){
-
-loadTrack();
-
-}
-
-
-audio.play()
-
-.then(()=>{
-
-main.textContent="⏸";
-
-})
-
-.catch(error=>{
-
-console.log(error);
-
-});
-
-
-}else{
-
-
-audio.pause();
-
-
-main.textContent="▶";
-
-
-}
-
-
-}
-
-
-/* =========================
-   ANTERIOR
-========================= */
-
-function prev(){
-
-
-if(!tracks.length){
-
-return;
-
-}
-
-
-i =
-(i-1+tracks.length)
-%
-tracks.length;
-
-
-playTrack(i);
-
-}
-
-
-/* =========================
-   SIGUIENTE
-========================= */
-
-function next(){
-
-
-if(!tracks.length){
-
-return;
-
-}
-
-
-i =
-(i+1)
-%
-tracks.length;
-
-
-playTrack(i);
-
-}
-
-
-/* =========================
-   EVENTOS AUDIO
-========================= */
-
-audio.addEventListener(
-"play",
-()=>{
-
-main.textContent="⏸";
-
-});
-
-
-audio.addEventListener(
-"pause",
-()=>{
-
-main.textContent="▶";
-
-});
-
-
-audio.addEventListener(
-"timeupdate",
-()=>{
-
-
-if(audio.duration){
-
-progress.value =
-(audio.currentTime /
-audio.duration)*100;
-
-}
-
-
-time.textContent =
-formatTime(audio.currentTime)
-+
-" / "
-+
-formatTime(audio.duration);
-
-
-});
-
-
-audio.addEventListener(
-"ended",
-()=>{
-
-next();
-
-});
-
-
-progress.addEventListener(
-"input",
-()=>{
-
-
-if(audio.duration){
-
-audio.currentTime =
-(progress.value/100)
-*
-audio.duration;
-
-}
-
-
-});
-
-
-/* =========================
-   TIEMPO
-========================= */
-
-function formatTime(seconds){
-
-
-if(!isFinite(seconds)){
-
-return "0:00";
-
-}
-
-
-const minutes =
-Math.floor(seconds/60);
-
-
-const secondsPart =
-Math.floor(seconds%60)
-.toString()
-.padStart(2,"0");
-
-
-return minutes+
-":"+
-secondsPart;
-
-}
-
-
-/* =========================
-   COMPARTIR
-========================= */
-
-async function shareTrack(index){
-
-
-if(!tracks[index]){
-
-return;
-
-}
-
-
-const track =
-tracks[index];
-
-
-const shareData={
-
-title:
-track.name+
-" — "+
-(track.artist || "El DIM"),
-
-text:
-"🎵 Escucha "+
-track.name+
-" de "+
-(track.artist || "El DIM")+
-" — Italy Mau Producer",
-
-url:
-track.audio
-
-};
-
-
-try{
-
-
-if(navigator.share){
-
-await navigator.share(
-shareData
-);
-
-}else{
-
-
-await navigator.clipboard.writeText(
-track.audio
-);
-
-
-alert(
-"Enlace de la canción copiado"
-);
-
-
-}
-
-
-}catch(error){
-
-console.log(
-"Compartir cancelado:",
-error
-);
-
-}
-
-}
-
-
-/* =========================
-   PANEL DE SUBIDA
-========================= */
-
-function toggleUpload(){
-
-
-const panel =
-document.getElementById(
-"uploadPanel"
-);
-
-
-panel.classList.toggle(
-"active"
-);
-
-
-}
-
-
-/* =========================
-   MENSAJE SUBIDA
-========================= */
-
-function uploadMessage(
-text,
-type
-){
-
-
-const message =
-document.getElementById(
-"uploadMessage"
-);
-
-
-message.textContent=text;
-
-
-message.className=
-"message show "+
-type;
-
-}
-
-
-/* =========================
-   SUBIR CANCION
-========================= */
-
-async function subirCancion(){
-
-
-const titulo =
-document.getElementById(
-"uploadTitulo"
-).value.trim();
-
-
-const artista =
-document.getElementById(
-"uploadArtista"
-).value.trim()
-||
-"El DIM";
-
-
-const genero =
-document.getElementById(
-"uploadGenero"
-).value.trim();
-
-
-const anio =
-document.getElementById(
-"uploadAnio"
-).value;
-
-
-const audioFile =
-document.getElementById(
-"uploadAudio"
-).files[0];
-
-
-const portadaFile =
-document.getElementById(
-"uploadPortada"
-).files[0];
-
-
-if(!titulo){
-
-uploadMessage(
-"Escribe el título de la canción.",
-"error"
-);
-
-return;
-
-}
-
-
-if(!audioFile){
-
-uploadMessage(
-"Selecciona el archivo MP3.",
-"error"
-);
-
-return;
-
-}
-
-
-if(!portadaFile){
-
-uploadMessage(
-"Selecciona la portada.",
-"error"
-);
-
-return;
-
-}
-
-
-try{
-
-
-uploadMessage(
-"Subiendo canción...",
-"success"
-);
-
-
-/* =========================
-   NOMBRES DE ARCHIVOS
-========================= */
-
-const timestamp =
-Date.now();
-
-
-const audioPath =
-timestamp+
-"-"+
-limpiarNombre(audioFile.name);
-
-
-const portadaPath =
-timestamp+
-"-"+
-limpiarNombre(portadaFile.name);
-
-
-
-/* =========================
-   SUBIR AUDIO
-========================= */
-
-const audioUpload =
-await supabaseClient
-.storage
-.from("songs")
-.upload(
-audioPath,
-audioFile,
-{
-cacheControl:"3600",
-upsert:false,
-contentType:
-audioFile.type ||
-"audio/mpeg"
-}
-);
-
-
-if(audioUpload.error){
-
-throw audioUpload.error;
-
-}
-
-
-
-/* =========================
-   SUBIR PORTADA
-========================= */
-
-const portadaUpload =
-await supabaseClient
-.storage
-.from("portadas")
-.upload(
-portadaPath,
-portadaFile,
-{
-cacheControl:"3600",
-upsert:false,
-contentType:
-portadaFile.type ||
-"image/png"
-}
-);
-
-
-if(portadaUpload.error){
-
-throw portadaUpload.error;
-
-}
-
-
-
-/* =========================
-   URL AUDIO
-========================= */
-
-const audioURL =
-supabaseClient
-.storage
-.from("songs")
-.getPublicUrl(
-audioPath
-).data.publicUrl;
-
-
-
-/* =========================
-   URL PORTADA
-========================= */
-
-const portadaURL =
-supabaseClient
-.storage
-.from("portadas")
-.getPublicUrl(
-portadaPath
-).data.publicUrl;
-
-
-
-/* =========================
-   INSERTAR EN TABLA
-========================= */
-
-const {error} =
-await supabaseClient
-.from("canciones")
-.insert({
-
-titulo:titulo,
-
-artista:artista,
-
-genero:
-genero || null,
-
-anio:
-anio
-?
-Number(anio)
-:
-new Date().getFullYear(),
-
-audio_url:
-audioURL,
-
-portada_url:
-portadaURL,
-
-fecha:
-new Date().toISOString()
-
-});
-
-
-if(error){
-
-throw error;
-
-}
-
-
-/* =========================
-   ÉXITO
-========================= */
-
-uploadMessage(
-"✅ Canción subida correctamente.",
-"success"
-);
-
-
-document.getElementById(
-"uploadTitulo"
-).value="";
-
-
-document.getElementById(
-"uploadGenero"
-).value="";
-
-
-document.getElementById(
-"uploadAudio"
-).value="";
-
-
-document.getElementById(
-"uploadPortada"
-).value="";
-
-
-await cargarCanciones();
-
-
-}catch(error){
-
-
-console.error(
-"Error subiendo canción:",
-error
-);
-
-
-uploadMessage(
-"❌ Error: "+
-(error.message || error),
-"error"
-);
-
-}
-
-}
-
-
-/* =========================
-   LIMPIAR NOMBRE
-========================= */
 
 function limpiarNombre(nombre){
 
-return nombre
+  return String(nombre)
 
-.normalize("NFD")
-.replace(/[\u0300-\u036f]/g,"")
+    .normalize("NFD")
 
-.replace(
-/[^a-zA-Z0-9._-]/g,
-"_"
-);
+    .replace(/[\u0300-\u036f]/g,"")
+
+    .replace(/[^a-zA-Z0-9._-]/g,"-")
+
+    .replace(/-+/g,"-");
 
 }
 
 
-/* =========================
-   INICIAR
-========================= */
+/* =========================================================
+   ONDA VISUAL
+========================================================= */
+
+function crearWave(){
+
+  let html = "";
+
+  for(let n=0;n<42;n++){
+
+    const altura =
+      8 + Math.floor(Math.random()*22);
+
+    html +=
+      `<span style="--h:${altura}px"></span>`;
+
+  }
+
+  return html;
+
+}
+
+
+/* =========================================================
+   CARGAR CANCIONES
+========================================================= */
+
+async function cargarCanciones(){
+
+  const {data,error} =
+    await supabaseClient
+
+      .from("canciones")
+
+      .select(
+        "id,titulo,artista,genero,anio,audio_url,portada_url,fecha"
+      )
+
+      .order(
+        "id",
+        {
+          ascending:false
+        }
+      );
+
+
+  if(error){
+
+    console.error(
+      "Error cargando canciones:",
+      error
+    );
+
+
+    document.getElementById(
+      "listaCanciones"
+    ).innerHTML = `
+
+      <div style="
+        text-align:center;
+        color:#ff7777;
+        padding:25px;
+      ">
+
+        No se pudieron cargar las canciones.
+
+        <br><br>
+
+        ${escapeHTML(error.message)}
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  tracks =
+    (data || []).map(cancion => ({
+
+      id:cancion.id,
+
+      name:cancion.titulo,
+
+      artist:cancion.artista,
+
+      genre:cancion.genero,
+
+      year:cancion.anio,
+
+      audio:cancion.audio_url,
+
+      cover:cancion.portada_url,
+
+      date:cancion.fecha
+
+    }));
+
+
+  mostrarCanciones();
+
+}
+
+
+/* =========================================================
+   MOSTRAR CANCIONES
+========================================================= */
+
+function mostrarCanciones(){
+
+  const lista =
+    document.getElementById(
+      "listaCanciones"
+    );
+
+
+  lista.innerHTML = "";
+
+
+  if(tracks.length === 0){
+
+    lista.innerHTML = `
+
+      <div style="
+        text-align:center;
+        color:#c8c0b7;
+        padding:30px;
+      ">
+
+        Todavía no hay canciones disponibles.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  tracks.forEach(
+    (track,index) => {
+
+      const tarjeta =
+        document.createElement("div");
+
+
+      tarjeta.className =
+        "track";
+
+
+      tarjeta.innerHTML = `
+
+        <img
+
+          class="cover"
+
+          src="${escapeHTML(
+            track.cover || "Media/logo.png"
+          )}"
+
+          alt="${escapeHTML(
+            track.name
+          )}"
+
+          onerror="
+            this.src='Media/logo.png'
+          "
+
+        >
+
+
+        <div class="info">
+
+
+          <div class="name">
+
+            ${escapeHTML(
+              track.name
+            )}
+
+          </div>
+
+
+          <div class="sub">
+
+            ${escapeHTML(
+              track.artist || "El DIM"
+            )}
+
+            ${
+              track.year
+              ?
+              " • " +
+              escapeHTML(
+                String(track.year)
+              )
+              :
+              ""
+            }
+
+          </div>
+
+
+          ${
+            track.genre
+            ?
+            `
+              <div class="genre">
+
+                ${escapeHTML(
+                  track.genre
+                )}
+
+              </div>
+            `
+            :
+            ""
+          }
+
+
+          <div class="wave">
+
+            ${crearWave()}
+
+          </div>
+
+
+        </div>
+
+
+        <button
+
+          class="play"
+
+          onclick="
+            playTrack(${index})
+          "
+
+          aria-label="Reproducir"
+
+          title="Reproducir"
+
+        >
+
+          ▶
+
+        </button>
+
+
+        <button
+
+          class="share"
+
+          onclick="
+            shareTrack(${index})
+          "
+
+          aria-label="Compartir"
+
+          title="Compartir"
+
+        >
+
+          📤
+
+        </button>
+
+
+        <button
+
+          class="delete"
+
+          onclick="
+            eliminarCancion(${index})
+          "
+
+          aria-label="Eliminar"
+
+          title="Eliminar canción"
+
+        >
+
+          🗑️
+
+        </button>
+
+      `;
+
+
+      lista.appendChild(
+        tarjeta
+      );
+
+    }
+  );
+
+}
+/* =========================================================
+   CARGAR TRACK
+========================================================= */
+
+function loadTrack(){
+
+  if(!tracks[i]){
+
+    return;
+
+  }
+
+
+  audio.src =
+    tracks[i].audio;
+
+
+  mini.src =
+    tracks[i].cover ||
+    "Media/logo.png";
+
+
+  mini.onerror = function(){
+
+    this.src =
+      "Media/logo.png";
+
+  };
+
+
+  nowname.textContent =
+    tracks[i].name;
+
+
+  progress.value = 0;
+
+
+  time.textContent =
+    "0:00 / 0:00";
+
+}
+
+
+/* =========================================================
+   REPRODUCIR TRACK
+========================================================= */
+
+function playTrack(index){
+
+  if(!tracks[index]){
+
+    return;
+
+  }
+
+
+  i = index;
+
+
+  loadTrack();
+
+
+  audio.play()
+
+    .then(() => {
+
+      main.textContent =
+        "⏸";
+
+    })
+
+    .catch(error => {
+
+      console.error(
+        "No se pudo reproducir:",
+        error
+      );
+
+      main.textContent =
+        "▶";
+
+    });
+
+}
+
+
+/* =========================================================
+   PLAY / PAUSA
+========================================================= */
+
+function toggle(){
+
+  if(!tracks.length){
+
+    return;
+
+  }
+
+
+  if(audio.paused){
+
+    if(!audio.src){
+
+      loadTrack();
+
+    }
+
+
+    audio.play()
+
+      .then(() => {
+
+        main.textContent =
+          "⏸";
+
+      })
+
+      .catch(error => {
+
+        console.error(error);
+
+      });
+
+  }
+
+  else{
+
+    audio.pause();
+
+    main.textContent =
+      "▶";
+
+  }
+
+}
+/* =========================================================
+   ANTERIOR
+========================================================= */
+
+function prev(){
+
+  if(!tracks.length){
+
+    return;
+
+  }
+
+
+  if(audio.currentTime > 3){
+
+    audio.currentTime = 0;
+
+    return;
+
+  }
+
+
+  i--;
+
+  if(i < 0){
+
+    i =
+      tracks.length - 1;
+
+  }
+
+
+  playTrack(i);
+
+}
+
+
+/* =========================================================
+   SIGUIENTE
+========================================================= */
+
+function next(){
+
+  if(!tracks.length){
+
+    return;
+
+  }
+
+
+  if(playMode === "aleatorio"){
+
+    if(tracks.length === 1){
+
+      playTrack(0);
+
+      return;
+
+    }
+
+
+    let nuevo;
+
+    do{
+
+      nuevo =
+        Math.floor(
+          Math.random() *
+          tracks.length
+        );
+
+    }
+
+    while(nuevo === i);
+
+
+    i = nuevo;
+
+    playTrack(i);
+
+    return;
+
+  }
+
+
+  i++;
+
+
+  if(i >= tracks.length){
+
+    if(playMode === "todas"){
+
+      i = 0;
+
+      playTrack(i);
+
+      return;
+
+    }
+
+
+    i =
+      tracks.length - 1;
+
+
+    audio.pause();
+
+    audio.currentTime = 0;
+
+    main.textContent =
+      "▶";
+
+    return;
+
+  }
+
+
+  playTrack(i);
+
+}
+
+
+/* =========================================================
+   FIN DE CANCIÓN
+========================================================= */
+
+audio.addEventListener(
+  "ended",
+  function(){
+
+    if(!tracks.length){
+
+      return;
+
+    }
+
+
+    /* BUCLE UNA */
+
+    if(playMode === "una"){
+
+      audio.currentTime = 0;
+
+      audio.play();
+
+      return;
+
+    }
+
+
+    /* ALEATORIO */
+
+    if(playMode === "aleatorio"){
+
+      let nuevo;
+
+
+      if(tracks.length === 1){
+
+        nuevo = 0;
+
+      }
+
+      else{
+
+        do{
+
+          nuevo =
+            Math.floor(
+              Math.random() *
+              tracks.length
+            );
+
+        }
+
+        while(nuevo === i);
+
+      }
+
+
+      i = nuevo;
+
+      playTrack(i);
+
+      return;
+
+    }
+
+
+    /* SIGUIENTE */
+
+    i++;
+
+
+    /* BUCLE TODAS */
+
+    if(i >= tracks.length){
+
+      if(playMode === "todas"){
+
+        i = 0;
+
+        playTrack(i);
+
+        return;
+
+      }
+
+
+      /* SEGUIDO */
+
+      i =
+        tracks.length - 1;
+
+      main.textContent =
+        "▶";
+
+      return;
+
+    }
+
+
+    playTrack(i);
+
+  }
+);
+/* =========================================================
+   MODO DE REPRODUCCIÓN
+========================================================= */
+
+function setPlayMode(mode){
+
+  playMode = mode;
+
+
+  const buttons = {
+
+    aleatorio:[
+      "modeRandom",
+      "playerModeRandom"
+    ],
+
+    seguido:[
+      "modeSequential",
+      "playerModeSequential"
+    ],
+
+    una:[
+      "modeOne",
+      "playerModeOne"
+    ],
+
+    todas:[
+      "modeAll",
+      "playerModeAll"
+    ]
+
+  };
+
+
+  document.querySelectorAll(
+    ".mode-button,.player-mode"
+  ).forEach(button => {
+
+    button.classList.remove(
+      "active"
+    );
+
+    button.classList.remove(
+      "blue"
+    );
+
+    button.classList.remove(
+      "one"
+    );
+
+  });
+
+
+  buttons[mode].forEach(
+    id => {
+
+      const button =
+        document.getElementById(id);
+
+
+      if(button){
+
+        button.classList.add(
+          "active"
+        );
+
+
+        if(mode === "una"){
+
+          button.classList.add(
+            "one"
+          );
+
+        }
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   ACTUALIZAR TIEMPO
+========================================================= */
+
+audio.addEventListener(
+  "loadedmetadata",
+  function(){
+
+    actualizarTiempo();
+
+  }
+);
+
+
+audio.addEventListener(
+  "timeupdate",
+  function(){
+
+    actualizarTiempo();
+
+  }
+);
+
+
+function actualizarTiempo(){
+
+  const actual =
+    audio.currentTime || 0;
+
+
+  const duracion =
+    audio.duration || 0;
+
+
+  if(duracion){
+
+    progress.value =
+      (actual / duracion) * 100;
+
+  }
+
+  else{
+
+    progress.value = 0;
+
+  }
+
+
+  time.textContent =
+    `${formatoTiempo(actual)} / ${formatoTiempo(duracion)}`;
+
+}
+
+
+/* =========================================================
+   FORMATO TIEMPO
+========================================================= */
+
+function formatoTiempo(segundos){
+
+  if(!Number.isFinite(segundos)){
+
+    return "0:00";
+
+  }
+
+
+  const minutos =
+    Math.floor(
+      segundos / 60
+    );
+
+
+  const segundosRestantes =
+    Math.floor(
+      segundos % 60
+    );
+
+
+  return `${minutos}:${String(
+    segundosRestantes
+  ).padStart(2,"0")}`;
+
+}
+
+
+/* =========================================================
+   BARRA DE PROGRESO
+========================================================= */
+
+progress.addEventListener(
+  "input",
+  function(){
+
+    if(!audio.duration){
+
+      return;
+
+    }
+
+
+    audio.currentTime =
+      (Number(progress.value) / 100)
+      *
+      audio.duration;
+
+  }
+);
+/* =========================================================
+   COMPARTIR
+========================================================= */
+
+async function shareTrack(index){
+
+  const track =
+    tracks[index];
+
+
+  if(!track){
+
+    return;
+
+  }
+
+
+  const texto =
+    `${track.name} — EL DIM`;
+
+
+  try{
+
+    if(
+      navigator.share
+    ){
+
+      await navigator.share({
+
+        title:track.name,
+
+        text:texto,
+
+        url:track.audio
+
+      });
+
+      return;
+
+    }
+
+
+    await navigator.clipboard.writeText(
+      track.audio
+    );
+
+
+    alert(
+      "Enlace de la canción copiado."
+    );
+
+  }
+
+  catch(error){
+
+    console.log(
+      "Compartir cancelado:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   ELIMINAR CANCIÓN
+========================================================= */
+
+async function eliminarCancion(index){
+
+  const track =
+    tracks[index];
+
+
+  if(!track){
+
+    return;
+
+  }
+
+
+  const confirmar =
+    confirm(
+      `¿Eliminar "${track.name}"?`
+    );
+
+
+  if(!confirmar){
+
+    return;
+
+  }
+
+
+  try{
+
+    /*
+      Primero eliminamos
+      el registro de la tabla.
+    */
+
+    const {error:dbError} =
+      await supabaseClient
+
+        .from("canciones")
+
+        .delete()
+
+        .eq("id",track.id);
+
+
+    if(dbError){
+
+      throw dbError;
+
+    }
+
+
+    /*
+      Intentamos eliminar
+      también los archivos de Storage.
+    */
+
+    const audioPath =
+      obtenerPathStorage(
+        track.audio,
+        "songs"
+      );
+
+
+    const portadaPath =
+      obtenerPathStorage(
+        track.cover,
+        "portadas"
+      );
+
+
+    if(audioPath){
+
+      await supabaseClient
+
+        .storage
+
+        .from("songs")
+
+        .remove([
+          audioPath
+        ]);
+
+    }
+
+
+    if(portadaPath){
+
+      await supabaseClient
+
+        .storage
+
+        .from("portadas")
+
+        .remove([
+          portadaPath
+        ]);
+
+    }
+
+
+    /*
+      Si estábamos
+      reproduciendo esa canción,
+      detenemos el audio.
+    */
+
+    if(i === index){
+
+      audio.pause();
+
+      audio.removeAttribute(
+        "src"
+      );
+
+      audio.load();
+
+      main.textContent =
+        "▶";
+
+      mini.src =
+        "Media/logo.png";
+
+      nowname.textContent =
+        "Selecciona una canción";
+
+      time.textContent =
+        "0:00 / 0:00";
+
+      progress.value = 0;
+
+    }
+
+
+    await cargarCanciones();
+
+
+    if(
+      tracks.length &&
+      i >= tracks.length
+    ){
+
+      i =
+        tracks.length - 1;
+
+    }
+
+
+  }
+
+  catch(error){
+
+    console.error(
+      "Error eliminando canción:",
+      error
+    );
+
+
+    alert(
+      "No se pudo eliminar la canción.\n\n" +
+      error.message
+    );
+
+  }
+
+}
+/* =========================================================
+   OBTENER RUTA STORAGE
+========================================================= */
+
+function obtenerPathStorage(
+  url,
+  bucket
+){
+
+  if(!url){
+
+    return null;
+
+  }
+
+
+  try{
+
+    const marker =
+      `/storage/v1/object/public/${bucket}/`;
+
+
+    const index =
+      url.indexOf(marker);
+
+
+    if(index === -1){
+
+      return null;
+
+    }
+
+
+    return decodeURIComponent(
+      url.substring(
+        index + marker.length
+      )
+    );
+
+  }
+
+  catch(error){
+
+    return null;
+
+  }
+
+}
+
+
+/* =========================================================
+   PANEL DE SUBIDA
+========================================================= */
+
+function toggleUpload(){
+
+  const panel =
+    document.getElementById(
+      "uploadPanel"
+    );
+
+
+  panel.classList.toggle(
+    "active"
+  );
+
+}
+
+
+/* =========================================================
+   MENSAJE SUBIDA
+========================================================= */
+
+function mostrarMensaje(
+  texto,
+  tipo
+){
+
+  const mensaje =
+    document.getElementById(
+      "uploadMessage"
+    );
+
+
+  mensaje.textContent =
+    texto;
+
+
+  mensaje.className =
+    "message show " +
+    tipo;
+
+}
+  /* =========================================================
+   SUBIR CANCIÓN
+========================================================= */
+
+async function subirCancion(){
+
+  const titulo =
+    document.getElementById(
+      "uploadTitulo"
+    ).value.trim();
+
+
+  const artista =
+    document.getElementById(
+      "uploadArtista"
+    ).value.trim()
+    ||
+    "El DIM";
+
+
+  const genero =
+    document.getElementById(
+      "uploadGenero"
+    ).value.trim();
+
+
+  const anio =
+    document.getElementById(
+      "uploadAnio"
+    ).value;
+
+
+  const audioFile =
+    document.getElementById(
+      "uploadAudio"
+    ).files[0];
+
+
+  const portadaFile =
+    document.getElementById(
+      "uploadPortada"
+    ).files[0];
+
+
+  if(!titulo){
+
+    mostrarMensaje(
+      "Escribe el título de la canción.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(!audioFile){
+
+    mostrarMensaje(
+      "Selecciona el archivo MP3.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(!portadaFile){
+
+    mostrarMensaje(
+      "Selecciona la portada.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    mostrarMensaje(
+      "Subiendo canción...",
+      "success"
+    );
+
+
+    const marca =
+      Date.now();
+
+
+    const audioPath =
+      `${marca}-${limpiarNombre(
+        audioFile.name
+      )}`;
+
+
+    const portadaPath =
+      `${marca}-${limpiarNombre(
+        portadaFile.name
+      )}`;
+
+
+    /*
+      SUBIR MP3
+    */
+
+    const {
+      error:audioError
+    } = await supabaseClient
+
+      .storage
+
+      .from("songs")
+
+      .upload(
+        audioPath,
+        audioFile,
+        {
+          cacheControl:"3600",
+
+          upsert:false,
+
+          contentType:
+            audioFile.type ||
+            "audio/mpeg"
+        }
+      );
+
+
+    if(audioError){
+
+      throw audioError;
+
+    }
+
+
+    /*
+      SUBIR PORTADA
+    */
+
+    const {
+      error:portadaError
+    } = await supabaseClient
+
+      .storage
+
+      .from("portadas")
+
+      .upload(
+        portadaPath,
+        portadaFile,
+        {
+          cacheControl:"3600",
+
+          upsert:false,
+
+          contentType:
+            portadaFile.type ||
+            "image/jpeg"
+        }
+      );
+
+
+    if(portadaError){
+
+      /*
+        Si la portada falla,
+        intentamos borrar el MP3.
+      */
+
+      await supabaseClient
+
+        .storage
+
+        .from("songs")
+
+        .remove([
+          audioPath
+        ]);
+
+
+      throw portadaError;
+
+    }
+
+
+    /*
+      URL PÚBLICA DEL AUDIO
+    */
+
+    const {
+      data:audioPublic
+    } =
+      supabaseClient
+
+        .storage
+
+        .from("songs")
+
+        .getPublicUrl(
+          audioPath
+        );
+
+
+    /*
+      URL PÚBLICA DE LA PORTADA
+    */
+
+    const {
+      data:portadaPublic
+    } =
+      supabaseClient
+
+        .storage
+
+        .from("portadas")
+
+        .getPublicUrl(
+          portadaPath
+        );
+
+
+    /*
+      GUARDAR EN TABLA
+    */
+
+    const {
+      error:insertError
+    } =
+      await supabaseClient
+
+        .from("canciones")
+
+        .insert({
+
+          titulo:titulo,
+
+          artista:artista,
+
+          genero:genero,
+
+          anio:
+            anio
+            ?
+            Number(anio)
+            :
+            null,
+
+          audio_url:
+            audioPublic.publicUrl,
+
+          portada_url:
+            portadaPublic.publicUrl
+
+        });
+
+
+    if(insertError){
+
+      /*
+        Si falla la tabla,
+        eliminamos archivos.
+      */
+
+      await supabaseClient
+
+        .storage
+
+        .from("songs")
+
+        .remove([
+          audioPath
+        ]);
+
+
+      await supabaseClient
+
+        .storage
+
+        .from("portadas")
+
+        .remove([
+          portadaPath
+        ]);
+
+
+      throw insertError;
+
+    }
+
+
+    mostrarMensaje(
+      "✅ Canción subida correctamente.",
+      "success"
+    );
+
+
+    /*
+      Limpiar formulario.
+    */
+
+    document.getElementById(
+      "uploadTitulo"
+    ).value = "";
+
+
+    document.getElementById(
+      "uploadGenero"
+    ).value = "";
+
+
+    document.getElementById(
+      "uploadAudio"
+    ).value = "";
+
+
+    document.getElementById(
+      "uploadPortada"
+    ).value = "";
+
+
+    /*
+      Recargar canciones.
+    */
+
+    await cargarCanciones();
+
+
+    /*
+      Ocultar panel después
+      de un pequeño momento.
+    */
+
+    setTimeout(() => {
+
+      document.getElementById(
+        "uploadPanel"
+      ).classList.remove(
+        "active"
+      );
+
+    },1200);
+
+  }
+
+  catch(error){
+
+    console.error(
+      "Error subiendo canción:",
+      error
+    );
+
+
+    mostrarMensaje(
+      "❌ Error: " +
+      error.message,
+      "error"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   EVENTOS AUDIO
+========================================================= */
+
+audio.addEventListener(
+  "play",
+  function(){
+
+    main.textContent =
+      "⏸";
+
+  }
+);
+
+
+audio.addEventListener(
+  "pause",
+  function(){
+
+    main.textContent =
+      "▶";
+
+  }
+);
+
+
+/* =========================================================
+   INICIO
+========================================================= */
+
+setPlayMode(
+  "seguido"
+);
+
 
 cargarCanciones();
 
 
-
-/* =========================
+/* =========================================================
    SERVICE WORKER
-========================= */
+========================================================= */
 
 if(
-"serviceWorker"
-in navigator
+  "serviceWorker" in navigator
 ){
 
-window.addEventListener(
-"load",
-()=>{
+  window.addEventListener(
+    "load",
+    function(){
 
-navigator.serviceWorker
+      navigator.serviceWorker
 
-.register("./sw.js")
+        .register(
+          "./service-worker.js"
+        )
 
-.catch(error=>{
+        .catch(
+          error => {
 
-console.log(
-"Service Worker:",
-error
-);
+            console.log(
+              "Service Worker:",
+              error
+            );
 
-});
+          }
+        );
 
-});
+    }
+  );
 
 }
 
 </script>
 
-
 </body>
 
-  </html>
+</html>
