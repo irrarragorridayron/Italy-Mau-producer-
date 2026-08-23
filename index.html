@@ -60,6 +60,13 @@ section{padding:24px 24px 8px}
 }
 .album-back:active{transform:scale(.96)}
 .album-empty{text-align:center;color:#c8c0b7;padding:30px}
+
+.album-edit-cover{margin-top:10px;padding:7px 10px;border:1px solid var(--gold);border-radius:10px;background:#120d06;color:var(--gold2);font-size:12px;font-weight:bold;cursor:pointer}
+.album-edit-cover:active{transform:scale(.96)}
+.album-cover-preview{display:block;width:100%;max-width:220px;aspect-ratio:1/1;object-fit:cover;margin:10px auto;border-radius:16px;border:1px solid #6d4b20}
+.album-cover-panel{margin-top:14px;padding:16px;border:1px solid #6c4b20;border-radius:18px;background:linear-gradient(135deg,#17130e,#090909)}
+.album-cover-panel h3{margin:0 0 10px;color:var(--gold2)}
+.album-cover-panel input[type=file]{width:100%;padding:10px;border:1px solid #6c4b20;border-radius:12px;background:#090909;color:#fff}
 @media(max-width:700px){
   .album-grid{grid-template-columns:1fr;gap:12px}
   .album-cover{width:90px;height:90px;min-width:90px}.album-name{font-size:17px}
@@ -233,6 +240,16 @@ footer{text-align:center;color:#756b62;font-size:11px;padding:25px 20px}
     <button class="upload-submit" onclick="subirCancion()">⬆️ SUBIR CANCIÓN</button>
     <button class="cancel-button" onclick="toggleUpload()">Cancelar</button>
     <div id="uploadMessage" class="message"></div>
+  </div>
+
+  <div id="albumCoverPanel" class="album-cover-panel" style="display:none">
+    <h3>🖼️ Cambiar portada del álbum</h3>
+    <div id="albumCoverAlbumName" style="color:#c8c0b7;margin-bottom:8px"></div>
+    <img id="albumCoverPreview" class="album-cover-preview" src="Media/logo.png" alt="Vista previa">
+    <input id="albumCoverFile" type="file" accept="image/*" onchange="previsualizarPortadaAlbum(event)">
+    <button class="upload-submit" onclick="guardarPortadaAlbum()">⬆️ GUARDAR PORTADA</button>
+    <button class="cancel-button" onclick="cerrarPanelPortadaAlbum()">Cancelar</button>
+    <div id="albumCoverMessage" class="message"></div>
   </div>
 </section>
 
@@ -659,6 +676,7 @@ function mostrarAlbumes(){
         <div class="album-count">${albumTracks.length} ${albumTracks.length===1?"canción":"canciones"}</div>
         ${album.description?`<div class="album-count">${escapeHTML(album.description)}</div>`:""}
         <div class="album-open">ABRIR ÁLBUM →</div>
+        <button class="album-edit-cover" type="button" onclick="event.stopPropagation();abrirCambiarPortada(${JSON.stringify(album.id)})">🖼️ CAMBIAR PORTADA</button>
       </div>`;
 
     tarjeta.addEventListener("click",()=>abrirAlbum(album.id));
@@ -873,6 +891,62 @@ async function eliminarCancion(index){
     await cargarCanciones();
     if(tracks.length&&i>=tracks.length)i=tracks.length-1;
   }catch(error){console.error("Error eliminando canción:",error);alert("No se pudo eliminar la canción.\n\n"+error.message)}
+}
+
+let albumPortadaId=null;
+
+function abrirCambiarPortada(albumId){
+  const album=albums.find(a=>String(a.id)===String(albumId));
+  if(!album)return;
+  albumPortadaId=album.id;
+  const panel=document.getElementById("albumCoverPanel");
+  document.getElementById("albumCoverAlbumName").textContent=`Álbum: ${album.title}`;
+  document.getElementById("albumCoverPreview").src=album.cover_url||FALLBACK_COVER;
+  document.getElementById("albumCoverFile").value="";
+  document.getElementById("albumCoverMessage").className="message";
+  document.getElementById("albumCoverMessage").textContent="";
+  panel.style.display="block";
+  panel.scrollIntoView({behavior:"smooth",block:"center"});
+}
+
+function cerrarPanelPortadaAlbum(){
+  albumPortadaId=null;
+  const panel=document.getElementById("albumCoverPanel");
+  if(panel)panel.style.display="none";
+}
+
+function previsualizarPortadaAlbum(event){
+  const file=event.target.files[0];
+  if(!file)return;
+  const preview=document.getElementById("albumCoverPreview");
+  preview.src=URL.createObjectURL(file);
+}
+
+async function guardarPortadaAlbum(){
+  if(albumPortadaId===null||albumPortadaId===undefined)return;
+  const file=document.getElementById("albumCoverFile").files[0];
+  const msg=document.getElementById("albumCoverMessage");
+  if(!file){msg.textContent="Selecciona una imagen de portada.";msg.className="message show error";return;}
+  const album=albums.find(a=>String(a.id)===String(albumPortadaId));
+  if(!album)return;
+  try{
+    msg.textContent="Subiendo nueva portada...";msg.className="message show success";
+    const path=`albums/${Date.now()}-${limpiarNombre(file.name)}`;
+    const {error:uploadError}=await supabaseClient.storage.from("portadas").upload(path,file,{cacheControl:"3600",upsert:false,contentType:file.type||"image/jpeg"});
+    if(uploadError)throw uploadError;
+    const {data:publicData}=supabaseClient.storage.from("portadas").getPublicUrl(path);
+    const nuevaUrl=publicData.publicUrl;
+    const {error:updateError}=await supabaseClient.from(ALBUMS_TABLE).update({cover_url:nuevaUrl}).eq("id",album.id);
+    if(updateError){await supabaseClient.storage.from("portadas").remove([path]);throw updateError;}
+    album.cover_url=nuevaUrl;
+    try{localStorage.setItem("italyMauAlbums",JSON.stringify(albums));}catch(e){}
+    msg.textContent="Portada actualizada correctamente. ✓";msg.className="message show success";
+    mostrarAlbumes();
+    setTimeout(cerrarPanelPortadaAlbum,900);
+  }catch(error){
+    console.error("Error cambiando portada del álbum:",error);
+    msg.textContent="No se pudo cambiar la portada: "+error.message;msg.className="message show error";
+  }
 }
 
 function toggleUpload(){document.getElementById("uploadPanel").classList.toggle("active")}
