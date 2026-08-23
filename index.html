@@ -1088,7 +1088,7 @@ function mostrarAlbumes(){
         <div class="album-count">${albumTracks.length} ${albumTracks.length===1?"canción":"canciones"}</div>
         ${album.description?`<div class="album-count">${escapeHTML(album.description)}</div>`:""}
         <div class="album-open">ABRIR ÁLBUM →</div>
-        <button class="album-edit-cover admin-only" type="button">🖼️ CREAR / CAMBIAR PORTADA</button>
+        <button class="album-edit-cover admin-only${isAdmin ? " admin-visible" : ""}" type="button">🖼️ CREAR / CAMBIAR PORTADA</button>
       </div>`;
 
     // No usamos onclick inline para el ID del álbum: los álbumes heredados
@@ -1157,7 +1157,7 @@ function mostrarCanciones(){
         <button class="action-btn play" onclick="playTrack(${index})" aria-label="Reproducir"><img src="${icon("play.png")}" alt=""></button>
         <button class="action-btn offline" onclick="guardarOffline(${index})" aria-label="Guardar sin Internet" title="Guardar para escuchar offline"><img class="offline-img" src="./Icons/Download.png" alt=""></button>
         <button class="action-btn share" onclick="shareTrack(${index})" aria-label="Compartir"><img src="${icon("share.png")}" alt=""></button>
-        <button class="action-btn delete admin-only" onclick="eliminarCancion(${index})" aria-label="Eliminar"><img src="${icon("Delete.png")}" alt=""></button>
+        <button class="action-btn delete admin-only${isAdmin ? " admin-visible" : ""}" onclick="eliminarCancion(${index})" aria-label="Eliminar"><img src="${icon("Delete.png")}" alt=""></button>
       </div>`;
     lista.appendChild(tarjeta);
   });
