@@ -576,6 +576,95 @@ function construirAlbumesDesdeCanciones(){
   return Array.from(mapa.values());
 }
 
+/*
+ * IMPORTANTE:
+ * Algunos álbumes pueden existir en canciones pero no en la tabla "albums".
+ * En ese caso se crean automáticamente en "albums". Si la política de
+ * Supabase no permite INSERT, el álbum queda como "legacy" y el cambio de
+ * portada se guarda directamente en las canciones como respaldo.
+ */
+async function sincronizarAlbumesFaltantes(){
+  const inferidos=construirAlbumesDesdeCanciones();
+  const existentes=new Map(albums.map(a=>[normalizarTexto(a.title),a]));
+
+  for(const candidato of inferidos){
+    const key=normalizarTexto(candidato.title);
+    if(existentes.has(key))continue;
+
+    try{
+      const {data,error}=await supabaseClient
+        .from(ALBUMS_TABLE)
+        .insert({
+          title:candidato.title,
+          description:"",
+          cover_url:candidato.cover_url||""
+        })
+        .select("id,title,description,cover_url,created_at")
+        .single();
+
+      if(!error && data){
+        const album={
+          id:data.id,
+          title:(data.title||candidato.title).trim(),
+          description:data.description||"",
+          cover_url:data.cover_url||candidato.cover_url||"",
+          created_at:data.created_at||null
+        };
+        albums.push(album);
+        existentes.set(key,album);
+        continue;
+      }
+
+      console.warn("No se pudo crear el álbum automáticamente:",candidato.title,error);
+    }catch(error){
+      console.warn("No se pudo sincronizar el álbum:",candidato.title,error);
+    }
+
+    // Fallback: lo mantenemos visible aunque no exista en "albums".
+    albums.push(candidato);
+    existentes.set(key,candidato);
+  }
+}
+
+async function buscarAlbumPorTitulo(titulo){
+  try{
+    const {data,error}=await supabaseClient
+      .from(ALBUMS_TABLE)
+      .select("id,title,description,cover_url,created_at")
+      .eq("title",titulo)
+      .limit(1);
+
+    if(error)throw error;
+    return data?.[0]||null;
+  }catch(error){
+    console.warn("No se pudo buscar el álbum por título:",error);
+    return null;
+  }
+}
+
+async function crearAlbumReal(titulo,coverUrl=""){
+  try{
+    const existente=await buscarAlbumPorTitulo(titulo);
+    if(existente)return existente;
+
+    const {data,error}=await supabaseClient
+      .from(ALBUMS_TABLE)
+      .insert({
+        title:titulo,
+        description:"",
+        cover_url:coverUrl||""
+      })
+      .select("id,title,description,cover_url,created_at")
+      .single();
+
+    if(error)throw error;
+    return data||null;
+  }catch(error){
+    console.warn("No se pudo crear el registro del álbum:",titulo,error);
+    return null;
+  }
+}
+
 async function cargarCanciones(){
   const claveTracks="italyMauCatalogo";
   const claveAlbums="italyMauAlbums";
@@ -606,12 +695,9 @@ async function cargarCanciones(){
         cover_url:a.cover_url||"",created_at:a.created_at||null
       })).filter(a=>a.title);
 
-      // Compatibilidad: si todavía existen canciones con un álbum que no está
-      // en la tabla albums, las añadimos como álbumes heredados para no perderlas.
-      const existentes=new Set(albums.map(a=>normalizarTexto(a.title)));
-      construirAlbumesDesdeCanciones().forEach(a=>{
-        if(!existentes.has(normalizarTexto(a.title)))albums.push(a);
-      });
+      // Compatibilidad y sincronización: si una canción pertenece a un
+      // álbum que todavía no tiene fila en "albums", intentamos crearla.
+      await sincronizarAlbumesFaltantes();
     }
 
     tracks=allTracks.slice();
@@ -924,28 +1010,134 @@ function previsualizarPortadaAlbum(event){
 
 async function guardarPortadaAlbum(){
   if(albumPortadaId===null||albumPortadaId===undefined)return;
+
   const file=document.getElementById("albumCoverFile").files[0];
   const msg=document.getElementById("albumCoverMessage");
-  if(!file){msg.textContent="Selecciona una imagen de portada.";msg.className="message show error";return;}
+  if(!file){
+    msg.textContent="Selecciona una imagen de portada.";
+    msg.className="message show error";
+    return;
+  }
+
   const album=albums.find(a=>String(a.id)===String(albumPortadaId));
   if(!album)return;
+
   try{
-    msg.textContent="Subiendo nueva portada...";msg.className="message show success";
+    msg.textContent="Subiendo nueva portada...";
+    msg.className="message show success";
+
     const path=`albums/${Date.now()}-${limpiarNombre(file.name)}`;
-    const {error:uploadError}=await supabaseClient.storage.from("portadas").upload(path,file,{cacheControl:"3600",upsert:false,contentType:file.type||"image/jpeg"});
+    const {error:uploadError}=await supabaseClient.storage
+      .from("portadas")
+      .upload(path,file,{
+        cacheControl:"3600",
+        upsert:false,
+        contentType:file.type||"image/jpeg"
+      });
+
     if(uploadError)throw uploadError;
-    const {data:publicData}=supabaseClient.storage.from("portadas").getPublicUrl(path);
+
+    const {data:publicData}=supabaseClient.storage
+      .from("portadas")
+      .getPublicUrl(path);
+
     const nuevaUrl=publicData.publicUrl;
-    const {error:updateError}=await supabaseClient.from(ALBUMS_TABLE).update({cover_url:nuevaUrl}).eq("id",album.id);
-    if(updateError){await supabaseClient.storage.from("portadas").remove([path]);throw updateError;}
+    let guardadaEnAlbums=false;
+
+    /*
+     * 1) Álbum normal: actualizar por ID y pedir la fila actualizada.
+     * Esto evita el falso "éxito" de Supabase cuando el ID no existe.
+     */
+    if(!String(album.id).startsWith("legacy-")){
+      const {data:updateData,error:updateError}=await supabaseClient
+        .from(ALBUMS_TABLE)
+        .update({cover_url:nuevaUrl})
+        .eq("id",album.id)
+        .select("id,title,description,cover_url,created_at");
+
+      if(updateError)throw updateError;
+      guardadaEnAlbums=Array.isArray(updateData)&&updateData.length>0;
+    }
+
+    /*
+     * 2) Si era un álbum legacy o el ID no se encontró, buscamos/creamos
+     * el registro real usando el título.
+     */
+    if(!guardadaEnAlbums){
+      const realAlbum=await crearAlbumReal(album.title,nuevaUrl);
+
+      if(realAlbum){
+        const {data:updateData,error:updateError}=await supabaseClient
+          .from(ALBUMS_TABLE)
+          .update({cover_url:nuevaUrl})
+          .eq("id",realAlbum.id)
+          .select("id,title,description,cover_url,created_at");
+
+        if(updateError)throw updateError;
+
+        if(Array.isArray(updateData)&&updateData.length){
+          album.id=updateData[0].id;
+          album.title=(updateData[0].title||album.title).trim();
+          album.description=updateData[0].description||"";
+          album.cover_url=updateData[0].cover_url||nuevaUrl;
+          album.created_at=updateData[0].created_at||null;
+          delete album.legacy;
+          guardadaEnAlbums=true;
+        }
+      }
+    }
+
+    /*
+     * 3) Respaldo para instalaciones donde RLS no permite crear/actualizar
+     * "albums": actualizamos la portada de todas las canciones del álbum.
+     * La tarjeta seguirá mostrando la nueva portada aunque no exista una fila
+     * en "albums".
+     */
+    if(!guardadaEnAlbums){
+      const {error:songsUpdateError}=await supabaseClient
+        .from(SONGS_TABLE)
+        .update({portada_url:nuevaUrl})
+        .eq("album",album.title);
+
+      if(songsUpdateError){
+        await supabaseClient.storage.from("portadas").remove([path]);
+        throw new Error(
+          "No se pudo guardar la portada del álbum. "+
+          "Revisa las políticas RLS de las tablas albums y canciones. "+
+          songsUpdateError.message
+        );
+      }
+
+      allTracks.forEach(track=>{
+        if(normalizarTexto(track.album)===normalizarTexto(album.title)){
+          track.cover=nuevaUrl;
+        }
+      });
+    }
+
     album.cover_url=nuevaUrl;
-    try{localStorage.setItem("italyMauAlbums",JSON.stringify(albums));}catch(e){}
-    msg.textContent="Portada actualizada correctamente. ✓";msg.className="message show success";
+
+    // Actualizar inmediatamente la copia local.
+    try{
+      localStorage.setItem("italyMauAlbums",JSON.stringify(albums));
+      localStorage.setItem("italyMauCatalogo",JSON.stringify(allTracks));
+    }catch(e){}
+
+    msg.textContent="Portada actualizada correctamente. ✓";
+    msg.className="message show success";
+
     mostrarAlbumes();
+
+    if(currentAlbum!==null){
+      mostrarCanciones();
+    }
+
     setTimeout(cerrarPanelPortadaAlbum,900);
+
   }catch(error){
     console.error("Error cambiando portada del álbum:",error);
-    msg.textContent="No se pudo cambiar la portada: "+error.message;msg.className="message show error";
+    msg.textContent="No se pudo cambiar la portada: "+error.message;
+    msg.className="message show error";
   }
 }
 
@@ -966,7 +1158,16 @@ async function subirCancion(){
     const {data:audioPublic}=supabaseClient.storage.from("songs").getPublicUrl(audioPath);
     const {data:portadaPublic}=supabaseClient.storage.from("portadas").getPublicUrl(portadaPath);
     const {error:insertError}=await supabaseClient.from("canciones").insert({album,titulo,artista,genero,anio:anio?Number(anio):null,audio_url:audioPublic.publicUrl,portada_url:portadaPublic.publicUrl});
-    if(insertError){await supabaseClient.storage.from("songs").remove([audioPath]);await supabaseClient.storage.from("portadas").remove([portadaPath]);throw insertError}
+    if(insertError){
+      await supabaseClient.storage.from("songs").remove([audioPath]);
+      await supabaseClient.storage.from("portadas").remove([portadaPath]);
+      throw insertError;
+    }
+
+    // Si es un álbum nuevo, intentamos crear también su registro en "albums".
+    // Así desde el primer momento tendrá una portada de álbum independiente.
+    await crearAlbumReal(album,portadaPublic.publicUrl);
+
     mostrarMensaje("Canción subida correctamente.","success");
     ["uploadAlbum","uploadTitulo","uploadGenero","uploadAudio","uploadPortada"].forEach(id=>{document.getElementById(id).value=""});
     await cargarCanciones();
