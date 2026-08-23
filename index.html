@@ -229,7 +229,7 @@ footer{text-align:center;color:#756b62;font-size:11px;padding:25px 20px}
 
   <div id="uploadPanel" class="upload-panel">
     <h3>🎵 Nueva canción</h3>
-    <label>Álbum</label><input id="uploadAlbum" list="albumOptions" type="text" placeholder="Nombre del álbum">
+    <label>Álbum</label><input id="uploadAlbum" list="albumOptions" type="text" placeholder="Nombre del álbum nuevo">
     <datalist id="albumOptions"></datalist>
     <label>Título</label><input id="uploadTitulo" type="text" placeholder="Nombre de la canción">
     <label>Artista</label><input id="uploadArtista" type="text" placeholder="El DIM" value="El DIM">
@@ -557,7 +557,7 @@ function actualizarSelectorAlbumes(){
   const lista=document.getElementById("albumOptions");
   if(!lista)return;
   lista.innerHTML="";
-  albums.forEach(album=>{
+  albums.filter(album=>!esAlbumExcluido(album.title)).forEach(album=>{
     const option=document.createElement("option");
     option.value=album.title||"";
     lista.appendChild(option);
@@ -568,7 +568,7 @@ function construirAlbumesDesdeCanciones(){
   const mapa=new Map();
   allTracks.forEach(track=>{
     const title=(track.album||"").trim();
-    if(!title)return;
+    if(!title || esAlbumExcluido(title))return;
     const key=normalizarTexto(title);
     if(!mapa.has(key)){
       mapa.set(key,{id:"legacy-"+key,title,description:"",cover_url:track.cover||"",created_at:track.date||null,legacy:true});
@@ -814,6 +814,22 @@ function portadaAlbum(album,albumTracks=[]){
   return album?.offline_cover || album?.cover_url || albumTracks[0]?.cover || FALLBACK_COVER;
 }
 
+const ALBUM_EXCLUIDO="mi primer album";
+
+function esAlbumExcluido(titulo){
+  return normalizarTexto(titulo)===ALBUM_EXCLUIDO;
+}
+
+function filtrarAlbumExcluido(){
+  albums=albums.filter(a=>!esAlbumExcluido(a.title));
+  allTracks=allTracks.filter(t=>!esAlbumExcluido(t.album));
+  tracks=tracks.filter(t=>!esAlbumExcluido(t.album));
+  try{
+    localStorage.setItem("italyMauCatalogo",JSON.stringify(allTracks));
+    guardarAlbumsLocalmente();
+  }catch(e){}
+}
+
 async function cargarCanciones(){
   const claveTracks="italyMauCatalogo";
   const claveAlbums="italyMauAlbums";
@@ -834,6 +850,7 @@ async function cargarCanciones(){
       year:c.anio,audio:c.audio_url,cover:c.portada_url,date:c.fecha,
       album:(c.album||"").trim()
     }));
+    allTracks=allTracks.filter(t=>!esAlbumExcluido(t.album));
 
     if(albumsResult.error){
       console.warn("No se pudieron cargar los álbumes desde Supabase:",albumsResult.error);
@@ -842,13 +859,14 @@ async function cargarCanciones(){
       albums=(albumsResult.data||[]).map(a=>({
         id:a.id,title:(a.title||"").trim(),description:a.description||"",
         cover_url:a.cover_url||"",created_at:a.created_at||null
-      })).filter(a=>a.title);
+      })).filter(a=>a.title && !esAlbumExcluido(a.title));
 
       // Compatibilidad y sincronización: si una canción pertenece a un
       // álbum que todavía no tiene fila en "albums", intentamos crearla.
       await sincronizarAlbumesFaltantes();
     }
 
+    filtrarAlbumExcluido();
     aplicarPortadasOffline();
     tracks=allTracks.slice();
     currentAlbum=null;
@@ -872,6 +890,7 @@ async function cargarCanciones(){
       if(Array.isArray(localTracks) && localTracks.length){
         allTracks=localTracks.map(t=>({...t,album:(t.album||"").trim()}));
         albums=Array.isArray(localAlbums)&&localAlbums.length?localAlbums:construirAlbumesDesdeCanciones();
+        filtrarAlbumExcluido();
         aplicarPortadasOffline();
         tracks=allTracks.slice();
         currentAlbum=null;
@@ -916,8 +935,21 @@ function mostrarAlbumes(){
         <div class="album-count">${albumTracks.length} ${albumTracks.length===1?"canción":"canciones"}</div>
         ${album.description?`<div class="album-count">${escapeHTML(album.description)}</div>`:""}
         <div class="album-open">ABRIR ÁLBUM →</div>
-        <button class="album-edit-cover" type="button" onclick="event.stopPropagation();abrirCambiarPortada(${JSON.stringify(album.id)})">🖼️ CREAR / CAMBIAR PORTADA</button>
+        <button class="album-edit-cover" type="button">🖼️ CREAR / CAMBIAR PORTADA</button>
       </div>`;
+
+    // No usamos onclick inline para el ID del álbum: los álbumes heredados
+    // usan IDs de texto (por ejemplo "legacy-mi regueton para ti") y las
+    // comillas del atributo HTML podían romper el botón. El listener directo
+    // funciona tanto con IDs numéricos como con IDs de texto.
+    const botonPortada=tarjeta.querySelector(".album-edit-cover");
+    if(botonPortada){
+      botonPortada.addEventListener("click",event=>{
+        event.preventDefault();
+        event.stopPropagation();
+        abrirCambiarPortada(album.id);
+      });
+    }
 
     tarjeta.addEventListener("click",()=>abrirAlbum(album.id));
     lista.appendChild(tarjeta);
@@ -1306,7 +1338,9 @@ function toggleUpload(){document.getElementById("uploadPanel").classList.toggle(
 function mostrarMensaje(texto,tipo){const m=document.getElementById("uploadMessage");m.textContent=texto;m.className="message show "+tipo}
 
 async function subirCancion(){
-  const album=document.getElementById("uploadAlbum").value.trim()||"Sencillos",titulo=document.getElementById("uploadTitulo").value.trim(),artista=document.getElementById("uploadArtista").value.trim()||"El DIM",genero=document.getElementById("uploadGenero").value.trim(),anio=document.getElementById("uploadAnio").value;
+  const album=document.getElementById("uploadAlbum").value.trim(),titulo=document.getElementById("uploadTitulo").value.trim(),artista=document.getElementById("uploadArtista").value.trim()||"El DIM",genero=document.getElementById("uploadGenero").value.trim(),anio=document.getElementById("uploadAnio").value;
+  if(!album)return mostrarMensaje("Escribe el nombre del álbum donde irá la canción.","error");
+  if(esAlbumExcluido(album))return mostrarMensaje("Ese álbum está desactivado. Escribe el nombre de tu álbum nuevo.","error");
   const audioFile=document.getElementById("uploadAudio").files[0],portadaFile=document.getElementById("uploadPortada").files[0];
   if(!titulo)return mostrarMensaje("Escribe el título de la canción.","error");
   if(!audioFile)return mostrarMensaje("Selecciona el archivo MP3.","error");
