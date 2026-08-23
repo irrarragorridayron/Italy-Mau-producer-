@@ -184,15 +184,44 @@ footer{text-align:center;color:#756b62;font-size:11px;padding:25px 20px}
   .player-modes{gap:5px}.player-mode{width:35px;height:35px}.controls .main{width:48px;height:48px}.controls button{width:31px}.controls button img{width:25px;height:25px}
   .full-cover{width:min(86vw,390px);height:min(86vw,390px)}.full-cover-wrap{flex:none;margin-top:15px}.full-meta{margin-top:5px}.full-main-controls button{width:45px;height:45px}
 }
+
+/* =========================
+   ADMINISTRADOR / SUPABASE AUTH
+   ========================= */
+.admin-only{display:none!important}
+.admin-only.admin-visible{display:block!important}
+button.admin-only.admin-visible{display:flex!important}
+.album-edit-cover.admin-only.admin-visible{display:block!important}
+.upload-panel.admin-only.admin-visible{display:none!important}
+.upload-panel.admin-only.admin-visible.active{display:block!important}
+.admin-status{position:fixed;top:10px;right:10px;z-index:5000;display:none;padding:7px 11px;border:1px solid var(--gold);border-radius:12px;background:#090704ee;color:var(--gold2);font-size:11px;font-weight:bold;box-shadow:0 0 14px #e7ad5433}
+.admin-status.visible{display:block}
+.auth-panel{position:fixed;inset:0;z-index:5000;display:none;align-items:center;justify-content:center;padding:20px;background:#000b;backdrop-filter:blur(10px)}
+.auth-panel.active{display:flex}
+.auth-card{width:min(420px,100%);padding:22px;border:1px solid #76501f;border-radius:20px;background:linear-gradient(145deg,#17110a,#070707);box-shadow:0 20px 60px #000}
+.auth-card h3{margin:0 0 8px;color:var(--gold2);font-size:22px}
+.auth-card p{margin:0 0 16px;color:#aaa29a;font-size:13px;line-height:1.5}
+.auth-card label{display:block;margin:12px 0 6px;color:#d3ccc4;font-size:13px}
+.auth-card input{width:100%;padding:13px;border-radius:10px;border:1px solid #4c3820;background:#050505;color:#fff;outline:none}
+.auth-card input:focus{border-color:var(--gold);box-shadow:0 0 8px #e7ad5422}
+.auth-actions{display:flex;gap:9px;margin-top:16px}
+.auth-actions button{flex:1;padding:13px;border-radius:12px;cursor:pointer}
+.auth-login{border:1px solid var(--gold);background:linear-gradient(145deg,#3b260e,#100a04);color:var(--gold2);font-weight:bold}
+.auth-close,.auth-logout{border:1px solid #444;background:#101010;color:#aaa}
+.auth-message{display:none;margin-top:12px;padding:11px;border-radius:10px;font-size:13px}
+.auth-message.show{display:block}.auth-message.error{color:#ff9999;background:#260d0d;border:1px solid #6b2222}.auth-message.success{color:#9cffb0;background:#0b2411;border:1px solid #245c30}
+.auth-user{margin-top:12px;padding:10px;border:1px solid #3b2c18;border-radius:10px;color:#cfc6bb;font-size:12px}
+
 </style>
 </head>
 
 <body>
+<div id="adminStatus" class="admin-status">ADMINISTRADOR</div>
 <div class="app">
 
 <header>
   <div class="header-actions">
-    <button class="icon-header" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Menú">
+    <button class="icon-header" onclick="abrirAdminPanel()" aria-label="Administrador" title="Administrador">
       <img src="./Icons/menu.png" alt="">
     </button>
     <button class="icon-header" onclick="openArtistInfo()" aria-label="Perfil">
@@ -223,11 +252,11 @@ footer{text-align:center;color:#756b62;font-size:11px;padding:25px 20px}
     <div class="offline-note">💾 Pulsa ⬇ en una canción para guardarla y escucharla sin Internet.</div>
   </div>
 
-  <button class="add-button" onclick="toggleUpload()">
+  <button id="addSongButton" class="add-button admin-only" onclick="toggleUpload()">
     <img src="./Icons/upload.png" alt=""> AGREGAR NUEVA CANCIÓN
   </button>
 
-  <div id="uploadPanel" class="upload-panel">
+  <div id="uploadPanel" class="upload-panel admin-only">
     <h3>🎵 Nueva canción</h3>
     <label>Álbum</label><input id="uploadAlbum" list="albumOptions" type="text" placeholder="Nombre del álbum nuevo">
     <datalist id="albumOptions"></datalist>
@@ -242,7 +271,7 @@ footer{text-align:center;color:#756b62;font-size:11px;padding:25px 20px}
     <div id="uploadMessage" class="message"></div>
   </div>
 
-  <div id="albumCoverPanel" class="album-cover-panel" style="display:none">
+  <div id="albumCoverPanel" class="album-cover-panel admin-only" style="display:none">
     <h3>🖼️ Cambiar portada del álbum</h3>
     <div id="albumCoverAlbumName" style="color:#c8c0b7;margin-bottom:8px"></div>
     <img id="albumCoverPreview" class="album-cover-preview" src="Media/logo.png" alt="Vista previa">
@@ -367,6 +396,33 @@ footer{text-align:center;color:#756b62;font-size:11px;padding:25px 20px}
   <div id="queueList"></div>
 </div>
 
+
+<!-- ADMIN AUTH -->
+<div id="authPanel" class="auth-panel" aria-hidden="true">
+  <div class="auth-card">
+    <h3>🔐 Administración</h3>
+    <p id="authDescription">Inicia sesión con la cuenta de administrador para gestionar canciones, álbumes y portadas.</p>
+    <div id="loginForm">
+      <label>Correo electrónico</label>
+      <input id="adminEmail" type="email" autocomplete="username" placeholder="Correo del administrador">
+      <label>Contraseña</label>
+      <input id="adminPassword" type="password" autocomplete="current-password" placeholder="Contraseña">
+      <div class="auth-actions">
+        <button class="auth-login" onclick="iniciarSesionAdmin()">ENTRAR</button>
+        <button class="auth-close" onclick="cerrarAdminPanel()">CANCELAR</button>
+      </div>
+    </div>
+    <div id="adminSession" style="display:none">
+      <div class="auth-user">Sesión de administrador activa.</div>
+      <div class="auth-actions">
+        <button class="auth-logout" onclick="cerrarSesionAdmin()">CERRAR SESIÓN</button>
+        <button class="auth-close" onclick="cerrarAdminPanel()">CERRAR</button>
+      </div>
+    </div>
+    <div id="authMessage" class="auth-message"></div>
+  </div>
+</div>
+
 <audio id="audio" preload="metadata"></audio>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -374,6 +430,103 @@ footer{text-align:center;color:#756b62;font-size:11px;padding:25px 20px}
 const SUPABASE_URL="https://xnhhrtzybrpdpuzsrwpr.supabase.co";
 const SUPABASE_KEY="sb_publishable_Wht8vPKELs2i3b98N0aviQ_XY6yx6hB";
 const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+let isAdmin=false;
+
+function mostrarAdminControls(visible){
+  isAdmin=!!visible;
+  document.querySelectorAll('.admin-only').forEach(el=>el.classList.toggle('admin-visible',isAdmin));
+  const status=document.getElementById('adminStatus');
+  if(status)status.classList.toggle('visible',isAdmin);
+}
+
+async function comprobarAdministrador(){
+  try{
+    const {data,error}=await supabaseClient.rpc('is_admin');
+    if(error)throw error;
+    mostrarAdminControls(data===true);
+    return data===true;
+  }catch(error){
+    console.warn('No se pudo comprobar el administrador:',error);
+    mostrarAdminControls(false);
+    return false;
+  }
+}
+
+function abrirAdminPanel(){
+  const panel=document.getElementById('authPanel');
+  if(!panel)return;
+  panel.classList.add('active');
+  panel.setAttribute('aria-hidden','false');
+  const form=document.getElementById('loginForm');
+  const session=document.getElementById('adminSession');
+  const desc=document.getElementById('authDescription');
+  const msg=document.getElementById('authMessage');
+  msg.className='auth-message';msg.textContent='';
+  if(isAdmin){
+    form.style.display='none';session.style.display='block';desc.textContent='Tienes acceso de administrador a las funciones de gestión.';
+  }else{
+    form.style.display='block';session.style.display='none';desc.textContent='Inicia sesión con la cuenta de administrador para gestionar canciones, álbumes y portadas.';
+  }
+}
+
+function cerrarAdminPanel(){
+  const panel=document.getElementById('authPanel');
+  if(panel){panel.classList.remove('active');panel.setAttribute('aria-hidden','true');}
+}
+
+function mostrarAuthMensaje(texto,tipo){
+  const msg=document.getElementById('authMessage');
+  if(!msg)return;
+  msg.textContent=texto;msg.className='auth-message show '+tipo;
+}
+
+async function iniciarSesionAdmin(){
+  const email=document.getElementById('adminEmail').value.trim();
+  const password=document.getElementById('adminPassword').value;
+  if(!email||!password){mostrarAuthMensaje('Escribe el correo y la contraseña.','error');return;}
+  try{
+    mostrarAuthMensaje('Comprobando acceso...','success');
+    const {error}=await supabaseClient.auth.signInWithPassword({email,password});
+    if(error)throw error;
+    const autorizado=await comprobarAdministrador();
+    if(!autorizado){
+      await supabaseClient.auth.signOut();
+      mostrarAdminControls(false);
+      throw new Error('Esta cuenta no tiene permisos de administrador.');
+    }
+    document.getElementById('adminPassword').value='';
+    document.getElementById('loginForm').style.display='none';
+    document.getElementById('adminSession').style.display='block';
+    document.getElementById('authDescription').textContent='Tienes acceso de administrador a las funciones de gestión.';
+    mostrarAuthMensaje('Acceso de administrador concedido. ✓','success');
+    await cargarCanciones();
+  }catch(error){
+    console.error('Error de acceso de administrador:',error);
+    mostrarAdminControls(false);
+    mostrarAuthMensaje(error.message||'No se pudo iniciar sesión.','error');
+  }
+}
+
+async function cerrarSesionAdmin(){
+  try{await supabaseClient.auth.signOut();}catch(error){console.warn('No se pudo cerrar sesión:',error)}
+  mostrarAdminControls(false);
+  document.getElementById('loginForm').style.display='block';
+  document.getElementById('adminSession').style.display='none';
+  document.getElementById('authDescription').textContent='Inicia sesión con la cuenta de administrador para gestionar canciones, álbumes y portadas.';
+  mostrarAuthMensaje('Sesión cerrada.','success');
+  cerrarPanelPortadaAlbum();
+  document.getElementById('uploadPanel')?.classList.remove('active');
+}
+
+supabaseClient.auth.onAuthStateChange(async (_event,session)=>{
+  if(session?.user){
+    await comprobarAdministrador();
+  }else{
+    mostrarAdminControls(false);
+  }
+});
+
 
 const ICONS="./Icons/";
 const FALLBACK_COVER="Media/logo.png";
@@ -935,7 +1088,7 @@ function mostrarAlbumes(){
         <div class="album-count">${albumTracks.length} ${albumTracks.length===1?"canción":"canciones"}</div>
         ${album.description?`<div class="album-count">${escapeHTML(album.description)}</div>`:""}
         <div class="album-open">ABRIR ÁLBUM →</div>
-        <button class="album-edit-cover" type="button">🖼️ CREAR / CAMBIAR PORTADA</button>
+        <button class="album-edit-cover admin-only" type="button">🖼️ CREAR / CAMBIAR PORTADA</button>
       </div>`;
 
     // No usamos onclick inline para el ID del álbum: los álbumes heredados
@@ -1004,7 +1157,7 @@ function mostrarCanciones(){
         <button class="action-btn play" onclick="playTrack(${index})" aria-label="Reproducir"><img src="${icon("play.png")}" alt=""></button>
         <button class="action-btn offline" onclick="guardarOffline(${index})" aria-label="Guardar sin Internet" title="Guardar para escuchar offline"><img class="offline-img" src="./Icons/Download.png" alt=""></button>
         <button class="action-btn share" onclick="shareTrack(${index})" aria-label="Compartir"><img src="${icon("share.png")}" alt=""></button>
-        <button class="action-btn delete" onclick="eliminarCancion(${index})" aria-label="Eliminar"><img src="${icon("Delete.png")}" alt=""></button>
+        <button class="action-btn delete admin-only" onclick="eliminarCancion(${index})" aria-label="Eliminar"><img src="${icon("Delete.png")}" alt=""></button>
       </div>`;
     lista.appendChild(tarjeta);
   });
@@ -1152,6 +1305,7 @@ function obtenerPathStorage(url,bucket){
   if(!url)return null;try{const marker=`/storage/v1/object/public/${bucket}/`,index=url.indexOf(marker);if(index===-1)return null;return decodeURIComponent(url.substring(index+marker.length))}catch{return null}
 }
 async function eliminarCancion(index){
+  if(!isAdmin){alert("Solo el administrador puede eliminar canciones.");return;}
   const track=tracks[index];if(!track)return;
   if(!confirm(`¿Eliminar "${track.name}"?`))return;
   try{
@@ -1195,6 +1349,7 @@ function previsualizarPortadaAlbum(event){
 }
 
 async function guardarPortadaAlbum(){
+  if(!isAdmin){alert("Solo el administrador puede cambiar portadas.");return;}
   if(albumPortadaId===null||albumPortadaId===undefined)return;
 
   const file=document.getElementById("albumCoverFile").files[0];
@@ -1334,10 +1489,11 @@ async function guardarPortadaAlbum(){
     setTimeout(cerrarPanelPortadaAlbum,1200);
   }
 }
-function toggleUpload(){document.getElementById("uploadPanel").classList.toggle("active")}
+function toggleUpload(){if(!isAdmin){abrirAdminPanel();return;}document.getElementById("uploadPanel").classList.toggle("active")}
 function mostrarMensaje(texto,tipo){const m=document.getElementById("uploadMessage");m.textContent=texto;m.className="message show "+tipo}
 
 async function subirCancion(){
+  if(!isAdmin){mostrarMensaje("Solo el administrador puede subir canciones.","error");return;}
   const album=document.getElementById("uploadAlbum").value.trim(),titulo=document.getElementById("uploadTitulo").value.trim(),artista=document.getElementById("uploadArtista").value.trim()||"El DIM",genero=document.getElementById("uploadGenero").value.trim(),anio=document.getElementById("uploadAnio").value;
   if(!album)return mostrarMensaje("Escribe el nombre del álbum donde irá la canción.","error");
   if(esAlbumExcluido(album))return mostrarMensaje("Ese álbum está desactivado. Escribe el nombre de tu álbum nuevo.","error");
@@ -1387,7 +1543,7 @@ function actualizarEstadoRed(){
 window.addEventListener("online",actualizarEstadoRed);
 window.addEventListener("offline",actualizarEstadoRed);
 
-setPlayMode("seguido");setVolume(1);actualizarEstadoRed();cargarCanciones();
+setPlayMode("seguido");setVolume(1);actualizarEstadoRed();mostrarAdminControls(false);(async()=>{await comprobarAdministrador();await cargarCanciones();})();
 window.addEventListener("beforeunload",()=>{
   if(audio.dataset.objectUrl){
     try{URL.revokeObjectURL(audio.dataset.objectUrl)}catch{}
