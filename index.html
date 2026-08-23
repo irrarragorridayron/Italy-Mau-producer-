@@ -63,8 +63,8 @@ section{padding:24px 24px 8px}
 .delete{border:2px solid var(--red2);background:radial-gradient(circle at 35% 25%,#5a1212,#210606 40%,#070101 75%,#000);box-shadow:0 0 7px #ff333388,0 0 20px #ff222244,inset 0 0 14px #ff222222}
 .offline{border:2px solid #63d98b;background:radial-gradient(circle at 35% 25%,#123d24,#06170d 45%,#000);box-shadow:0 0 7px #63d98b88,0 0 20px #63d98b33,inset 0 0 14px #63d98b22}
 .offline.saved{border-color:#ffd98a;box-shadow:0 0 9px #e7ad5488,0 0 20px #e7ad5433}
-.offline-icon{font-size:27px;line-height:1;color:#9cffb0}
-.offline.saved .offline-icon{color:#ffd98a}
+.offline-img{width:31px!important;height:31px!important;object-fit:contain}
+.offline.saved .offline-img{filter:brightness(1.15)}
 .action-btn:hover{filter:brightness(1.25)}.action-btn:active{transform:scale(.86)}
 .add-button{
   width:100%;min-height:58px;margin-top:8px;padding:14px 20px;border-radius:17px;border:1px solid var(--gold);
@@ -402,7 +402,7 @@ async function actualizarBotonesOffline(){
       const b=tarjeta?.querySelector(".offline");
       if(b){
         b.classList.add("saved");
-        b.innerHTML='<span class="offline-icon">✓</span>';
+        b.innerHTML='<img class="offline-img" src="./Icons/Downloaded.png" alt="Guardado offline">';
         b.title="Disponible sin Internet — pulsar para eliminar";
       }
     }
@@ -532,6 +532,7 @@ function mostrarCanciones(){
       </div>
       <div class="track-actions">
         <button class="action-btn play" onclick="playTrack(${index})" aria-label="Reproducir"><img src="${icon("play.png")}" alt=""></button>
+        <button class="action-btn offline" onclick="guardarOffline(${index})" aria-label="Guardar sin Internet" title="Guardar para escuchar offline"><img class="offline-img" src="./Icons/Download.png" alt=""></button>
         <button class="action-btn share" onclick="shareTrack(${index})" aria-label="Compartir"><img src="${icon("share.png")}" alt=""></button>
         <button class="action-btn delete" onclick="eliminarCancion(${index})" aria-label="Eliminar"><img src="${icon("Delete.png")}" alt=""></button>
       </div>`;
