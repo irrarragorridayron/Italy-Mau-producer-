@@ -37,6 +37,38 @@ h1{position:relative;z-index:2;margin:5px 0 4px;color:var(--gold2);font-size:28p
 section{padding:24px 24px 8px}
 .title{display:flex;align-items:center;gap:10px;margin:0 0 15px;color:var(--gold2);font-size:24px;letter-spacing:1px;text-shadow:0 0 12px #e7ad5433}
 .title-icon{width:30px;height:30px;object-fit:contain}
+
+.album-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.album-card{
+  position:relative;overflow:hidden;display:flex;align-items:center;gap:15px;padding:12px;
+  background:linear-gradient(135deg,#17130e,#090909 60%,#050505);
+  border:1px solid #6c4b20;border-radius:20px;box-shadow:0 8px 28px #00000099,inset 0 0 20px #e7ad5408;
+  cursor:pointer;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease
+}
+.album-card:hover{transform:translateY(-2px);border-color:#d59b48;box-shadow:0 12px 35px #000,0 0 18px #e7ad5422}
+.album-cover{width:108px;height:108px;min-width:108px;object-fit:cover;border-radius:15px;border:1px solid #6d4b20;box-shadow:0 0 12px #000,0 0 12px #e7ad5422}
+.album-info{min-width:0;flex:1}
+.album-name{font-size:20px;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.album-artist{margin-top:7px;color:var(--gold);font-size:14px;font-weight:bold}
+.album-count{margin-top:6px;color:#9c948c;font-size:12px}
+.album-open{margin-top:10px;color:var(--gold2);font-size:12px;font-weight:bold}
+.album-detail-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.album-detail-title{color:var(--gold2);font-size:22px;font-weight:800;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.album-back{
+  flex-shrink:0;padding:9px 13px;border-radius:12px;border:1px solid var(--gold);
+  background:#120d06;color:var(--gold2);font-weight:bold;cursor:pointer
+}
+.album-back:active{transform:scale(.96)}
+.album-empty{text-align:center;color:#c8c0b7;padding:30px}
+@media(max-width:700px){
+  .album-grid{grid-template-columns:1fr;gap:12px}
+  .album-cover{width:90px;height:90px;min-width:90px}.album-name{font-size:17px}
+}
+@media(max-width:430px){
+  .album-card{gap:10px;padding:9px}.album-cover{width:78px;height:78px;min-width:78px}
+  .album-name{font-size:15px}.album-artist{font-size:12px}.album-count{font-size:11px}
+}
+
 .track{
   position:relative;display:flex;align-items:center;gap:16px;width:100%;margin:14px 0;padding:12px;
   background:linear-gradient(135deg,#17130e,#090909 60%,#050505);
@@ -167,8 +199,22 @@ footer{text-align:center;color:#756b62;font-size:11px;padding:25px 20px}
 </header>
 
 <section>
-  <h2 class="title"><span>🎵</span> MIS CANCIONES</h2>
-  <div id="listaCanciones"><div style="text-align:center;color:#c8c0b7;padding:30px">Cargando canciones...</div></div><div class="offline-note">💾 Pulsa ⬇ en una canción para guardarla y escucharla sin Internet.</div>
+  <h2 class="title"><span>💿</span> MIS ÁLBUMES</h2>
+
+  <div id="albumView">
+    <div id="listaAlbumes" class="album-grid">
+      <div class="album-empty">Cargando álbumes...</div>
+    </div>
+  </div>
+
+  <div id="albumDetailView" style="display:none">
+    <div class="album-detail-head">
+      <div id="albumDetailTitle" class="album-detail-title">Álbum</div>
+      <button class="album-back" onclick="volverAlbumes()">← ÁLBUMES</button>
+    </div>
+    <div id="listaCanciones"></div>
+    <div class="offline-note">💾 Pulsa ⬇ en una canción para guardarla y escucharla sin Internet.</div>
+  </div>
 
   <button class="add-button" onclick="toggleUpload()">
     <img src="./Icons/upload.png" alt=""> AGREGAR NUEVA CANCIÓN
@@ -176,6 +222,8 @@ footer{text-align:center;color:#756b62;font-size:11px;padding:25px 20px}
 
   <div id="uploadPanel" class="upload-panel">
     <h3>🎵 Nueva canción</h3>
+    <label>Álbum</label><input id="uploadAlbum" list="albumOptions" type="text" placeholder="Nombre del álbum">
+    <datalist id="albumOptions"></datalist>
     <label>Título</label><input id="uploadTitulo" type="text" placeholder="Nombre de la canción">
     <label>Artista</label><input id="uploadArtista" type="text" placeholder="El DIM" value="El DIM">
     <label>Género</label><input id="uploadGenero" type="text" placeholder="Reggaetón, urbano, afrobeat...">
@@ -311,7 +359,9 @@ const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 const ICONS="./Icons/";
 const FALLBACK_COVER="Media/logo.png";
-let tracks=[],i=0,playMode="seguido",isFavorite=false,previousVolume=1;
+let tracks=[],allTracks=[],albums=[],i=0,playMode="seguido",isFavorite=false,previousVolume=1,currentAlbum=null;
+const ALBUMS_TABLE="albums";
+const SONGS_TABLE="canciones";
 
 const audio=document.getElementById("audio"),main=document.getElementById("main"),mini=document.getElementById("mini");
 const nowname=document.getElementById("nowname"),progress=document.getElementById("progress"),time=document.getElementById("time");
@@ -476,50 +526,180 @@ async function obtenerFuenteAudio(track){
   return track.audio||"";
 }
 
-async function cargarCanciones(){
-  const clave="italyMauCatalogo";
-  try{
-    const {data,error}=await supabaseClient.from("canciones")
-      .select("id,titulo,artista,genero,anio,audio_url,portada_url,fecha")
-      .order("id",{ascending:false});
+function normalizarTexto(valor){
+  return String(valor||"").trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+}
 
-    if(!error && data){
-      tracks=(data||[]).map(c=>({
-        id:c.id,name:c.titulo,artist:c.artista,genre:c.genero,
-        year:c.anio,audio:c.audio_url,cover:c.portada_url,date:c.fecha
-      }));
-      try{localStorage.setItem(clave,JSON.stringify(tracks))}catch(storageError){
-        console.warn("No se pudo guardar el catálogo offline:",storageError);
-      }
-      mostrarCanciones();renderQueue();actualizarBotonesOffline();
-      return;
+function cancionesDelAlbum(album){
+  const titulo=normalizarTexto(album?.title||album);
+  return allTracks.filter(track=>normalizarTexto(track.album)===titulo);
+}
+
+function actualizarSelectorAlbumes(){
+  const lista=document.getElementById("albumOptions");
+  if(!lista)return;
+  lista.innerHTML="";
+  albums.forEach(album=>{
+    const option=document.createElement("option");
+    option.value=album.title||"";
+    lista.appendChild(option);
+  });
+}
+
+function construirAlbumesDesdeCanciones(){
+  const mapa=new Map();
+  allTracks.forEach(track=>{
+    const title=(track.album||"").trim();
+    if(!title)return;
+    const key=normalizarTexto(title);
+    if(!mapa.has(key)){
+      mapa.set(key,{id:"legacy-"+key,title,description:"",cover_url:track.cover||"",created_at:track.date||null,legacy:true});
+    }
+  });
+  return Array.from(mapa.values());
+}
+
+async function cargarCanciones(){
+  const claveTracks="italyMauCatalogo";
+  const claveAlbums="italyMauAlbums";
+  try{
+    const [songsResult,albumsResult]=await Promise.all([
+      supabaseClient.from(SONGS_TABLE)
+        .select("id,titulo,artista,genero,anio,audio_url,portada_url,fecha,album")
+        .order("id",{ascending:false}),
+      supabaseClient.from(ALBUMS_TABLE)
+        .select("id,title,description,cover_url,created_at")
+        .order("id",{ascending:false})
+    ]);
+
+    if(songsResult.error)throw songsResult.error;
+
+    allTracks=(songsResult.data||[]).map(c=>({
+      id:c.id,name:c.titulo,artist:c.artista,genre:c.genero,
+      year:c.anio,audio:c.audio_url,cover:c.portada_url,date:c.fecha,
+      album:(c.album||"").trim()
+    }));
+
+    if(albumsResult.error){
+      console.warn("No se pudieron cargar los álbumes desde Supabase:",albumsResult.error);
+      albums=construirAlbumesDesdeCanciones();
+    }else{
+      albums=(albumsResult.data||[]).map(a=>({
+        id:a.id,title:(a.title||"").trim(),description:a.description||"",
+        cover_url:a.cover_url||"",created_at:a.created_at||null
+      })).filter(a=>a.title);
+
+      // Compatibilidad: si todavía existen canciones con un álbum que no está
+      // en la tabla albums, las añadimos como álbumes heredados para no perderlas.
+      const existentes=new Set(albums.map(a=>normalizarTexto(a.title)));
+      construirAlbumesDesdeCanciones().forEach(a=>{
+        if(!existentes.has(normalizarTexto(a.title)))albums.push(a);
+      });
     }
 
-    throw error||new Error("No se pudo consultar Supabase.");
+    tracks=allTracks.slice();
+    currentAlbum=null;
+    try{
+      localStorage.setItem(claveTracks,JSON.stringify(allTracks));
+      localStorage.setItem(claveAlbums,JSON.stringify(albums));
+    }catch(storageError){
+      console.warn("No se pudo guardar el catálogo offline:",storageError);
+    }
+    actualizarSelectorAlbumes();
+    mostrarAlbumes();renderQueue();actualizarBotonesOffline();
+    return;
   }catch(error){
     console.warn("Supabase no disponible; usando catálogo offline.",error);
     try{
-      const local=JSON.parse(localStorage.getItem(clave)||"[]");
-      if(Array.isArray(local) && local.length){
-        tracks=local;
-        mostrarCanciones();renderQueue();actualizarBotonesOffline();
+      const localTracks=JSON.parse(localStorage.getItem(claveTracks)||"[]");
+      const localAlbums=JSON.parse(localStorage.getItem(claveAlbums)||"[]");
+      if(Array.isArray(localTracks) && localTracks.length){
+        allTracks=localTracks.map(t=>({...t,album:(t.album||"").trim()}));
+        albums=Array.isArray(localAlbums)&&localAlbums.length?localAlbums:construirAlbumesDesdeCanciones();
+        tracks=allTracks.slice();
+        currentAlbum=null;
+        actualizarSelectorAlbumes();
+        mostrarAlbumes();renderQueue();actualizarBotonesOffline();
         return;
       }
     }catch(storageError){
       console.warn("No se pudo leer el catálogo offline:",storageError);
     }
-
-    document.getElementById("listaCanciones").innerHTML=
-      `<div style="text-align:center;color:#ff7777;padding:25px">
-        No hay catálogo guardado para usar sin Internet.<br><br>
-        Conéctate una vez a Internet para cargar las canciones y después podrás descargarlas para escucharlas offline.
+    document.getElementById("listaAlbumes").innerHTML=
+      `<div class="album-empty" style="color:#ff7777;grid-column:1/-1">
+        No se pudo cargar el catálogo.<br><br>
+        Conéctate a Internet y vuelve a abrir la aplicación.
       </div>`;
   }
 }
 
+function mostrarAlbumes(){
+  const lista=document.getElementById("listaAlbumes");
+  if(!lista)return;
+  lista.innerHTML="";
+  if(!albums.length){
+    lista.innerHTML=`<div class="album-empty" style="grid-column:1/-1">Todavía no hay álbumes disponibles.</div>`;
+    return;
+  }
+
+  albums.forEach(album=>{
+    const albumTracks=cancionesDelAlbum(album);
+    const tarjeta=document.createElement("div");
+    tarjeta.className="album-card";
+
+    const portada=album.cover_url||albumTracks[0]?.cover||FALLBACK_COVER;
+    const artista=albumTracks[0]?.artist||"El DIM";
+    const anio=albumTracks[0]?.year||"";
+
+    tarjeta.innerHTML=`
+      <img class="album-cover" src="${escapeHTML(portada)}" alt="${escapeHTML(album.title)}" onerror="this.src='${FALLBACK_COVER}'">
+      <div class="album-info">
+        <div class="album-name">${escapeHTML(album.title)}</div>
+        <div class="album-artist">${escapeHTML(artista)}${anio?" • "+escapeHTML(String(anio)):""}</div>
+        <div class="album-count">${albumTracks.length} ${albumTracks.length===1?"canción":"canciones"}</div>
+        ${album.description?`<div class="album-count">${escapeHTML(album.description)}</div>`:""}
+        <div class="album-open">ABRIR ÁLBUM →</div>
+      </div>`;
+
+    tarjeta.addEventListener("click",()=>abrirAlbum(album.id));
+    lista.appendChild(tarjeta);
+  });
+}
+
+function abrirAlbum(albumId){
+  const album=albums.find(a=>String(a.id)===String(albumId));
+  if(!album)return;
+  const grupo=cancionesDelAlbum(album);
+  const idActual=tracks[i]?.id;
+  currentAlbum=album.id;
+  tracks=grupo.slice();
+  const encontrado=tracks.findIndex(t=>String(t.id)===String(idActual));
+  i=encontrado>=0?encontrado:0;
+  document.getElementById("albumView").style.display="none";
+  document.getElementById("albumDetailView").style.display="block";
+  document.getElementById("albumDetailTitle").textContent=album.title;
+  mostrarCanciones();
+  renderQueue();
+  actualizarBotonesOffline();
+}
+
+function volverAlbumes(){
+  currentAlbum=null;
+  tracks=allTracks.slice();
+  i=0;
+  document.getElementById("albumDetailView").style.display="none";
+  document.getElementById("albumView").style.display="block";
+  mostrarAlbumes();
+  renderQueue();
+  actualizarBotonesOffline();
+}
+
 function mostrarCanciones(){
   const lista=document.getElementById("listaCanciones");lista.innerHTML="";
-  if(!tracks.length){lista.innerHTML=`<div style="text-align:center;color:#c8c0b7;padding:30px">Todavía no hay canciones disponibles.</div>`;return}
+  if(!tracks.length){
+    lista.innerHTML=`<div style="text-align:center;color:#c8c0b7;padding:30px">Este álbum todavía no tiene canciones.</div>`;
+    return;
+  }
   tracks.forEach((track,index)=>{
     const tarjeta=document.createElement("div");tarjeta.className="track";
     tarjeta.innerHTML=`
@@ -699,7 +879,7 @@ function toggleUpload(){document.getElementById("uploadPanel").classList.toggle(
 function mostrarMensaje(texto,tipo){const m=document.getElementById("uploadMessage");m.textContent=texto;m.className="message show "+tipo}
 
 async function subirCancion(){
-  const titulo=document.getElementById("uploadTitulo").value.trim(),artista=document.getElementById("uploadArtista").value.trim()||"El DIM",genero=document.getElementById("uploadGenero").value.trim(),anio=document.getElementById("uploadAnio").value;
+  const album=document.getElementById("uploadAlbum").value.trim()||"Sencillos",titulo=document.getElementById("uploadTitulo").value.trim(),artista=document.getElementById("uploadArtista").value.trim()||"El DIM",genero=document.getElementById("uploadGenero").value.trim(),anio=document.getElementById("uploadAnio").value;
   const audioFile=document.getElementById("uploadAudio").files[0],portadaFile=document.getElementById("uploadPortada").files[0];
   if(!titulo)return mostrarMensaje("Escribe el título de la canción.","error");
   if(!audioFile)return mostrarMensaje("Selecciona el archivo MP3.","error");
@@ -711,10 +891,10 @@ async function subirCancion(){
     if(portadaError){await supabaseClient.storage.from("songs").remove([audioPath]);throw portadaError}
     const {data:audioPublic}=supabaseClient.storage.from("songs").getPublicUrl(audioPath);
     const {data:portadaPublic}=supabaseClient.storage.from("portadas").getPublicUrl(portadaPath);
-    const {error:insertError}=await supabaseClient.from("canciones").insert({titulo,artista,genero,anio:anio?Number(anio):null,audio_url:audioPublic.publicUrl,portada_url:portadaPublic.publicUrl});
+    const {error:insertError}=await supabaseClient.from("canciones").insert({album,titulo,artista,genero,anio:anio?Number(anio):null,audio_url:audioPublic.publicUrl,portada_url:portadaPublic.publicUrl});
     if(insertError){await supabaseClient.storage.from("songs").remove([audioPath]);await supabaseClient.storage.from("portadas").remove([portadaPath]);throw insertError}
     mostrarMensaje("Canción subida correctamente.","success");
-    ["uploadTitulo","uploadGenero","uploadAudio","uploadPortada"].forEach(id=>{document.getElementById(id).value=""});
+    ["uploadAlbum","uploadTitulo","uploadGenero","uploadAudio","uploadPortada"].forEach(id=>{document.getElementById(id).value=""});
     await cargarCanciones();
     setTimeout(()=>document.getElementById("uploadPanel").classList.remove("active"),1200);
   }catch(error){console.error("Error subiendo canción:",error);mostrarMensaje("Error: "+error.message,"error")}
