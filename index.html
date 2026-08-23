@@ -249,6 +249,7 @@ footer{text-align:center;color:#756b62;font-size:11px;padding:25px 20px}
     <input id="albumCoverFile" type="file" accept="image/*" onchange="previsualizarPortadaAlbum(event)">
     <button class="upload-submit" onclick="guardarPortadaAlbum()">⬆️ GUARDAR PORTADA</button>
     <button class="cancel-button" onclick="cerrarPanelPortadaAlbum()">Cancelar</button>
+    <div style="font-size:12px;color:#aaa;margin-top:8px;text-align:center">💾 La portada guardada también queda disponible sin Internet en este teléfono.</div>
     <div id="albumCoverMessage" class="message"></div>
   </div>
 </section>
@@ -665,6 +666,154 @@ async function crearAlbumReal(titulo,coverUrl=""){
   }
 }
 
+
+/* ============================================================
+   PORTADAS OFFLINE
+   Guarda una copia pequeña de cada portada en el teléfono.
+   Así la portada sigue visible aunque no haya Internet.
+   ============================================================ */
+const OFFLINE_COVERS_KEY="italyMauAlbumCoversOffline";
+
+function guardarAlbumsLocalmente(){
+  try{
+    // No duplicamos las imágenes Base64 dentro del catálogo; las imágenes
+    // offline viven en OFFLINE_COVERS_KEY para ahorrar espacio.
+    const limpios=albums.map(a=>{
+      const copia={...a};
+      delete copia.offline_cover;
+      return copia;
+    });
+    localStorage.setItem("italyMauAlbums",JSON.stringify(limpios));
+    return true;
+  }catch(e){
+    console.warn("No se pudo guardar la lista local de álbumes:",e);
+    return false;
+  }
+}
+
+function leerMapaPortadasOffline(){
+  try{
+    const data=JSON.parse(localStorage.getItem(OFFLINE_COVERS_KEY)||"{}");
+    return data&&typeof data==="object"?data:{};
+  }catch(e){return {};}
+}
+
+function aplicarPortadasOffline(){
+  const mapa=leerMapaPortadasOffline();
+  albums.forEach(album=>{
+    const item=mapa[normalizarTexto(album.title)];
+    if(item && item.data){
+      // Solo usamos la copia local si corresponde a la URL que conocemos.
+      // Si no hay URL guardada, también sirve como último respaldo.
+      if(!item.url || !album.cover_url || item.url===album.cover_url){
+        album.offline_cover=item.data;
+      }
+    }
+  });
+}
+
+function guardarMapaPortadasOffline(mapa){
+  try{
+    localStorage.setItem(OFFLINE_COVERS_KEY,JSON.stringify(mapa));
+    return true;
+  }catch(e){
+    console.warn("No se pudo guardar la portada offline. Puede faltar espacio:",e);
+    return false;
+  }
+}
+
+function convertirImagenParaOffline(file,maxSize=700,quality=.78){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>{
+      const img=new Image();
+      img.onload=()=>{
+        let w=img.naturalWidth||img.width||700;
+        let h=img.naturalHeight||img.height||700;
+        const escala=Math.min(1,maxSize/Math.max(w,h));
+        w=Math.max(1,Math.round(w*escala));
+        h=Math.max(1,Math.round(h*escala));
+        const canvas=document.createElement("canvas");
+        canvas.width=w;canvas.height=h;
+        const ctx=canvas.getContext("2d");
+        if(!ctx){reject(new Error("No se pudo preparar la imagen."));return;}
+        ctx.drawImage(img,0,0,w,h);
+        resolve(canvas.toDataURL("image/jpeg",quality));
+      };
+      img.onerror=()=>reject(new Error("No se pudo leer la imagen."));
+      img.src=reader.result;
+    };
+    reader.onerror=()=>reject(new Error("No se pudo leer el archivo."));
+    reader.readAsDataURL(file);
+  });
+}
+
+async function cachearPortadaOffline(titulo,file,url){
+  try{
+    const data=await convertirImagenParaOffline(file);
+    const mapa=leerMapaPortadasOffline();
+    mapa[normalizarTexto(titulo)]={url:url||"",data,fecha:Date.now()};
+    guardarMapaPortadasOffline(mapa);
+    return data;
+  }catch(error){
+    console.warn("No se pudo preparar la portada para uso offline:",error);
+    return null;
+  }
+}
+
+async function cachearPortadaUrlOffline(titulo,url){
+  if(!titulo || !url || String(url).startsWith('data:'))return null;
+  try{
+    const respuesta=await fetch(url,{mode:"cors",cache:"no-store"});
+    if(!respuesta.ok)throw new Error("HTTP "+respuesta.status);
+    const blob=await respuesta.blob();
+    if(!blob.type.startsWith("image/"))throw new Error("El archivo no es una imagen.");
+    const data=await convertirImagenParaOffline(blob);
+    const mapa=leerMapaPortadasOffline();
+    mapa[normalizarTexto(titulo)]={url:String(url),data,fecha:Date.now()};
+    if(!guardarMapaPortadasOffline(mapa))return null;
+    return data;
+  }catch(error){
+    console.warn("No se pudo guardar offline la portada de",titulo,error);
+    return null;
+  }
+}
+
+async function cachearCatalogoPortadasOffline(){
+  // Se ejecuta en segundo plano: no bloquea la aplicación ni el reproductor.
+  if(!navigator.onLine || !albums.length)return;
+  const mapa=leerMapaPortadasOffline();
+  for(const album of albums){
+    try{
+      const albumTracks=cancionesDelAlbum(album);
+      const url=album.cover_url||albumTracks[0]?.cover||"";
+      if(!url || String(url).startsWith("data:"))continue;
+      const clave=normalizarTexto(album.title);
+      const guardada=mapa[clave];
+      if(guardada && guardada.data && guardada.url===url){
+        album.offline_cover=guardada.data;
+        continue;
+      }
+      const data=await cachearPortadaUrlOffline(album.title,url);
+      if(data){
+        album.offline_cover=data;
+        // Si el álbum no tenía cover_url propio, dejamos registrada la URL
+        // que usa la canción como fuente de la portada del álbum.
+        if(!album.cover_url)album.cover_url=url;
+        mostrarAlbumes();
+      }
+    }catch(error){
+      console.warn("No se pudo cachear la portada de",album.title,error);
+    }
+  }
+  guardarAlbumsLocalmente();
+}
+
+
+function portadaAlbum(album,albumTracks=[]){
+  return album?.offline_cover || album?.cover_url || albumTracks[0]?.cover || FALLBACK_COVER;
+}
+
 async function cargarCanciones(){
   const claveTracks="italyMauCatalogo";
   const claveAlbums="italyMauAlbums";
@@ -700,16 +849,20 @@ async function cargarCanciones(){
       await sincronizarAlbumesFaltantes();
     }
 
+    aplicarPortadasOffline();
     tracks=allTracks.slice();
     currentAlbum=null;
     try{
       localStorage.setItem(claveTracks,JSON.stringify(allTracks));
-      localStorage.setItem(claveAlbums,JSON.stringify(albums));
+      guardarAlbumsLocalmente();
     }catch(storageError){
       console.warn("No se pudo guardar el catálogo offline:",storageError);
     }
     actualizarSelectorAlbumes();
     mostrarAlbumes();renderQueue();actualizarBotonesOffline();
+    // Primera carga online: descarga en segundo plano una copia offline
+    // de la portada de cada álbum del catálogo.
+    cachearCatalogoPortadasOffline();
     return;
   }catch(error){
     console.warn("Supabase no disponible; usando catálogo offline.",error);
@@ -719,6 +872,7 @@ async function cargarCanciones(){
       if(Array.isArray(localTracks) && localTracks.length){
         allTracks=localTracks.map(t=>({...t,album:(t.album||"").trim()}));
         albums=Array.isArray(localAlbums)&&localAlbums.length?localAlbums:construirAlbumesDesdeCanciones();
+        aplicarPortadasOffline();
         tracks=allTracks.slice();
         currentAlbum=null;
         actualizarSelectorAlbumes();
@@ -750,7 +904,7 @@ function mostrarAlbumes(){
     const tarjeta=document.createElement("div");
     tarjeta.className="album-card";
 
-    const portada=album.cover_url||albumTracks[0]?.cover||FALLBACK_COVER;
+    const portada=portadaAlbum(album,albumTracks);
     const artista=albumTracks[0]?.artist||"El DIM";
     const anio=albumTracks[0]?.year||"";
 
@@ -762,7 +916,7 @@ function mostrarAlbumes(){
         <div class="album-count">${albumTracks.length} ${albumTracks.length===1?"canción":"canciones"}</div>
         ${album.description?`<div class="album-count">${escapeHTML(album.description)}</div>`:""}
         <div class="album-open">ABRIR ÁLBUM →</div>
-        <button class="album-edit-cover" type="button" onclick="event.stopPropagation();abrirCambiarPortada(${JSON.stringify(album.id)})">🖼️ CAMBIAR PORTADA</button>
+        <button class="album-edit-cover" type="button" onclick="event.stopPropagation();abrirCambiarPortada(${JSON.stringify(album.id)})">🖼️ CREAR / CAMBIAR PORTADA</button>
       </div>`;
 
     tarjeta.addEventListener("click",()=>abrirAlbum(album.id));
@@ -987,7 +1141,7 @@ function abrirCambiarPortada(albumId){
   albumPortadaId=album.id;
   const panel=document.getElementById("albumCoverPanel");
   document.getElementById("albumCoverAlbumName").textContent=`Álbum: ${album.title}`;
-  document.getElementById("albumCoverPreview").src=album.cover_url||FALLBACK_COVER;
+  document.getElementById("albumCoverPreview").src=portadaAlbum(album,cancionesDelAlbum(album)) || FALLBACK_COVER;
   document.getElementById("albumCoverFile").value="";
   document.getElementById("albumCoverMessage").className="message";
   document.getElementById("albumCoverMessage").textContent="";
@@ -1117,6 +1271,10 @@ async function guardarPortadaAlbum(){
 
     album.cover_url=nuevaUrl;
 
+    // Guardar también una copia comprimida en el teléfono para verla offline.
+    const copiaOffline=await cachearPortadaOffline(album.title,file,nuevaUrl);
+    if(copiaOffline)album.offline_cover=copiaOffline;
+
     // Actualizar inmediatamente la copia local.
     try{
       localStorage.setItem("italyMauAlbums",JSON.stringify(albums));
@@ -1209,6 +1367,12 @@ if("serviceWorker"in navigator){
     }
   });
 }
+
+// Si la aplicación vuelve a tener Internet, completa automáticamente
+// las copias offline de las portadas que falten.
+window.addEventListener("online",()=>{
+  try{cachearCatalogoPortadasOffline();}catch(e){}
+});
 </script>
 </body>
 </html>
