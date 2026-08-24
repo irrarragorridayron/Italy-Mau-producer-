@@ -100,6 +100,22 @@ section{padding:24px 24px 8px}
 .play{border:2px solid var(--blue2);background:radial-gradient(circle at 35% 25%,#10375a,#061321 38%,#010306 75%,#000);box-shadow:0 0 7px #168cffaa,0 0 20px #168cff55,inset 0 0 14px #168cff44}
 .share{border:2px solid var(--gold2);background:radial-gradient(circle at 35% 25%,#51380f,#1b1205 40%,#050403 75%,#000);box-shadow:0 0 7px #e7ad5488,0 0 20px #e7ad5444,inset 0 0 14px #e7ad5422}
 .delete{border:2px solid var(--red2);background:radial-gradient(circle at 35% 25%,#5a1212,#210606 40%,#070101 75%,#000);box-shadow:0 0 7px #ff333388,0 0 20px #ff222244,inset 0 0 14px #ff222222}
+/* CONFIRMACIÓN PARA QUITAR UNA CANCIÓN DEL MODO OFFLINE */
+.offline-confirm-overlay{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.78);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)}
+.offline-confirm-overlay.active{display:flex}
+.offline-confirm-box{width:min(390px,92vw);padding:25px 22px 20px;border:1px solid #b57a24;border-radius:22px;background:linear-gradient(145deg,#17120b,#070707 65%,#030303);box-shadow:0 0 18px #e7ad5433,0 20px 60px #000; text-align:center;animation:offlineConfirmIn .18s ease-out}
+@keyframes offlineConfirmIn{from{opacity:0;transform:scale(.94) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.offline-confirm-icon{width:64px;height:64px;margin:0 auto 12px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--gold2);background:radial-gradient(circle at 35% 25%,#51380f,#1b1205 45%,#050403 78%,#000);box-shadow:0 0 10px #e7ad5488,0 0 25px #e7ad5433;color:var(--gold2);font-size:30px}
+.offline-confirm-title{margin:0;color:#fff;font-size:22px;font-weight:800}
+.offline-confirm-song{margin:8px 0 4px;color:var(--gold2);font-size:16px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.offline-confirm-text{margin:0 auto 20px;color:#bdb6ad;font-size:14px;line-height:1.5;max-width:320px}
+.offline-confirm-actions{display:flex;gap:10px;justify-content:center}
+.offline-confirm-btn{flex:1;min-height:48px;border-radius:14px;padding:10px 14px;font-size:14px;font-weight:800;cursor:pointer}
+.offline-confirm-cancel{border:1px solid #76521d;background:#0c0906;color:#d9c7aa}
+.offline-confirm-remove{border:1px solid #d59b48;background:linear-gradient(135deg,#e8b85d,#a86f1e);color:#120d05;box-shadow:0 0 12px #e7ad5433}
+.offline-confirm-btn:active{transform:scale(.97)}
+.offline-confirm-cancel:hover,.offline-confirm-remove:hover{filter:brightness(1.12)}
+
 .offline{border:2px solid #63d98b;background:radial-gradient(circle at 35% 25%,#123d24,#06170d 45%,#000);box-shadow:0 0 7px #63d98b88,0 0 20px #63d98b33,inset 0 0 14px #63d98b22}
 .offline.saved{border-color:#ffd98a;box-shadow:0 0 9px #e7ad5488,0 0 20px #e7ad5433}
 .offline-img{width:31px!important;height:31px!important;object-fit:contain}
@@ -263,7 +279,6 @@ button.admin-only.admin-visible{display:flex!important}
       <button class="album-back" onclick="volverAlbumes()">← ÁLBUMES</button>
     </div>
     <div id="listaCanciones"></div>
-    <div class="offline-note">💾 Pulsa ⬇ en una canción para guardarla y escucharla sin Internet.</div>
   </div>
 
   <button id="addSongButton" class="add-button admin-only" onclick="toggleUpload()">
@@ -308,6 +323,20 @@ button.admin-only.admin-visible{display:flex!important}
 </section>
 
 <footer>ITALY MAU PRODUCER • EL DIM</footer>
+</div>
+
+<!-- CONFIRMACIÓN OFFLINE -->
+<div id="offlineConfirmOverlay" class="offline-confirm-overlay" role="dialog" aria-modal="true" aria-labelledby="offlineConfirmTitle">
+  <div class="offline-confirm-box" onclick="event.stopPropagation()">
+    <div class="offline-confirm-icon">↓</div>
+    <h3 id="offlineConfirmTitle" class="offline-confirm-title">¿Quitar de Offline?</h3>
+    <div id="offlineConfirmSong" class="offline-confirm-song"></div>
+    <p class="offline-confirm-text">La canción se eliminará de este teléfono y dejará de estar disponible sin Internet.</p>
+    <div class="offline-confirm-actions">
+      <button type="button" class="offline-confirm-btn offline-confirm-cancel" onclick="cerrarConfirmacionOffline()">CANCELAR</button>
+      <button type="button" class="offline-confirm-btn offline-confirm-remove" onclick="confirmarEliminacionOffline()">ELIMINAR</button>
+    </div>
+  </div>
 </div>
 
 <!-- MINI PLAYER -->
@@ -632,6 +661,49 @@ async function descargarBlob(url){
   return await response.blob();
 }
 
+let offlineTrackPendiente=null;
+let offlineIndexPendiente=null;
+
+function abrirConfirmacionOffline(index){
+  const track=tracks[index];
+  if(!track)return;
+  offlineTrackPendiente=track;
+  offlineIndexPendiente=index;
+  const overlay=document.getElementById("offlineConfirmOverlay");
+  const song=document.getElementById("offlineConfirmSong");
+  if(song)song.textContent=track.name||"Esta canción";
+  if(overlay)overlay.classList.add("active");
+}
+
+function cerrarConfirmacionOffline(){
+  const overlay=document.getElementById("offlineConfirmOverlay");
+  if(overlay)overlay.classList.remove("active");
+  offlineTrackPendiente=null;
+  offlineIndexPendiente=null;
+}
+
+async function confirmarEliminacionOffline(){
+  const track=offlineTrackPendiente;
+  const index=offlineIndexPendiente;
+  if(!track)return cerrarConfirmacionOffline();
+  cerrarConfirmacionOffline();
+  try{
+    await borrarOffline(track.id);
+    const boton=document.querySelectorAll(".track")[index]?.querySelector(".offline");
+    if(boton){
+      boton.classList.remove("saved");
+      boton.disabled=false;
+      boton.innerHTML='<img class="offline-img" src="./Icons/Download.png" alt="Guardar offline">';
+      boton.title="Guardar para escuchar offline";
+      boton.setAttribute("aria-label","Guardar sin Internet");
+    }
+    alert("La canción ya no está guardada para escucharla sin Internet.");
+  }catch(error){
+    console.error("Error quitando la canción del modo offline:",error);
+    alert("No se pudo quitar la canción del modo offline.\n\n"+error.message);
+  }
+}
+
 async function guardarOffline(index){
   const track=tracks[index];
   if(!track?.audio)return;
@@ -640,13 +712,7 @@ async function guardarOffline(index){
   try{
     const existente=await obtenerOffline(track.id);
     if(existente){
-      await borrarOffline(track.id);
-      if(boton){
-        boton.classList.remove("saved");
-        boton.innerHTML='<span class="offline-icon">⬇</span>';
-        boton.title="Guardar para escuchar sin Internet";
-      }
-      alert("Canción eliminada del modo offline.");
+      abrirConfirmacionOffline(index);
       return;
     }
 
@@ -866,9 +932,82 @@ function guardarMapaPortadasOffline(mapa){
     localStorage.setItem(OFFLINE_COVERS_KEY,JSON.stringify(mapa));
     return true;
   }catch(e){
-    console.warn("No se pudo guardar la portada offline. Puede faltar espacio:",e);
+    console.warn("No se pudo guardar la portada offline en localStorage; se usará IndexedDB:",e);
     return false;
   }
+}
+
+/* ============================================================
+   PORTADAS OFFLINE ROBUSTAS — IndexedDB
+   Las portadas de canciones y álbumes se guardan como Blob.
+   Esto evita el límite pequeño de localStorage/Base64.
+   ============================================================ */
+const OFFLINE_COVERS_DB="italyMauOfflineDB";
+const OFFLINE_COVERS_STORE="covers";
+let offlineCoversDBPromise=null;
+
+function abrirDBPortadasOffline(){
+  if(offlineCoversDBPromise)return offlineCoversDBPromise;
+  offlineCoversDBPromise=new Promise((resolve,reject)=>{
+    if(!window.indexedDB){reject(new Error("IndexedDB no está disponible"));return;}
+    const req=indexedDB.open(OFFLINE_COVERS_DB,1);
+    req.onupgradeneeded=()=>{
+      const db=req.result;
+      if(!db.objectStoreNames.contains(OFFLINE_COVERS_STORE)){
+        db.createObjectStore(OFFLINE_COVERS_STORE,{keyPath:"key"});
+      }
+    };
+    req.onsuccess=()=>resolve(req.result);
+    req.onerror=()=>reject(req.error||new Error("No se pudo abrir la base offline"));
+  });
+  return offlineCoversDBPromise;
+}
+
+async function guardarPortadaEnDB(key,dataUrl,url="",fecha=Date.now()){
+  try{
+    const db=await abrirDBPortadasOffline();
+    await new Promise((resolve,reject)=>{
+      const tx=db.transaction(OFFLINE_COVERS_STORE,"readwrite");
+      tx.objectStore(OFFLINE_COVERS_STORE).put({key,data:dataUrl,url:String(url||""),fecha});
+      tx.oncomplete=resolve;
+      tx.onerror=()=>reject(tx.error);
+      tx.onabort=()=>reject(tx.error);
+    });
+    return true;
+  }catch(e){
+    console.warn("No se pudo guardar la portada en IndexedDB:",e);
+    return false;
+  }
+}
+
+async function leerPortadaDeDB(key){
+  try{
+    const db=await abrirDBPortadasOffline();
+    return await new Promise((resolve,reject)=>{
+      const tx=db.transaction(OFFLINE_COVERS_STORE,"readonly");
+      const req=tx.objectStore(OFFLINE_COVERS_STORE).get(key);
+      req.onsuccess=()=>resolve(req.result||null);
+      req.onerror=()=>reject(req.error);
+    });
+  }catch(e){return null;}
+}
+
+async function guardarPortadaOfflineDB(key,dataUrl,url=""){
+  const guardada=await guardarPortadaEnDB(key,dataUrl,url);
+  if(!guardada){
+    const mapa=leerMapaPortadasOffline();
+    mapa[key]={url:String(url||""),data:dataUrl,fecha:Date.now()};
+    guardarMapaPortadasOffline(mapa);
+  }
+  return guardada;
+}
+
+function clavePortadaCancion(track){
+  return "track:"+String(track?.id??"");
+}
+
+function clavePortadaAlbum(titulo){
+  return "album:"+normalizarTexto(titulo);
 }
 
 function convertirImagenParaOffline(file,maxSize=700,quality=.78){
@@ -910,17 +1049,20 @@ async function cachearPortadaOffline(titulo,file,url){
   }
 }
 
-async function cachearPortadaUrlOffline(titulo,url){
-  if(!titulo || !url || String(url).startsWith('data:'))return null;
+async function cachearPortadaUrlOffline(titulo,url,key=null){
+  if(!titulo || !url || String(url).startsWith("data:"))return null;
   try{
     const respuesta=await fetch(url,{mode:"cors",cache:"no-store"});
     if(!respuesta.ok)throw new Error("HTTP "+respuesta.status);
     const blob=await respuesta.blob();
     if(!blob.type.startsWith("image/"))throw new Error("El archivo no es una imagen.");
     const data=await convertirImagenParaOffline(blob);
+    const clave=key||clavePortadaAlbum(titulo);
+    await guardarPortadaOfflineDB(clave,data,String(url));
+    // Mantener también el mapa antiguo para compatibilidad con instalaciones existentes.
     const mapa=leerMapaPortadasOffline();
     mapa[normalizarTexto(titulo)]={url:String(url),data,fecha:Date.now()};
-    if(!guardarMapaPortadasOffline(mapa))return null;
+    guardarMapaPortadasOffline(mapa);
     return data;
   }catch(error){
     console.warn("No se pudo guardar offline la portada de",titulo,error);
@@ -928,40 +1070,97 @@ async function cachearPortadaUrlOffline(titulo,url){
   }
 }
 
-async function cachearCatalogoPortadasOffline(){
-  // Se ejecuta en segundo plano: no bloquea la aplicación ni el reproductor.
-  if(!navigator.onLine || !albums.length)return;
+async function cachearPortadaCancionOffline(track){
+  if(!track?.id || !track.cover || String(track.cover).startsWith("data:"))return null;
+  try{
+    const existente=await leerPortadaDeDB(clavePortadaCancion(track));
+    if(existente?.data && existente.url===track.cover){
+      track.offline_cover=existente.data;
+      return existente.data;
+    }
+    const data=await cachearPortadaUrlOffline(track.name,track.cover,clavePortadaCancion(track));
+    if(data)track.offline_cover=data;
+    return data;
+  }catch(error){
+    console.warn("No se pudo cachear la portada de la canción",track.name,error);
+    return null;
+  }
+}
+
+async function cargarPortadasOfflineEnCatalogo(){
+  // Primero recuperamos inmediatamente las copias antiguas de localStorage.
   const mapa=leerMapaPortadasOffline();
+  albums.forEach(album=>{
+    const item=mapa[normalizarTexto(album.title)];
+    if(item?.data)album.offline_cover=item.data;
+  });
+
+  // Después recuperamos las copias robustas de IndexedDB.
+  try{
+    for(const album of albums){
+      const item=await leerPortadaDeDB(clavePortadaAlbum(album.title));
+      if(item?.data){
+        album.offline_cover=item.data;
+        if(item.url)album.cover_url=item.url;
+      }
+    }
+    for(const track of allTracks){
+      const item=await leerPortadaDeDB(clavePortadaCancion(track));
+      if(item?.data){
+        track.offline_cover=item.data;
+        if(item.url)track.cover=item.url;
+      }
+    }
+    if(currentAlbum!==null)mostrarCanciones();
+    mostrarAlbumes();
+  }catch(error){
+    console.warn("No se pudieron recuperar todas las portadas offline:",error);
+  }
+}
+
+async function cachearCatalogoPortadasOffline(){
+  if(!navigator.onLine)return;
+
+  // Guardamos la portada principal de cada álbum.
   for(const album of albums){
     try{
       const albumTracks=cancionesDelAlbum(album);
       const url=album.cover_url||albumTracks[0]?.cover||"";
-      if(!url || String(url).startsWith("data:"))continue;
-      const clave=normalizarTexto(album.title);
-      const guardada=mapa[clave];
-      if(guardada && guardada.data && guardada.url===url){
-        album.offline_cover=guardada.data;
-        continue;
-      }
-      const data=await cachearPortadaUrlOffline(album.title,url);
-      if(data){
-        album.offline_cover=data;
-        // Si el álbum no tenía cover_url propio, dejamos registrada la URL
-        // que usa la canción como fuente de la portada del álbum.
-        if(!album.cover_url)album.cover_url=url;
-        mostrarAlbumes();
+      if(url && !String(url).startsWith("data:")){
+        const existente=await leerPortadaDeDB(clavePortadaAlbum(album.title));
+        if(existente?.data && existente.url===url){
+          album.offline_cover=existente.data;
+        }else{
+          const data=await cachearPortadaUrlOffline(album.title,url,clavePortadaAlbum(album.title));
+          if(data)album.offline_cover=data;
+        }
       }
     }catch(error){
-      console.warn("No se pudo cachear la portada de",album.title,error);
+      console.warn("No se pudo cachear la portada del álbum",album.title,error);
     }
   }
-  guardarAlbumsLocalmente();
-}
 
+  // MUY IMPORTANTE: guardamos también la portada individual de CADA canción.
+  for(const track of allTracks){
+    try{await cachearPortadaCancionOffline(track);}catch(error){
+      console.warn("No se pudo cachear portada de",track.name,error);
+    }
+  }
+
+  guardarAlbumsLocalmente();
+  try{localStorage.setItem("italyMauCatalogo",JSON.stringify(allTracks));}catch(e){}
+  mostrarAlbumes();
+  if(currentAlbum!==null)mostrarCanciones();
+}
 
 function portadaAlbum(album,albumTracks=[]){
-  return album?.offline_cover || album?.cover_url || albumTracks[0]?.cover || FALLBACK_COVER;
+  return album?.offline_cover || album?.cover_url || albumTracks[0]?.offline_cover || albumTracks[0]?.cover || FALLBACK_COVER;
 }
+
+function portadaTrack(track){
+  return track?.offline_cover || track?.cover || FALLBACK_COVER;
+}
+
 
 const ALBUM_EXCLUIDO="mi primer album";
 
@@ -1017,6 +1216,7 @@ async function cargarCanciones(){
 
     filtrarAlbumExcluido();
     aplicarPortadasOffline();
+    cargarPortadasOfflineEnCatalogo();
     tracks=allTracks.slice();
     currentAlbum=null;
     try{
@@ -1041,6 +1241,7 @@ async function cargarCanciones(){
         albums=Array.isArray(localAlbums)&&localAlbums.length?localAlbums:construirAlbumesDesdeCanciones();
         filtrarAlbumExcluido();
         aplicarPortadasOffline();
+        cargarPortadasOfflineEnCatalogo();
         tracks=allTracks.slice();
         currentAlbum=null;
         actualizarSelectorAlbumes();
@@ -1142,7 +1343,7 @@ function mostrarCanciones(){
   tracks.forEach((track,index)=>{
     const tarjeta=document.createElement("div");tarjeta.className="track";
     tarjeta.innerHTML=`
-      <img class="cover" src="${escapeHTML(track.cover||FALLBACK_COVER)}" alt="${escapeHTML(track.name)}" onclick="playTrack(${index},true)" onerror="this.src='${FALLBACK_COVER}'">
+      <img class="cover" src="${escapeHTML(portadaTrack(track))}" alt="${escapeHTML(track.name)}" onclick="playTrack(${index},true)" onerror="this.src='${FALLBACK_COVER}'">
       <div class="info">
         <div class="name">${escapeHTML(track.name)}</div>
         <div class="sub">${escapeHTML(track.artist||"El DIM")}${track.year?" • "+escapeHTML(String(track.year)):""}</div>
@@ -1169,10 +1370,10 @@ async function loadTrack(){
   const source=await obtenerFuenteAudio(tracks[i]);
   if(String(source).startsWith("blob:")) audio.dataset.objectUrl=source;
   audio.src=source;
-  mini.src=tracks[i].cover||FALLBACK_COVER;mini.onerror=()=>mini.src=FALLBACK_COVER;
+  mini.src=portadaTrack(tracks[i]);mini.onerror=()=>mini.src=FALLBACK_COVER;
   nowname.textContent=tracks[i].name||"Sin título";progress.value=0;time.textContent="0:00 / 0:00";
-  fullCover.src=tracks[i].cover||FALLBACK_COVER;fullCover.onerror=()=>fullCover.src=FALLBACK_COVER;
-  fullBg.style.backgroundImage=`url("${(tracks[i].cover||FALLBACK_COVER).replace(/"/g,'\\"')}")`;
+  fullCover.src=portadaTrack(tracks[i]);fullCover.onerror=()=>fullCover.src=FALLBACK_COVER;
+  fullBg.style.backgroundImage=`url("${(portadaTrack(tracks[i])).replace(/"/g,'\\"')}")`;
   fullName.textContent=tracks[i].name||"Sin título";fullArtist.textContent=tracks[i].artist||"El DIM";fullGenre.textContent=tracks[i].genre||"";
   isFavorite=false;favoriteBtnUpdate();
   renderQueue();
@@ -1319,7 +1520,7 @@ function closeQueue(){document.getElementById("queuePanel").classList.remove("ac
 function renderQueue(){
   const list=document.getElementById("queueList");if(!list)return;
   if(!tracks.length){list.innerHTML='<div style="padding:15px;color:#999">No hay canciones.</div>';return}
-  list.innerHTML=tracks.map((t,n)=>`<div class="queue-item ${n===i?"current":""}" onclick="playTrack(${n})"><img src="${escapeHTML(t.cover||FALLBACK_COVER)}" onerror="this.src='${FALLBACK_COVER}'"><div><strong>${escapeHTML(t.name)}</strong><small>${escapeHTML(t.artist||"El DIM")}</small></div></div>`).join("");
+  list.innerHTML=tracks.map((t,n)=>`<div class="queue-item ${n===i?"current":""}" onclick="playTrack(${n})"><img src="${escapeHTML(portadaTrack(t))}" onerror="this.src='${FALLBACK_COVER}'"><div><strong>${escapeHTML(t.name)}</strong><small>${escapeHTML(t.artist||"El DIM")}</small></div></div>`).join("");
 }
 async function shareCurrent(){if(tracks[i])await shareTrack(i)}
 async function shareTrack(index){
@@ -1564,6 +1765,11 @@ async function subirCancion(){
   }catch(error){console.error("Error subiendo canción:",error);mostrarMensaje("Error: "+error.message,"error")}
 }
 
+
+document.getElementById("offlineConfirmOverlay")?.addEventListener("click",cerrarConfirmacionOffline);
+document.addEventListener("keydown",event=>{
+  if(event.key==="Escape")cerrarConfirmacionOffline();
+});
 
 function actualizarEstadoRed(){
   const el=document.getElementById("networkStatus");
