@@ -124,12 +124,25 @@ section{padding:24px 24px 8px}
 .message.success{color:#9cffb0;background:#0b2411;border:1px solid #245c30}.message.error{color:#ff9999;background:#260d0d;border:1px solid #6b2222}
 .mode-section{margin-top:8px}.mode-title{display:flex;align-items:center;gap:10px;margin:0 0 14px;color:var(--gold2);font-size:22px}
 .mode-title img{width:29px;height:29px;object-fit:contain}
-.play-modes{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.mode-button{min-height:105px;border-radius:16px;border:1px solid #65491f;background:linear-gradient(145deg,#18130d,#050505);color:#c0b7ac;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;transition:.2s}
-.mode-button img{width:38px;height:38px;object-fit:contain}.mode-label{font-size:12px;font-weight:bold;letter-spacing:.4px}
-.mode-button.active{color:var(--gold2);border-color:var(--gold);background:linear-gradient(145deg,#3a2811,#0d0904);box-shadow:0 0 10px #e7ad5477,0 0 25px #e7ad5422}
-.mode-button.active.blue{color:#38aaff;border-color:#168cff;background:linear-gradient(145deg,#0b2135,#03070b);box-shadow:0 0 10px #168cffaa,0 0 25px #168cff44}
-.mode-button:active{transform:scale(.94)}
+/* Modo único y cíclico */
+.player-mode,.full-tool.cycle-mode{position:relative}
+.cycle-mode img{width:24px;height:24px;object-fit:contain}
+.full-tool.cycle-mode img{width:27px;height:27px}
+.cycle-mode.active{border-color:var(--blue);box-shadow:0 0 12px #168cff77}
+
+/* Bloqueo táctil del reproductor a pantalla completa */
+.player-lock-shield{position:absolute;inset:0;z-index:4;display:none;background:transparent;touch-action:none}
+.fullscreen-player.locked .player-lock-shield{display:block}
+.fullscreen-player.locked .full-content{user-select:none}
+.fullscreen-player.locked .lockable-control,
+.fullscreen-player.locked .full-main-controls button,
+.fullscreen-player.locked .full-cover,
+.fullscreen-player.locked .full-progress,
+.fullscreen-player.locked .full-volume,
+.fullscreen-player.locked .full-header button:not(#screenLockBtn){pointer-events:none;opacity:.72}
+.fullscreen-player.locked #screenLockBtn{position:relative;z-index:6;pointer-events:auto;opacity:1;border-color:var(--blue);box-shadow:0 0 15px #168cff99}
+.lock-notice{display:none;position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:5;width:max-content;max-width:90%;padding:8px 12px;border:1px solid #168cff66;border-radius:12px;background:#020a13dd;color:#cfeeff;font-size:11px;text-align:center;pointer-events:none}
+.fullscreen-player.locked .lock-notice{display:block}
 .about-card{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px;background:linear-gradient(135deg,#16130f,#080808);border:1px solid #67491f;border-radius:18px;box-shadow:0 8px 25px #0008}
 .about-text{color:#d3cdc6;line-height:1.65;font-size:15px}.about-logo{width:120px;height:120px;object-fit:contain;filter:drop-shadow(0 0 12px #e7ad5455)}
 footer{text-align:center;color:#756b62;font-size:11px;padding:25px 20px}
@@ -145,8 +158,8 @@ footer{text-align:center;color:#756b62;font-size:11px;padding:25px 20px}
 .progress::-webkit-slider-thumb{appearance:none;width:18px;height:18px;border-radius:50%;background:#ffd98a;border:2px solid #e7ad54;box-shadow:0 0 10px #e7ad54aa}
 .progress::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:#ffd98a;border:2px solid #e7ad54}
 .player-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:9px}
-.player-modes{display:flex;align-items:center;gap:7px}.player-mode{width:38px;height:38px;border-radius:50%;border:1px solid #5e451f;background:#0a0907;display:grid;place-items:center;cursor:pointer}
-.player-mode img{width:21px;height:21px}.player-mode.active{border-color:var(--gold);box-shadow:0 0 8px #e7ad5488}.player-mode.active.one{border-color:#168cff;box-shadow:0 0 9px #168cff99}
+ .player-modes{display:flex;align-items:center;gap:7px}.player-mode{width:42px;height:42px;border-radius:50%;border:1px solid #5e451f;background:#0a0907;display:grid;place-items:center;cursor:pointer}
+.player-mode img{width:24px;height:24px;object-fit:contain}
 .player-extra{display:flex;align-items:center;gap:3px}.volume-wrap{display:flex;align-items:center;gap:5px}
 .volume{width:90px;accent-color:var(--gold)}
 .status-dot{width:7px;height:7px;border-radius:50%;background:#5d5d5d}.status-dot.playing{background:#38aaff;box-shadow:0 0 9px #168cff}
@@ -173,7 +186,7 @@ footer{text-align:center;color:#756b62;font-size:11px;padding:25px 20px}
   section{padding-left:15px;padding-right:15px}header{padding-top:90px}.logo{width:170px;height:170px}h1{font-size:22px;letter-spacing:2px}.bio{font-size:14px}
   .track{gap:9px;padding:9px;border-radius:16px}.cover{width:78px;height:78px;min-width:78px}.name{font-size:16px}.sub{font-size:12px}.wave{display:none}
   .action-btn{width:52px;height:52px;min-width:52px}.action-btn img{width:26px;height:26px}.track-actions{gap:5px}
-  .play-modes{grid-template-columns:repeat(2,1fr)}.about-card{padding:17px}.about-logo{width:80px;height:80px}.about-text{font-size:14px}
+  .about-card{padding:17px}.about-logo{width:80px;height:80px}.about-text{font-size:14px}
   .mini{width:52px;height:52px;min-width:52px}.nowname{font-size:14px}.controls{gap:3px}.controls button{width:35px}.controls .main{width:52px;height:52px}
   .player{bottom:7px;padding:10px;border-radius:18px}.volume-wrap{display:none}.player-bottom{justify-content:center}
   .full-content{padding-left:16px;padding-right:16px}.full-cover-wrap{padding-top:16px}.full-cover{width:min(82vw,420px);height:min(82vw,420px)}.full-name{font-size:23px}.full-main-controls{gap:8px}.full-main-controls .full-play{width:68px;height:68px}
@@ -181,7 +194,7 @@ footer{text-align:center;color:#756b62;font-size:11px;padding:25px 20px}
 @media(max-width:430px){
   .header-actions{left:12px;right:12px;top:12px}.icon-header{width:50px;height:50px}.icon-header img{width:27px;height:27px}
   .track{gap:7px}.cover{width:68px;height:68px;min-width:68px}.action-btn{width:45px;height:45px;min-width:45px}.action-btn img{width:22px;height:22px}.name{font-size:14px}.sub{font-size:11px}.info{min-width:60px}.about-logo{display:none}
-  .player-modes{gap:5px}.player-mode{width:35px;height:35px}.controls .main{width:48px;height:48px}.controls button{width:31px}.controls button img{width:25px;height:25px}
+  .player-modes{gap:5px}.player-mode{width:35px;height:35px}.player-mode img{width:21px;height:21px}.controls .main{width:48px;height:48px}.controls button{width:31px}.controls button img{width:25px;height:25px}
   .full-cover{width:min(86vw,390px);height:min(86vw,390px)}.full-cover-wrap{flex:none;margin-top:15px}.full-meta{margin-top:5px}.full-main-controls button{width:45px;height:45px}
 }
 
@@ -283,23 +296,7 @@ button.admin-only.admin-visible{display:flex!important}
   </div>
 </section>
 
-<section class="mode-section">
-  <h2 class="mode-title"><img src="./Icons/Shuffle.png" alt=""> MODO DE REPRODUCCIÓN</h2>
-  <div class="play-modes">
-    <button id="modeRandom" class="mode-button" onclick="setPlayMode('aleatorio')">
-      <img src="./Icons/Shuffle.png" alt=""><span class="mode-label">ALEATORIO</span>
-    </button>
-    <button id="modeSequential" class="mode-button active" onclick="setPlayMode('seguido')">
-      <img src="./Icons/continuous playback.png" alt=""><span class="mode-label">SEGUIDO</span>
-    </button>
-    <button id="modeOne" class="mode-button" onclick="setPlayMode('una')">
-      <img src="./Icons/Repeat-one.png" alt=""><span class="mode-label">BUCLE UNA</span>
-    </button>
-    <button id="modeAll" class="mode-button" onclick="setPlayMode('todas')">
-      <img src="./Icons/Repeat-all.png" alt=""><span class="mode-label">BUCLE TODAS</span>
-    </button>
-  </div>
-</section>
+
 
 <section>
   <h2 class="title"><img class="title-icon" src="./Icons/User.png" alt=""> SOBRE EL ARTISTA</h2>
@@ -332,10 +329,7 @@ button.admin-only.admin-visible{display:flex!important}
   <input id="progress" class="progress" type="range" min="0" max="100" value="0" aria-label="Progreso">
   <div class="player-bottom">
     <div class="player-modes">
-      <button id="playerModeRandom" class="player-mode" onclick="setPlayMode('aleatorio')" title="Aleatorio"><img src="./Icons/Shuffle.png" alt=""></button>
-      <button id="playerModeSequential" class="player-mode active" onclick="setPlayMode('seguido')" title="Seguido"><img src="./Icons/continuous playback.png" alt=""></button>
-      <button id="playerModeOne" class="player-mode" onclick="setPlayMode('una')" title="Bucle una"><img src="./Icons/Repeat-one.png" alt=""></button>
-      <button id="playerModeAll" class="player-mode" onclick="setPlayMode('todas')" title="Bucle todas"><img src="./Icons/Repeat-all.png" alt=""></button>
+      <button id="playerModeCycle" class="player-mode cycle-mode" onclick="ciclarModoReproduccion()" title="Modo de reproducción"><img id="playerModeCycleIcon" src="./Icons/continuous playback.png" alt="Modo seguido"></button>
     </div>
     <div class="player-extra">
       <div class="volume-wrap">
@@ -350,7 +344,7 @@ button.admin-only.admin-visible{display:flex!important}
 
 <!-- FULLSCREEN PLAYER -->
 <div id="fullscreenPlayer" class="fullscreen-player" aria-hidden="true">
-  <div id="fullBg" class="full-bg"></div><div class="full-overlay"></div>
+  <div id="fullBg" class="full-bg"></div><div class="full-overlay"></div><div id="playerLockShield" class="player-lock-shield" aria-hidden="true"></div>
   <div class="full-content">
     <div class="full-header">
       <button onclick="closeFullPlayer()" aria-label="Cerrar"><img src="./Icons/Previous.png" alt=""></button>
@@ -376,13 +370,14 @@ button.admin-only.admin-visible{display:flex!important}
       <button onclick="skip(10)" title="Avanzar 10 segundos"><img src="./Icons/Next.png" alt=""></button>
       <button onclick="next()" title="Siguiente"><img src="./Icons/Next.png" alt=""></button>
     </div>
-    <div class="full-tools">
-      <button id="fullShuffle" class="full-tool" onclick="setPlayMode('aleatorio')" title="Aleatorio"><img src="./Icons/Shuffle.png" alt=""></button>
-      <button id="fullRepeatOne" class="full-tool" onclick="setPlayMode('una')" title="Repetir una"><img src="./Icons/Repeat-one.png" alt=""></button>
-      <button id="favoriteBtn" class="full-tool" onclick="toggleFavorite()" title="Favorito"><img src="./Icons/Favorite.png" alt=""></button>
-      <button class="full-tool" onclick="openQueue()" title="Lista"><img src="./Icons/Playlist.png" alt=""></button>
-      <button class="full-tool" onclick="shareCurrent()" title="Compartir"><img src="./Icons/share.png" alt=""></button>
+    <div class="full-tools" id="fullTools">
+      <button id="fullModeCycle" class="full-tool cycle-mode" onclick="ciclarModoReproduccion()" title="Modo de reproducción"><img id="fullModeCycleIcon" src="./Icons/continuous playback.png" alt="Modo seguido"></button>
+      <button id="favoriteBtn" class="full-tool lockable-control" onclick="toggleFavorite()" title="Favorito"><img src="./Icons/Favorite.png" alt=""></button>
+      <button class="full-tool lockable-control" onclick="openQueue()" title="Lista"><img src="./Icons/Playlist.png" alt=""></button>
+      <button class="full-tool lockable-control" onclick="shareCurrent()" title="Compartir"><img src="./Icons/share.png" alt=""></button>
+      <button id="screenLockBtn" class="full-tool screen-lock" onclick="toggleScreenLock()" title="Bloquear pantalla"><img id="screenLockIcon" src="./Icons/candado_abierto.png" alt="Pantalla desbloqueada"></button>
     </div>
+    <div id="lockNotice" class="lock-notice" aria-hidden="true">🔒 Pantalla bloqueada — toca el candado para desbloquear</div>
     <div class="full-volume">
       <img id="fullVolumeIcon" src="./Icons/Volumen.png" alt="">
       <input id="fullVolume" type="range" min="0" max="1" step="0.01" value="1" aria-label="Volumen">
@@ -1241,11 +1236,52 @@ audio.addEventListener("ended",()=>{
   playTrack(i);
 });
 
+const MODOS_REPRODUCCION=[
+  {id:"seguido",icon:"continuous playback.png",label:"Seguido"},
+  {id:"todas",icon:"Repeat-all.png",label:"Bucle todas"},
+  {id:"una",icon:"Repeat-one.png",label:"Bucle una"},
+  {id:"aleatorio",icon:"Shuffle.png",label:"Aleatorio"}
+];
+
+function actualizarBotonesModo(){
+  const actual=MODOS_REPRODUCCION.find(m=>m.id===playMode)||MODOS_REPRODUCCION[0];
+  const icono=icon(actual.icon);
+  const miniBtn=document.getElementById("playerModeCycle"),miniImg=document.getElementById("playerModeCycleIcon");
+  const fullBtn=document.getElementById("fullModeCycle"),fullImg=document.getElementById("fullModeCycleIcon");
+  [miniBtn,fullBtn].forEach(btn=>btn?.classList.add("active"));
+  if(miniImg){miniImg.src=icono;miniImg.alt="Modo "+actual.label;miniBtn.title="Modo: "+actual.label+" — tocar para cambiar";}
+  if(fullImg){fullImg.src=icono;fullImg.alt="Modo "+actual.label;fullBtn.title="Modo: "+actual.label+" — tocar para cambiar";}
+}
+
 function setPlayMode(mode){
+  if(!MODOS_REPRODUCCION.some(m=>m.id===mode))mode="seguido";
   playMode=mode;
-  const map={aleatorio:["modeRandom","playerModeRandom","fullShuffle"],seguido:["modeSequential","playerModeSequential"],una:["modeOne","playerModeOne","fullRepeatOne"],todas:["modeAll","playerModeAll"]};
-  document.querySelectorAll(".mode-button,.player-mode,.full-tool").forEach(b=>b.classList.remove("active","blue","one"));
-  (map[mode]||[]).forEach(id=>{const b=document.getElementById(id);if(b){b.classList.add("active");if(mode==="una")b.classList.add("one")}});
+  actualizarBotonesModo();
+}
+
+function ciclarModoReproduccion(){
+  const pos=MODOS_REPRODUCCION.findIndex(m=>m.id===playMode);
+  const siguiente=MODOS_REPRODUCCION[(pos+1)%MODOS_REPRODUCCION.length];
+  setPlayMode(siguiente.id);
+}
+
+let screenLocked=false;
+
+function actualizarEstadoBloqueo(){
+  const player=document.getElementById("fullscreenPlayer");
+  const btn=document.getElementById("screenLockBtn");
+  const img=document.getElementById("screenLockIcon");
+  const notice=document.getElementById("lockNotice");
+  if(!player)return;
+  player.classList.toggle("locked",screenLocked);
+  if(btn)btn.title=screenLocked?"Desbloquear pantalla":"Bloquear pantalla";
+  if(img){img.src=icon(screenLocked?"candado_cerrado.png":"candado_abierto.png");img.alt=screenLocked?"Pantalla bloqueada":"Pantalla desbloqueada";}
+  if(notice)notice.setAttribute("aria-hidden",screenLocked?"false":"true");
+}
+
+function toggleScreenLock(){
+  screenLocked=!screenLocked;
+  actualizarEstadoBloqueo();
 }
 
 function actualizarTiempo(){
@@ -1272,9 +1308,9 @@ function toggleMute(){
 async function openFullPlayer(){
   if(!tracks.length)return;
   if(!audio.src)await loadTrack();
-  fullPlayer.classList.add("active");fullPlayer.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";
+  fullPlayer.classList.add("active");fullPlayer.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";actualizarEstadoBloqueo();actualizarBotonesModo();
 }
-function closeFullPlayer(){fullPlayer.classList.remove("active");fullPlayer.setAttribute("aria-hidden","true");document.body.style.overflow=""}
+function closeFullPlayer(){screenLocked=false;actualizarEstadoBloqueo();fullPlayer.classList.remove("active");fullPlayer.setAttribute("aria-hidden","true");document.body.style.overflow=""}
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeFullPlayer();if(e.code==="Space"&&fullPlayer.classList.contains("active")){e.preventDefault();toggle()}});
 
 function openQueue(){renderQueue();document.getElementById("queuePanel").classList.add("active")}
@@ -1543,7 +1579,7 @@ function actualizarEstadoRed(){
 window.addEventListener("online",actualizarEstadoRed);
 window.addEventListener("offline",actualizarEstadoRed);
 
-setPlayMode("seguido");setVolume(1);actualizarEstadoRed();mostrarAdminControls(false);(async()=>{await comprobarAdministrador();await cargarCanciones();})();
+setPlayMode("seguido");setVolume(1);actualizarEstadoRed();actualizarEstadoBloqueo();mostrarAdminControls(false);(async()=>{await comprobarAdministrador();await cargarCanciones();})();
 window.addEventListener("beforeunload",()=>{
   if(audio.dataset.objectUrl){
     try{URL.revokeObjectURL(audio.dataset.objectUrl)}catch{}
