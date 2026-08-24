@@ -131,7 +131,7 @@ section{padding:24px 24px 8px}
 .cycle-mode.active{border-color:var(--blue);box-shadow:0 0 12px #168cff77}
 
 /* Bloqueo táctil del reproductor a pantalla completa */
-.player-lock-shield{position:absolute;inset:0;z-index:4;display:none;background:transparent;touch-action:none}
+.player-lock-shield{position:absolute;inset:0;z-index:1;display:none;background:transparent;pointer-events:none}
 .fullscreen-player.locked .player-lock-shield{display:block}
 .fullscreen-player.locked .full-content{user-select:none}
 .fullscreen-player.locked .lockable-control,
@@ -139,8 +139,9 @@ section{padding:24px 24px 8px}
 .fullscreen-player.locked .full-cover,
 .fullscreen-player.locked .full-progress,
 .fullscreen-player.locked .full-volume,
+.fullscreen-player.locked .full-tools button:not(#screenLockBtn),
 .fullscreen-player.locked .full-header button:not(#screenLockBtn){pointer-events:none;opacity:.72}
-.fullscreen-player.locked #screenLockBtn{position:relative;z-index:6;pointer-events:auto;opacity:1;border-color:var(--blue);box-shadow:0 0 15px #168cff99}
+.fullscreen-player.locked #screenLockBtn{position:relative;z-index:10;pointer-events:auto;opacity:1;border-color:var(--blue);box-shadow:0 0 15px #168cff99}
 .lock-notice{display:none;position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:5;width:max-content;max-width:90%;padding:8px 12px;border:1px solid #168cff66;border-radius:12px;background:#020a13dd;color:#cfeeff;font-size:11px;text-align:center;pointer-events:none}
 .fullscreen-player.locked .lock-notice{display:block}
 .about-card{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px;background:linear-gradient(135deg,#16130f,#080808);border:1px solid #67491f;border-radius:18px;box-shadow:0 8px 25px #0008}
