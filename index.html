@@ -242,10 +242,36 @@ button.admin-only.admin-visible{display:flex!important}
 .auth-message.show{display:block}.auth-message.error{color:#ff9999;background:#260d0d;border:1px solid #6b2222}.auth-message.success{color:#9cffb0;background:#0b2411;border:1px solid #245c30}
 .auth-user{margin-top:12px;padding:10px;border:1px solid #3b2c18;border-radius:10px;color:#cfc6bb;font-size:12px}
 
+
+/* SPLASH SCREEN PREMIUM */
+#splash{position:fixed;inset:0;z-index:99999;background:radial-gradient(circle at center,#3a260c 0%,#090909 45%,#000 100%);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.splash-light{position:absolute;width:450px;height:450px;background:radial-gradient(circle,#e7ad5444,transparent 70%);animation:pulseLight 2s infinite}
+.splash-content{position:relative;text-align:center;animation:logoIntro 1.5s ease}
+.splash-logo{width:190px;height:190px;object-fit:contain;filter:drop-shadow(0 0 15px #e7ad54) drop-shadow(0 0 40px #e7ad5477)}
+.splash-content h1{margin:10px 0 0;color:#ffd98a;font-size:30px;letter-spacing:5px}
+.splash-content h2{margin:0;color:#e7ad54;font-size:20px;letter-spacing:8px}
+.splash-artist{margin-top:18px;color:white;font-size:18px;letter-spacing:7px;font-weight:bold}
+.splash-content p{color:#aaa;margin-top:15px;font-size:14px}
+@keyframes logoIntro{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+@keyframes pulseLight{0%,100%{transform:scale(.8);opacity:.4}50%{transform:scale(1.2);opacity:.8}}
+.splash-hide{animation:splashOut .8s ease forwards}
+@keyframes splashOut{to{opacity:0;visibility:hidden}}
 </style>
 </head>
 
 <body>
+<!-- SPLASH SCREEN ITALY MAU PRODUCER -->
+<div id="splash">
+  <div class="splash-light"></div>
+  <div class="splash-content">
+    <img src="Media/logo.png" class="splash-logo" alt="Italy Mau Producer">
+    <h1>ITALY MAU</h1>
+    <h2>PRODUCER</h2>
+    <div class="splash-artist">EL DIM</div>
+    <p>♪ Music Producer ♪</p>
+  </div>
+</div>
+
 <div id="adminStatus" class="admin-status">ADMINISTRADOR</div>
 <div class="app">
 
@@ -1810,6 +1836,9 @@ if("serviceWorker"in navigator){
 window.addEventListener("online",()=>{
   try{cachearCatalogoPortadasOffline();}catch(e){}
 });
+</script>
+<script>
+window.addEventListener("load",()=>{setTimeout(()=>{const s=document.getElementById("splash");if(s)s.classList.add("splash-hide");},2500);});
 </script>
 </body>
 </html>
