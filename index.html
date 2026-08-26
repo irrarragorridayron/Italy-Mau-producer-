@@ -23,7 +23,7 @@ body{
 }
 button,input{font:inherit}
 button{ -webkit-tap-highlight-color:transparent }
-.app{width:100%;max-width:1000px;margin:auto;min-height:100vh;padding-bottom:30px}
+.app{width:100%;max-width:1000px;margin:auto;min-height:100vh;padding-bottom:190px}
 header{position:relative;text-align:center;padding:30px 20px 25px;overflow:hidden;border-bottom:1px solid #76501f}
 header:before,header:after{content:"";position:absolute;width:420px;height:420px;pointer-events:none;background:radial-gradient(circle,#e7ad5420,transparent 65%)}
 header:before{left:-180px;top:-170px}header:after{right:-180px;bottom:-230px}
@@ -164,9 +164,8 @@ section{padding:24px 24px 8px}
 .about-text{color:#d3cdc6;line-height:1.65;font-size:15px}.about-logo{width:120px;height:120px;object-fit:contain;filter:drop-shadow(0 0 12px #e7ad5455)}
 footer{text-align:center;color:#756b62;font-size:11px;padding:25px 20px}
 
-/* Mini player: oculto en las pantallas de catálogo/álbumes.
-   El reproductor completo se abre al tocar Reproducir. */
-.player{display:none!important;position:fixed;left:50%;bottom:12px;transform:translateX(-50%);width:min(960px,calc(100% - 24px));padding:14px 18px;background:linear-gradient(145deg,#15110bfa,#060606f5);backdrop-filter:blur(18px);border:1px solid #76501f;border-radius:22px;box-shadow:0 0 35px #000,0 0 25px #e7ad5422;z-index:1000}
+/* Mini player */
+.player{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);width:min(960px,calc(100% - 24px));padding:14px 18px;background:linear-gradient(145deg,#15110bfa,#060606f5);backdrop-filter:blur(18px);border:1px solid #76501f;border-radius:22px;box-shadow:0 0 35px #000,0 0 25px #e7ad5422;z-index:1000}
 .player-top{display:flex;align-items:center;gap:13px}.mini{width:64px;height:64px;min-width:64px;object-fit:cover;border-radius:12px;border:1px solid #76501f;box-shadow:0 0 10px #000;cursor:pointer}
 .nowtext{flex:1;min-width:0}.nowname{color:#fff;font-size:17px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.time{margin-top:5px;color:#a9a19a;font-size:12px}
 .controls{display:flex;align-items:center;gap:8px}.controls button,.player-extra button{border:0;background:none;color:var(--gold2);width:43px;height:43px;cursor:pointer;display:grid;place-items:center}
@@ -333,13 +332,53 @@ font-size:22px;
 cursor:pointer;
 margin-bottom:15px;
 }
+
+/* Unificación: Nuevos lanzamientos es la zona temporal de Sencillos */
+.new-releases-info{
+margin:0 0 18px;
+padding:20px 18px;
+border:1px solid #8b6425;
+border-radius:22px;
+background:linear-gradient(145deg,#17130e,#080808 68%);
+box-shadow:0 8px 28px #0008,inset 0 0 24px #e7ad5408;
+}
+.new-releases-kicker{color:#e7ad54;font-size:12px;font-weight:800;letter-spacing:4px;margin-bottom:10px}
+.new-releases-title{color:#ffd98a;font-size:27px;font-weight:900;letter-spacing:.5px;margin-bottom:8px}
+.new-releases-text{color:#c8c0b7;font-size:15px;line-height:1.5}
+.new-release-album{border-color:#b8862d;box-shadow:0 8px 30px #000,0 0 18px #e7ad5420,inset 0 0 20px #e7ad540b}
+.album-temporary-label{display:inline-block;margin-bottom:7px;color:#ffd98a;font-size:10px;font-weight:900;letter-spacing:1.5px}
+@media(max-width:430px){
+.new-releases-info{padding:18px 15px;border-radius:20px}
+.new-releases-kicker{font-size:10px;letter-spacing:3px}
+.new-releases-title{font-size:23px}
+.new-releases-text{font-size:14px}
+}
 </style>
 
 <script>
 function showView(id){
  document.querySelectorAll('.view-page').forEach(v=>v.classList.remove('active'));
  document.getElementById(id).classList.add('active');
+ if(id==='albums-page' && typeof mostrarAlbumesSecundaria==='function') mostrarAlbumesSecundaria();
  window.scrollTo(0,0);
+}
+
+function mostrarAlbumesSecundaria(){
+  const lista=document.getElementById('listaAlbumesSecundaria');
+  if(!lista || typeof albums==='undefined') return;
+  lista.innerHTML='';
+  if(!albums.length){lista.innerHTML='<div class="album-empty">Todavía no hay álbumes disponibles.</div>';return;}
+  albums.forEach(album=>{
+    const albumTracks=cancionesDelAlbum(album);
+    const card=document.createElement('div');
+    card.className='album-card';
+    const cover=portadaAlbum(album,albumTracks);
+    const artist=albumTracks[0]?.artist||'El DIM';
+    const year=albumTracks[0]?.year||'';
+    card.innerHTML=`<img class="album-cover" src="${escapeHTML(cover)}" alt="${escapeHTML(album.title)}" onerror="this.src='${FALLBACK_COVER}'"><div class="album-info"><div class="album-name">${escapeHTML(album.title)}</div><div class="album-artist">${escapeHTML(artist)}${year?' • '+escapeHTML(String(year)):''}</div><div class="album-count">${albumTracks.length} ${albumTracks.length===1?'canción':'canciones'}</div><div class="album-open">ABRIR ÁLBUM →</div></div>`;
+    card.addEventListener('click',()=>{showView('home-page');abrirAlbum(album.id);});
+    lista.appendChild(card);
+  });
 }
 </script>
 
@@ -359,7 +398,7 @@ function showView(id){
 </div>
 
 <div id="adminStatus" class="admin-status">ADMINISTRADOR</div>
-<div class="app">
+<div id="home-page" class="app view-page active">
 
 <header>
   <div class="header-actions">
@@ -388,6 +427,11 @@ function showView(id){
   <h2 class="title"><span>💿</span> MIS ÁLBUMES</h2>
 
   <div id="albumView">
+    <div id="newReleasesInfo" class="new-releases-info">
+      <div class="new-releases-kicker">🔥 &nbsp; NO ES UN ÁLBUM OFICIAL</div>
+      <div class="new-releases-title">NUEVOS LANZAMIENTOS</div>
+      <div class="new-releases-text">Los temas nuevos permanecen aquí hasta que pasen a su álbum oficial.</div>
+    </div>
     <div id="listaAlbumes" class="album-grid">
       <div class="album-empty">Cargando álbumes...</div>
     </div>
@@ -403,11 +447,6 @@ function showView(id){
 
   
   <div class="glass-feature">
-    <div class="feature-card">
-      <div class="feature-icon">🔥</div>
-      <h3>NUEVOS LANZAMIENTOS</h3>
-      <p>Los temas más recientes de EL DIM antes de pasar a su álbum oficial.</p>
-    </div>
     <div class="feature-card">
       <div class="feature-icon">🎤</div>
       <h3>KARAOKE</h3>
@@ -1416,9 +1455,12 @@ function mostrarAlbumes(){
     const artista=albumTracks[0]?.artist||"El DIM";
     const anio=albumTracks[0]?.year||"";
 
+    const esSencillos=normalizarTexto(album.title)==='sencillos';
+    tarjeta.classList.toggle('new-release-album',esSencillos);
     tarjeta.innerHTML=`
       <img class="album-cover" src="${escapeHTML(portada)}" alt="${escapeHTML(album.title)}" onerror="this.src='${FALLBACK_COVER}'">
       <div class="album-info">
+        ${esSencillos?'<div class="album-temporary-label">NUEVOS LANZAMIENTOS • TEMPORAL</div>':''}
         <div class="album-name">${escapeHTML(album.title)}</div>
         <div class="album-artist">${escapeHTML(artista)}${anio?" • "+escapeHTML(String(anio)):""}</div>
         <div class="album-count">${albumTracks.length} ${albumTracks.length===1?"canción":"canciones"}</div>
@@ -1490,7 +1532,7 @@ function mostrarCanciones(){
         <div class="wave">${crearWave()}</div>
       </div>
       <div class="track-actions">
-        <button class="action-btn play" onclick="playTrack(${index},true)" aria-label="Reproducir y abrir reproductor" title="Reproducir"><img src="${icon("play.png")}" alt=""></button>
+        <button class="action-btn play" onclick="playTrack(${index})" aria-label="Reproducir"><img src="${icon("play.png")}" alt=""></button>
         <button class="action-btn offline" onclick="guardarOffline(${index})" aria-label="Guardar sin Internet" title="Guardar para escuchar offline"><img class="offline-img" src="./Icons/Download.png" alt=""></button>
         <button class="action-btn share" onclick="shareTrack(${index})" aria-label="Compartir"><img src="${icon("share.png")}" alt=""></button>
         <button class="action-btn delete admin-only${isAdmin ? " admin-visible" : ""}" onclick="eliminarCancion(${index})" aria-label="Eliminar"><img src="${icon("Delete.png")}" alt=""></button>
@@ -1959,35 +2001,15 @@ window.addEventListener("load",()=>{setTimeout(()=>{const s=document.getElementB
 </div>
 
 <div id="albums-page" class="view-page album-screen">
-<div class="back-btn" onclick="showView('home-page')">← Volver</div>
-<h1 style="color:#d4af37;text-align:center">MIS ÁLBUMES</h1>
-
-<div class="album-card-new">
-<img src="Media/sencillos.png">
-<div>
-<h3>Nuevos lanzamientos</h3>
-<p>EL DIM • 2026</p>
-<p>Temas nuevos antes de pasar a un álbum oficial</p>
+  <div class="back-btn" onclick="showView('home-page')">← Volver</div>
+  <h1 style="color:#d4af37;text-align:center">MIS ÁLBUMES</h1>
+  <div class="new-releases-info">
+    <div class="new-releases-kicker">🔥 &nbsp; NO ES UN ÁLBUM OFICIAL</div>
+    <div class="new-releases-title">NUEVOS LANZAMIENTOS</div>
+    <div class="new-releases-text">Los temas nuevos permanecen aquí hasta que pasen a su álbum oficial.</div>
+  </div>
+  <div id="listaAlbumesSecundaria" class="album-grid"><div class="album-empty">Cargando álbumes...</div></div>
 </div>
-</div>
-
-<div class="album-card-new">
-<img src="Media/mi_regueton_para_ti.png">
-<div>
-<h3>Mi Reguetón para ti</h3>
-<p>EL DIM • 2026</p>
-<p>Álbum oficial</p>
-</div>
-</div>
-
-<div class="album-card-new">
-<img src="Media/logo.png">
-<div>
-<h3>Más por venir</h3>
-<p>Próximos proyectos</p>
-</div>
-</div>
-
 </div>
 </body>
 </html>
