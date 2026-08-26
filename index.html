@@ -395,6 +395,175 @@ function showView(id){
   .full-main-controls .full-play{width:76px!important;height:76px!important}
 }
 </style>
+
+<style id="buttons-no-circle-final">
+/* =========================================================
+   BOTONES SIN CÍRCULO — conservan exactamente el área táctil
+   ========================================================= */
+
+/* Botones de canciones */
+.track-actions .action-btn{
+  width:58px!important;
+  height:58px!important;
+  min-width:58px!important;
+  flex:0 0 58px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  padding:0!important;
+  overflow:visible!important;
+}
+.track-actions .action-btn img{
+  width:48px!important;
+  height:48px!important;
+  object-fit:contain!important;
+  filter:none;
+  transition:filter .12s ease, transform .12s ease;
+}
+.track-actions .action-btn:active img{
+  transform:scale(.94);
+}
+.track-actions .play:active img{
+  filter:drop-shadow(0 0 8px #168cff) drop-shadow(0 0 15px #168cff);
+}
+.track-actions .offline:active img,
+.track-actions .offline.saved:active img{
+  filter:drop-shadow(0 0 8px #63d98b) drop-shadow(0 0 15px #63d98b);
+}
+.track-actions .share:active img{
+  filter:drop-shadow(0 0 8px #ffd98a) drop-shadow(0 0 15px #ffd98a);
+}
+.track-actions .delete:active img{
+  filter:drop-shadow(0 0 8px #ff3333) drop-shadow(0 0 15px #ff3333);
+}
+
+/* Reproductor inferior */
+.controls button,
+.player-extra button{
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  width:50px!important;
+  height:50px!important;
+}
+.controls button img,
+.player-extra button img{
+  transition:filter .12s ease,transform .12s ease;
+}
+.controls button:active img,
+.player-extra button:active img{
+  transform:scale(.93);
+  filter:drop-shadow(0 0 8px #ffd98a) drop-shadow(0 0 14px #e7ad54);
+}
+.controls .main{
+  width:68px!important;
+  height:68px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.controls .main:active img{
+  filter:drop-shadow(0 0 9px #ffd98a) drop-shadow(0 0 18px #e7ad54);
+}
+
+/* Modos del reproductor */
+.player-mode{
+  width:48px!important;
+  height:48px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.player-mode:active img{
+  transform:scale(.93);
+  filter:drop-shadow(0 0 8px #ffd98a) drop-shadow(0 0 14px #e7ad54);
+}
+
+/* Reproductor a pantalla completa */
+.full-header button,
+.full-main-controls button,
+.full-tool{
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.full-header button:active img,
+.full-main-controls button:active img,
+.full-tool:active img{
+  transform:scale(.93);
+  filter:drop-shadow(0 0 8px #ffd98a) drop-shadow(0 0 15px #e7ad54);
+}
+.full-main-controls .full-play{
+  width:84px!important;
+  height:84px!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.full-main-controls .full-play:active img{
+  filter:drop-shadow(0 0 10px #ffd98a) drop-shadow(0 0 20px #e7ad54);
+}
+
+/* Encabezados / volver: conservan el tamaño táctil pero sin círculo */
+.icon-header,
+.album-screen-head button,
+.album-back,
+.full-header button{
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.icon-header:active img,
+.album-screen-head button:active,
+.album-back:active,
+.full-header button:active img{
+  filter:drop-shadow(0 0 8px #ffd98a) drop-shadow(0 0 14px #e7ad54);
+  transform:scale(.94);
+}
+
+/* En móvil: mismos tamaños táctiles, sin círculos */
+@media(max-width:600px){
+  .track-actions .action-btn{
+    width:56px!important;
+    height:56px!important;
+    min-width:56px!important;
+    flex-basis:56px!important;
+  }
+  .track-actions .action-btn img{
+    width:46px!important;
+    height:46px!important;
+  }
+  .controls button,
+  .player-extra button{
+    width:44px!important;
+    height:44px!important;
+  }
+  .controls .main{
+    width:62px!important;
+    height:62px!important;
+  }
+  .player-mode{
+    width:43px!important;
+    height:43px!important;
+  }
+  .full-main-controls button{
+    width:52px!important;
+    height:52px!important;
+  }
+  .full-main-controls .full-play{
+    width:76px!important;
+    height:76px!important;
+  }
+}
+</style>
+
 </head>
 
 <body>
