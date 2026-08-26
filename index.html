@@ -23,7 +23,7 @@ body{
 }
 button,input{font:inherit}
 button{ -webkit-tap-highlight-color:transparent }
-.app{width:100%;max-width:1000px;margin:auto;min-height:100vh;padding-bottom:30px}
+.app{width:100%;max-width:1000px;margin:auto;min-height:100vh;padding-bottom:190px}
 header{position:relative;text-align:center;padding:30px 20px 25px;overflow:hidden;border-bottom:1px solid #76501f}
 header:before,header:after{content:"";position:absolute;width:420px;height:420px;pointer-events:none;background:radial-gradient(circle,#e7ad5420,transparent 65%)}
 header:before{left:-180px;top:-170px}header:after{right:-180px;bottom:-230px}
@@ -164,9 +164,8 @@ section{padding:24px 24px 8px}
 .about-text{color:#d3cdc6;line-height:1.65;font-size:15px}.about-logo{width:120px;height:120px;object-fit:contain;filter:drop-shadow(0 0 12px #e7ad5455)}
 footer{text-align:center;color:#756b62;font-size:11px;padding:25px 20px}
 
-/* Mini player: oculto en las pantallas de catálogo/álbumes.
-   El reproductor completo se abre al tocar Reproducir. */
-.player{display:none!important;position:fixed;left:50%;bottom:12px;transform:translateX(-50%);width:min(960px,calc(100% - 24px));padding:14px 18px;background:linear-gradient(145deg,#15110bfa,#060606f5);backdrop-filter:blur(18px);border:1px solid #76501f;border-radius:22px;box-shadow:0 0 35px #000,0 0 25px #e7ad5422;z-index:1000}
+/* Mini player */
+.player{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);width:min(960px,calc(100% - 24px));padding:14px 18px;background:linear-gradient(145deg,#15110bfa,#060606f5);backdrop-filter:blur(18px);border:1px solid #76501f;border-radius:22px;box-shadow:0 0 35px #000,0 0 25px #e7ad5422;z-index:1000}
 .player-top{display:flex;align-items:center;gap:13px}.mini{width:64px;height:64px;min-width:64px;object-fit:cover;border-radius:12px;border:1px solid #76501f;box-shadow:0 0 10px #000;cursor:pointer}
 .nowtext{flex:1;min-width:0}.nowname{color:#fff;font-size:17px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.time{margin-top:5px;color:#a9a19a;font-size:12px}
 .controls{display:flex;align-items:center;gap:8px}.controls button,.player-extra button{border:0;background:none;color:var(--gold2);width:43px;height:43px;cursor:pointer;display:grid;place-items:center}
@@ -361,6 +360,52 @@ function showView(id){
 <div id="adminStatus" class="admin-status">ADMINISTRADOR</div>
 <div class="app">
 
+<style id="clean-navigation-style">
+#cleanHome{display:none;padding-bottom:100px}
+#cleanHome .home-hero{position:relative;margin:12px 15px 18px;min-height:520px;border-radius:28px;overflow:hidden;border:1px solid #8a6429;background:#080808;box-shadow:0 18px 50px #000}
+#cleanHome .home-hero img.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;opacity:.82}
+#cleanHome .home-hero .shade{position:absolute;inset:0;background:linear-gradient(180deg,#0000 15%,#0005 45%,#050505f2 82%,#050505 100%)}
+#cleanHome .home-content{position:relative;z-index:2;min-height:520px;padding:22px;display:flex;flex-direction:column;justify-content:flex-end}
+#cleanHome .home-logo{width:105px;height:105px;object-fit:contain;align-self:center;margin-bottom:auto;filter:drop-shadow(0 0 14px #d4af3788)}
+#cleanHome .kicker{color:#e7ad54;font-size:11px;font-weight:900;letter-spacing:4px}
+#cleanHome h2{margin:4px 0;color:#fff;font-size:40px;letter-spacing:4px}
+#cleanHome .brand{color:#ffd98a;font-size:13px;font-weight:800;letter-spacing:2px}
+#cleanHome .bio{color:#eee;line-height:1.5;font-size:13px;margin:12px 0 17px}
+#cleanHome .home-btn{border:1px solid #b88635;border-radius:17px;background:linear-gradient(135deg,#d99a38,#7d4f16);color:#100a04;font-weight:900;min-height:52px;font-size:15px;cursor:pointer;margin-bottom:9px}
+#cleanHome .home-btn.secondary{background:#090909e8;color:#ffd98a}
+#cleanHome .home-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 15px}
+#cleanHome .home-card{padding:17px;border:1px solid #76501f;border-radius:19px;background:#0c0a08;color:#fff}
+#cleanHome .home-card b{display:block;color:#ffd98a;margin-bottom:5px}
+#cleanHome .home-card p{margin:0;color:#999;font-size:12px;line-height:1.4}
+#albumSectionScreen{display:none;padding-bottom:110px}
+#albumSectionScreen>.section-inner{padding-top:8px}
+#albumSectionScreen .glass-feature,#albumSectionScreen #addSongButton,#albumSectionScreen #uploadPanel,#albumSectionScreen #albumCoverPanel{display:none!important}
+#albumSectionScreen .album-screen-head{display:flex;align-items:center;gap:12px;padding:12px 15px 5px}
+#albumSectionScreen .album-screen-head button{width:44px;height:44px;border-radius:50%;border:1px solid #b88635;background:#090704;color:#ffd98a;font-size:21px;cursor:pointer}
+#albumSectionScreen .album-screen-head h2{margin:0;color:#ffd98a;font-size:27px}
+#albumSectionScreen .album-screen-head p{margin:3px 0 0;color:#999;font-size:12px}
+@media(max-width:600px){#cleanHome .home-cards{grid-template-columns:1fr}#cleanHome .home-hero{min-height:500px}#cleanHome .home-content{min-height:500px}}
+</style>
+<div id="cleanHome">
+  <div class="home-hero">
+    <img class="photo" src="Media/artista-portada.png" alt="EL DIM">
+    <div class="shade"></div>
+    <div class="home-content">
+      <img class="home-logo" src="Media/logo.png" alt="DIM Italy Mau Producer">
+      <div class="kicker">ITALY MAU PRODUCER</div>
+      <h2>EL DIM</h2>
+      <div class="brand">MÚSICA • PRODUCCIÓN • ESTILO</div>
+      <p class="bio">Nacido en febrero de 1987, amante de la música y el espectáculo en general, original y muy positivo, con ganas de crear y sentirme útil.</p>
+      <button class="home-btn" onclick="showCleanAlbums()">💿 MIS ÁLBUMES</button>
+      <button class="home-btn secondary" onclick="document.getElementById('homeMoreCards').scrollIntoView({behavior:'smooth'})">🔥 NUEVOS LANZAMIENTOS</button>
+    </div>
+  </div>
+  <div id="homeMoreCards" class="home-cards">
+    <div class="home-card"><b>🔥 NUEVOS LANZAMIENTOS</b><p>Temas nuevos antes de pasar a su álbum oficial.</p></div>
+    <div class="home-card"><b>🎤 KARAOKE</b><p>Letras sincronizadas próximamente.</p></div>
+    <div class="home-card"><b>✨ MÁS POR VENIR</b><p>Nuevos proyectos y funciones de la app.</p></div>
+  </div>
+</div>
 <header>
   <div class="header-actions">
     <button class="icon-header" onclick="abrirAdminPanel()" aria-label="Administrador" title="Administrador">
@@ -384,7 +429,9 @@ function showView(id){
   <p>ITALY MAU PRODUCER</p>
 </section>
 
-<section>
+<div id="albumSectionScreen"><div class="section-inner">
+<div class="album-screen-head"><button onclick="showCleanHome()">←</button><div><h2>💿 MIS ÁLBUMES</h2><p>Catálogo musical de EL DIM</p></div></div>
+
   <h2 class="title"><span>💿</span> MIS ÁLBUMES</h2>
 
   <div id="albumView">
@@ -449,7 +496,7 @@ function showView(id){
     <div style="font-size:12px;color:#aaa;margin-top:8px;text-align:center">💾 La portada guardada también queda disponible sin Internet en este teléfono.</div>
     <div id="albumCoverMessage" class="message"></div>
   </div>
-</section>
+</div></div>
 
 
 
@@ -1490,7 +1537,7 @@ function mostrarCanciones(){
         <div class="wave">${crearWave()}</div>
       </div>
       <div class="track-actions">
-        <button class="action-btn play" onclick="playTrack(${index},true)" aria-label="Reproducir y abrir reproductor" title="Reproducir"><img src="${icon("play.png")}" alt=""></button>
+        <button class="action-btn play" onclick="playTrack(${index})" aria-label="Reproducir"><img src="${icon("play.png")}" alt=""></button>
         <button class="action-btn offline" onclick="guardarOffline(${index})" aria-label="Guardar sin Internet" title="Guardar para escuchar offline"><img class="offline-img" src="./Icons/Download.png" alt=""></button>
         <button class="action-btn share" onclick="shareTrack(${index})" aria-label="Compartir"><img src="${icon("share.png")}" alt=""></button>
         <button class="action-btn delete admin-only${isAdmin ? " admin-visible" : ""}" onclick="eliminarCancion(${index})" aria-label="Eliminar"><img src="${icon("Delete.png")}" alt=""></button>
@@ -1989,5 +2036,40 @@ window.addEventListener("load",()=>{setTimeout(()=>{const s=document.getElementB
 </div>
 
 </div>
-</body>
+<script id="clean-navigation-script">
+function setCleanPlayer(show){const p=document.querySelector('.player');if(p)p.style.display=show?'flex':'none';}
+function showCleanHome(){
+ document.getElementById('cleanHome').style.display='block';
+ document.getElementById('albumSectionScreen').style.display='none';
+ const d=document.getElementById('albumDetailView'); if(d)d.style.display='none';
+ const v=document.getElementById('albumView'); if(v)v.style.display='block';
+ document.querySelector('header').style.display='none';
+ document.querySelector('.artist-hero').style.display='none';
+ setCleanPlayer(true); window.scrollTo(0,0);
+}
+function showCleanAlbums(){
+ document.getElementById('cleanHome').style.display='none';
+ document.getElementById('albumSectionScreen').style.display='block';
+ document.querySelector('header').style.display='none';
+ document.querySelector('.artist-hero').style.display='none';
+ const d=document.getElementById('albumDetailView'); if(d)d.style.display='none';
+ const v=document.getElementById('albumView'); if(v)v.style.display='block';
+ setCleanPlayer(false); window.scrollTo(0,0);
+}
+const _oldAbrirAlbum=window.abrirAlbum;
+const _oldVolverAlbumes=window.volverAlbumes;
+window.abrirAlbum=function(albumId){
+ if(typeof _oldAbrirAlbum==='function') _oldAbrirAlbum(albumId);
+ document.getElementById('cleanHome').style.display='none';
+ document.getElementById('albumSectionScreen').style.display='block';
+ document.querySelector('header').style.display='none';
+ document.querySelector('.artist-hero').style.display='none';
+ setCleanPlayer(true); window.scrollTo(0,0);
+};
+window.volverAlbumes=function(){
+ if(typeof _oldVolverAlbumes==='function') _oldVolverAlbumes();
+ showCleanAlbums();
+};
+window.addEventListener('DOMContentLoaded',function(){showCleanHome();});
+</script></body>
 </html>
