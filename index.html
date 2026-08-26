@@ -93,10 +93,10 @@ section{padding:24px 24px 8px}
 .wave span{width:3px;min-width:3px;height:var(--h);border-radius:3px;background:linear-gradient(to top,#d89630,#ffd98a);box-shadow:0 0 5px #e7ad5455}
 .track-actions{display:flex;gap:8px;align-items:center;flex-shrink:0}
 .action-btn{
-  width:70px;height:70px;min-width:70px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  width:64px;height:64px;min-width:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;
   padding:0;cursor:pointer;transition:transform .15s ease,box-shadow .2s ease,filter .2s ease
 }
-.action-btn img{width:50px;height:50px;object-fit:contain;pointer-events:none}
+.action-btn img{width:31px;height:31px;object-fit:contain;pointer-events:none}
 .play{border:2px solid var(--blue2);background:radial-gradient(circle at 35% 25%,#10375a,#061321 38%,#010306 75%,#000);box-shadow:0 0 7px #168cffaa,0 0 20px #168cff55,inset 0 0 14px #168cff44}
 .share{border:2px solid var(--gold2);background:radial-gradient(circle at 35% 25%,#51380f,#1b1205 40%,#050403 75%,#000);box-shadow:0 0 7px #e7ad5488,0 0 20px #e7ad5444,inset 0 0 14px #e7ad5422}
 .delete{border:2px solid var(--red2);background:radial-gradient(circle at 35% 25%,#5a1212,#210606 40%,#070101 75%,#000);box-shadow:0 0 7px #ff333388,0 0 20px #ff222244,inset 0 0 14px #ff222222}
@@ -202,7 +202,7 @@ footer{text-align:center;color:#756b62;font-size:11px;padding:25px 20px}
 @media(max-width:700px){
   section{padding-left:15px;padding-right:15px}header{padding-top:90px}.logo{width:170px;height:170px}h1{font-size:22px;letter-spacing:2px}.bio{font-size:14px}
   .track{gap:9px;padding:9px;border-radius:16px}.cover{width:78px;height:78px;min-width:78px}.name{font-size:16px}.sub{font-size:12px}.wave{display:none}
-  .action-btn{width:64px;height:64px;min-width:64px}.action-btn img{width:46px;height:46px}.track-actions{gap:5px}
+  .action-btn{width:52px;height:52px;min-width:52px}.action-btn img{width:26px;height:26px}.track-actions{gap:5px}
   .about-card{padding:17px}.about-logo{width:80px;height:80px}.about-text{font-size:14px}
   .mini{width:52px;height:52px;min-width:52px}.nowname{font-size:14px}.controls{gap:3px}.controls button{width:35px}.controls .main{width:52px;height:52px}
   .player{bottom:7px;padding:10px;border-radius:18px}.volume-wrap{display:none}.player-bottom{justify-content:center}
@@ -210,7 +210,7 @@ footer{text-align:center;color:#756b62;font-size:11px;padding:25px 20px}
 }
 @media(max-width:430px){
   .header-actions{left:12px;right:12px;top:12px}.icon-header{width:50px;height:50px}.icon-header img{width:27px;height:27px}
-  .track{gap:7px}.cover{width:68px;height:68px;min-width:68px}.action-btn{width:58px;height:58px;min-width:58px}.action-btn img{width:42px;height:42px}.name{font-size:14px}.sub{font-size:11px}.info{min-width:60px}.about-logo{display:none}
+  .track{gap:7px}.cover{width:68px;height:68px;min-width:68px}.action-btn{width:45px;height:45px;min-width:45px}.action-btn img{width:22px;height:22px}.name{font-size:14px}.sub{font-size:11px}.info{min-width:60px}.about-logo{display:none}
   .player-modes{gap:5px}.player-mode{width:35px;height:35px}.player-mode img{width:21px;height:21px}.controls .main{width:48px;height:48px}.controls button{width:31px}.controls button img{width:25px;height:25px}
   .full-cover{width:min(86vw,390px);height:min(86vw,390px)}.full-cover-wrap{flex:none;margin-top:15px}.full-meta{margin-top:5px}.full-main-controls button{width:45px;height:45px}
 }
@@ -342,245 +342,23 @@ function showView(id){
 }
 </script>
 
-<style id="final-button-size-fix">
-/* Ajuste final: conservar el círculo original y hacer crecer SOLO los PNG */
-.track-actions .action-btn{width:52px!important;height:52px!important;min-width:52px!important;flex:0 0 52px!important;}
-.track-actions .action-btn img{width:43px!important;height:43px!important;object-fit:contain!important;}
-.track-actions .action-btn .offline-img{width:43px!important;height:43px!important;}
-@media(max-width:600px){
-  .track-actions{gap:5px!important;}
-  .track-actions .action-btn{width:52px!important;height:52px!important;min-width:52px!important;flex-basis:52px!important;}
-  .track-actions .action-btn img,.track-actions .action-btn .offline-img{width:43px!important;height:43px!important;}
-}
-</style>
 
-<style id="all-app-buttons-size-fix">
-/* Escala visual uniforme: botones más grandes sin cambiar funciones */
-.icon-header{width:58px!important;height:58px!important}
-.icon-header img{width:34px!important;height:34px!important}
-#cleanHome .home-btn{min-height:60px!important;font-size:16px!important;padding:14px 18px!important}
-.album-screen-head button{width:50px!important;height:50px!important;font-size:24px!important}
-.album-back{width:50px!important;height:50px!important;font-size:22px!important}
-.track-actions{gap:8px!important}
-.track-actions .action-btn{width:58px!important;height:58px!important;min-width:58px!important;flex-basis:58px!important}
-.track-actions .action-btn img,.track-actions .action-btn .offline-img{width:48px!important;height:48px!important}
-.controls{gap:10px!important}
-.controls button,.player-extra button{width:50px!important;height:50px!important}
-.controls button img,.player-extra button img{width:36px!important;height:36px!important}
-.controls .main{width:68px!important;height:68px!important}
-.controls .main img{width:43px!important;height:43px!important}
-.player-mode{width:48px!important;height:48px!important}
-.player-mode img{width:29px!important;height:29px!important}
-.full-header button{width:54px!important;height:54px!important}
-.full-header img{width:29px!important;height:29px!important}
-.full-main-controls{gap:20px!important}
-.full-main-controls button{width:58px!important;height:58px!important}
-.full-main-controls button img{width:37px!important;height:37px!important}
-.full-main-controls .full-play{width:84px!important;height:84px!important}
-.full-main-controls .full-play img{width:48px!important;height:48px!important}
-.upload-submit,.cancel-button{min-height:52px!important;font-size:15px!important}
-.offline-confirm-btn{min-height:54px!important;font-size:15px!important}
-@media(max-width:600px){
-  #cleanHome .home-btn{min-height:58px!important}
-  .track-actions .action-btn{width:56px!important;height:56px!important;min-width:56px!important;flex-basis:56px!important}
-  .track-actions .action-btn img,.track-actions .action-btn .offline-img{width:46px!important;height:46px!important}
-  .controls button,.player-extra button{width:44px!important;height:44px!important}
-  .controls button img,.player-extra button img{width:32px!important;height:32px!important}
-  .controls .main{width:62px!important;height:62px!important}
-  .controls .main img{width:40px!important;height:40px!important}
-  .player-mode{width:43px!important;height:43px!important}
-  .player-mode img{width:26px!important;height:26px!important}
-  .full-main-controls{gap:14px!important}
-  .full-main-controls button{width:52px!important;height:52px!important}
-  .full-main-controls .full-play{width:76px!important;height:76px!important}
-}
-</style>
-
-<style id="buttons-no-circle-final">
-/* =========================================================
-   BOTONES SIN CÍRCULO — conservan exactamente el área táctil
-   ========================================================= */
-
-/* Botones de canciones */
-.track-actions .action-btn{
-  width:58px!important;
-  height:58px!important;
-  min-width:58px!important;
-  flex:0 0 58px!important;
-  border:0!important;
-  border-radius:0!important;
-  background:transparent!important;
-  box-shadow:none!important;
-  padding:0!important;
-  overflow:visible!important;
-}
-.track-actions .action-btn img{
-  width:48px!important;
-  height:48px!important;
-  object-fit:contain!important;
-  filter:none;
-  transition:filter .12s ease, transform .12s ease;
-}
-.track-actions .action-btn:active img{
-  transform:scale(.94);
-}
-.track-actions .play:active img{
-  filter:drop-shadow(0 0 8px #168cff) drop-shadow(0 0 15px #168cff);
-}
-.track-actions .offline:active img,
-.track-actions .offline.saved:active img{
-  filter:drop-shadow(0 0 8px #63d98b) drop-shadow(0 0 15px #63d98b);
-}
-.track-actions .share:active img{
-  filter:drop-shadow(0 0 8px #ffd98a) drop-shadow(0 0 15px #ffd98a);
-}
-.track-actions .delete:active img{
-  filter:drop-shadow(0 0 8px #ff3333) drop-shadow(0 0 15px #ff3333);
-}
-
-/* Reproductor inferior */
-.controls button,
-.player-extra button{
-  border:0!important;
-  border-radius:0!important;
-  background:transparent!important;
-  box-shadow:none!important;
-  width:50px!important;
-  height:50px!important;
-}
-.controls button img,
-.player-extra button img{
-  transition:filter .12s ease,transform .12s ease;
-}
-.controls button:active img,
-.player-extra button:active img{
-  transform:scale(.93);
-  filter:drop-shadow(0 0 8px #ffd98a) drop-shadow(0 0 14px #e7ad54);
-}
-.controls .main{
-  width:68px!important;
-  height:68px!important;
-  border:0!important;
-  border-radius:0!important;
-  background:transparent!important;
-  box-shadow:none!important;
-}
-.controls .main:active img{
-  filter:drop-shadow(0 0 9px #ffd98a) drop-shadow(0 0 18px #e7ad54);
-}
-
-/* Modos del reproductor */
-.player-mode{
-  width:48px!important;
-  height:48px!important;
-  border:0!important;
-  border-radius:0!important;
-  background:transparent!important;
-  box-shadow:none!important;
-}
-.player-mode:active img{
-  transform:scale(.93);
-  filter:drop-shadow(0 0 8px #ffd98a) drop-shadow(0 0 14px #e7ad54);
-}
-
-/* Reproductor a pantalla completa */
-.full-header button,
-.full-main-controls button,
-.full-tool{
-  border:0!important;
-  border-radius:0!important;
-  background:transparent!important;
-  box-shadow:none!important;
-}
-.full-header button:active img,
-.full-main-controls button:active img,
-.full-tool:active img{
-  transform:scale(.93);
-  filter:drop-shadow(0 0 8px #ffd98a) drop-shadow(0 0 15px #e7ad54);
-}
-.full-main-controls .full-play{
-  width:84px!important;
-  height:84px!important;
-  border:0!important;
-  border-radius:0!important;
-  background:transparent!important;
-  box-shadow:none!important;
-}
-.full-main-controls .full-play:active img{
-  filter:drop-shadow(0 0 10px #ffd98a) drop-shadow(0 0 20px #e7ad54);
-}
-
-/* Encabezados / volver: conservan el tamaño táctil pero sin círculo */
-.icon-header,
-.album-screen-head button,
-.album-back,
-.full-header button{
-  border:0!important;
-  border-radius:0!important;
-  background:transparent!important;
-  box-shadow:none!important;
-}
-.icon-header:active img,
-.album-screen-head button:active,
-.album-back:active,
-.full-header button:active img{
-  filter:drop-shadow(0 0 8px #ffd98a) drop-shadow(0 0 14px #e7ad54);
-  transform:scale(.94);
-}
-
-/* En móvil: mismos tamaños táctiles, sin círculos */
-@media(max-width:600px){
-  .track-actions .action-btn{
-    width:56px!important;
-    height:56px!important;
-    min-width:56px!important;
-    flex-basis:56px!important;
-  }
-  .track-actions .action-btn img{
-    width:46px!important;
-    height:46px!important;
-  }
-  .controls button,
-  .player-extra button{
-    width:44px!important;
-    height:44px!important;
-  }
-  .controls .main{
-    width:62px!important;
-    height:62px!important;
-  }
-  .player-mode{
-    width:43px!important;
-    height:43px!important;
-  }
-  .full-main-controls button{
-    width:52px!important;
-    height:52px!important;
-  }
-  .full-main-controls .full-play{
-    width:76px!important;
-    height:76px!important;
-  }
-}
-</style>
-
-
-<style id="mini-player-only-fix">
-@media(max-width:600px){
-  .player .controls{gap:1px!important;flex-shrink:0!important;}
-  .player .controls button{width:28px!important;height:36px!important;padding:0!important;}
-  .player .controls button img{width:25px!important;height:25px!important;}
-  .player .controls .main{width:42px!important;height:42px!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;}
-  .player .controls .main img{width:30px!important;height:30px!important;}
-  .player .player-top{gap:7px!important;}
-}
+<style>
+/* AJUSTE FINAL: mini reproductor compacto en móviles — solo aquí.
+   El reproductor grande no se modifica. */
 @media(max-width:430px){
-  .player .controls{gap:0!important;}
-  .player .controls button{width:25px!important;height:32px!important;}
-  .player .controls button img{width:22px!important;height:22px!important;}
-  .player .controls .main{width:38px!important;height:38px!important;}
-  .player .controls .main img{width:27px!important;height:27px!important;}
-  .player .player-top{gap:5px!important;}
+  .player{width:calc(100% - 14px);padding:9px 8px;overflow:hidden}
+  .player-top{gap:6px;min-width:0}
+  .mini{width:48px;height:48px;min-width:48px}
+  .nowtext{min-width:0;flex:1}
+  .nowname{font-size:12px;line-height:1.15}
+  .time{font-size:10px;margin-top:3px}
+  .offline-note{font-size:10px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .controls{gap:0;flex-shrink:0}
+  .controls button{width:26px;height:34px;padding:0}
+  .controls button img{width:20px;height:20px}
+  .controls .main{width:38px;height:38px;border:0;box-shadow:none;background:none}
+  .controls .main img{width:29px;height:29px}
 }
 </style>
 </head>
@@ -601,52 +379,6 @@ function showView(id){
 <div id="adminStatus" class="admin-status">ADMINISTRADOR</div>
 <div class="app">
 
-<style id="clean-navigation-style">
-#cleanHome{display:none;padding-bottom:100px}
-#cleanHome .home-hero{position:relative;margin:12px 15px 18px;min-height:520px;border-radius:28px;overflow:hidden;border:1px solid #8a6429;background:#080808;box-shadow:0 18px 50px #000}
-#cleanHome .home-hero img.photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;opacity:.82}
-#cleanHome .home-hero .shade{position:absolute;inset:0;background:linear-gradient(180deg,#0000 15%,#0005 45%,#050505f2 82%,#050505 100%)}
-#cleanHome .home-content{position:relative;z-index:2;min-height:520px;padding:22px;display:flex;flex-direction:column;justify-content:flex-end}
-#cleanHome .home-logo{width:105px;height:105px;object-fit:contain;align-self:center;margin-bottom:auto;filter:drop-shadow(0 0 14px #d4af3788)}
-#cleanHome .kicker{color:#e7ad54;font-size:11px;font-weight:900;letter-spacing:4px}
-#cleanHome h2{margin:4px 0;color:#fff;font-size:40px;letter-spacing:4px}
-#cleanHome .brand{color:#ffd98a;font-size:13px;font-weight:800;letter-spacing:2px}
-#cleanHome .bio{color:#eee;line-height:1.5;font-size:13px;margin:12px 0 17px}
-#cleanHome .home-btn{border:1px solid #b88635;border-radius:17px;background:linear-gradient(135deg,#d99a38,#7d4f16);color:#100a04;font-weight:900;min-height:52px;font-size:15px;cursor:pointer;margin-bottom:9px}
-#cleanHome .home-btn.secondary{background:#090909e8;color:#ffd98a}
-#cleanHome .home-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 15px}
-#cleanHome .home-card{padding:17px;border:1px solid #76501f;border-radius:19px;background:#0c0a08;color:#fff}
-#cleanHome .home-card b{display:block;color:#ffd98a;margin-bottom:5px}
-#cleanHome .home-card p{margin:0;color:#999;font-size:12px;line-height:1.4}
-#albumSectionScreen{display:none;padding-bottom:110px}
-#albumSectionScreen>.section-inner{padding-top:8px}
-#albumSectionScreen .glass-feature,#albumSectionScreen #addSongButton,#albumSectionScreen #uploadPanel,#albumSectionScreen #albumCoverPanel{display:none!important}
-#albumSectionScreen .album-screen-head{display:flex;align-items:center;gap:12px;padding:12px 15px 5px}
-#albumSectionScreen .album-screen-head button{width:44px;height:44px;border-radius:50%;border:1px solid #b88635;background:#090704;color:#ffd98a;font-size:21px;cursor:pointer}
-#albumSectionScreen .album-screen-head h2{margin:0;color:#ffd98a;font-size:27px}
-#albumSectionScreen .album-screen-head p{margin:3px 0 0;color:#999;font-size:12px}
-@media(max-width:600px){#cleanHome .home-cards{grid-template-columns:1fr}#cleanHome .home-hero{min-height:500px}#cleanHome .home-content{min-height:500px}}
-</style>
-<div id="cleanHome">
-  <div class="home-hero">
-    <img class="photo" src="Media/artista-portada.png" alt="EL DIM">
-    <div class="shade"></div>
-    <div class="home-content">
-      <img class="home-logo" src="Media/logo.png" alt="DIM Italy Mau Producer">
-      <div class="kicker">ITALY MAU PRODUCER</div>
-      <h2>EL DIM</h2>
-      <div class="brand">MÚSICA • PRODUCCIÓN • ESTILO</div>
-      <p class="bio">Nacido en febrero de 1987, amante de la música y el espectáculo en general, original y muy positivo, con ganas de crear y sentirme útil.</p>
-      <button class="home-btn" onclick="showCleanAlbums()">💿 MIS ÁLBUMES</button>
-      <button class="home-btn secondary" onclick="document.getElementById('homeMoreCards').scrollIntoView({behavior:'smooth'})">🔥 NUEVOS LANZAMIENTOS</button>
-    </div>
-  </div>
-  <div id="homeMoreCards" class="home-cards">
-    <div class="home-card"><b>🔥 NUEVOS LANZAMIENTOS</b><p>Temas nuevos antes de pasar a su álbum oficial.</p></div>
-    <div class="home-card"><b>🎤 KARAOKE</b><p>Letras sincronizadas próximamente.</p></div>
-    <div class="home-card"><b>✨ MÁS POR VENIR</b><p>Nuevos proyectos y funciones de la app.</p></div>
-  </div>
-</div>
 <header>
   <div class="header-actions">
     <button class="icon-header" onclick="abrirAdminPanel()" aria-label="Administrador" title="Administrador">
@@ -665,14 +397,12 @@ function showView(id){
 
 <section class="artist-hero">
   <!-- Colocar aquí la portada oficial del artista -->
-  <img src="Media/artista-portada.png" alt="EL DIM Italy Mau Producer">
+  <img src="Media/artista-portada.png" alt="EL DIM Italy Mau Producer" loading="eager">
   <h2>EL DIM</h2>
   <p>ITALY MAU PRODUCER</p>
 </section>
 
-<div id="albumSectionScreen"><div class="section-inner">
-<div class="album-screen-head"><button onclick="showCleanHome()">←</button><div><h2>💿 MIS ÁLBUMES</h2><p>Catálogo musical de EL DIM</p></div></div>
-
+<section>
   <h2 class="title"><span>💿</span> MIS ÁLBUMES</h2>
 
   <div id="albumView">
@@ -737,7 +467,7 @@ function showView(id){
     <div style="font-size:12px;color:#aaa;margin-top:8px;text-align:center">💾 La portada guardada también queda disponible sin Internet en este teléfono.</div>
     <div id="albumCoverMessage" class="message"></div>
   </div>
-</div></div>
+</section>
 
 
 
@@ -2277,40 +2007,5 @@ window.addEventListener("load",()=>{setTimeout(()=>{const s=document.getElementB
 </div>
 
 </div>
-<script id="clean-navigation-script">
-function setCleanPlayer(show){const p=document.querySelector('.player');if(p)p.style.display=show?'flex':'none';}
-function showCleanHome(){
- document.getElementById('cleanHome').style.display='block';
- document.getElementById('albumSectionScreen').style.display='none';
- const d=document.getElementById('albumDetailView'); if(d)d.style.display='none';
- const v=document.getElementById('albumView'); if(v)v.style.display='block';
- document.querySelector('header').style.display='none';
- document.querySelector('.artist-hero').style.display='none';
- setCleanPlayer(true); window.scrollTo(0,0);
-}
-function showCleanAlbums(){
- document.getElementById('cleanHome').style.display='none';
- document.getElementById('albumSectionScreen').style.display='block';
- document.querySelector('header').style.display='none';
- document.querySelector('.artist-hero').style.display='none';
- const d=document.getElementById('albumDetailView'); if(d)d.style.display='none';
- const v=document.getElementById('albumView'); if(v)v.style.display='block';
- setCleanPlayer(false); window.scrollTo(0,0);
-}
-const _oldAbrirAlbum=window.abrirAlbum;
-const _oldVolverAlbumes=window.volverAlbumes;
-window.abrirAlbum=function(albumId){
- if(typeof _oldAbrirAlbum==='function') _oldAbrirAlbum(albumId);
- document.getElementById('cleanHome').style.display='none';
- document.getElementById('albumSectionScreen').style.display='block';
- document.querySelector('header').style.display='none';
- document.querySelector('.artist-hero').style.display='none';
- setCleanPlayer(true); window.scrollTo(0,0);
-};
-window.volverAlbumes=function(){
- if(typeof _oldVolverAlbumes==='function') _oldVolverAlbumes();
- showCleanAlbums();
-};
-window.addEventListener('DOMContentLoaded',function(){showCleanHome();});
-</script></body>
+</body>
 </html>
