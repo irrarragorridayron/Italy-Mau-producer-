@@ -564,6 +564,25 @@ function showView(id){
 }
 </style>
 
+
+<style id="mini-player-only-fix">
+@media(max-width:600px){
+  .player .controls{gap:1px!important;flex-shrink:0!important;}
+  .player .controls button{width:28px!important;height:36px!important;padding:0!important;}
+  .player .controls button img{width:25px!important;height:25px!important;}
+  .player .controls .main{width:42px!important;height:42px!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;}
+  .player .controls .main img{width:30px!important;height:30px!important;}
+  .player .player-top{gap:7px!important;}
+}
+@media(max-width:430px){
+  .player .controls{gap:0!important;}
+  .player .controls button{width:25px!important;height:32px!important;}
+  .player .controls button img{width:22px!important;height:22px!important;}
+  .player .controls .main{width:38px!important;height:38px!important;}
+  .player .controls .main img{width:27px!important;height:27px!important;}
+  .player .player-top{gap:5px!important;}
+}
+</style>
 </head>
 
 <body>
