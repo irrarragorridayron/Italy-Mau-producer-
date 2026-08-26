@@ -38,7 +38,48 @@ section{padding:24px 24px 8px}
 .title{display:flex;align-items:center;gap:10px;margin:0 0 15px;color:var(--gold2);font-size:24px;letter-spacing:1px;text-shadow:0 0 12px #e7ad5433}
 .title-icon{width:30px;height:30px;object-fit:contain}
 
-.album-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.album-grid{display:grid;grid-template-columns:1fr;gap:14px}
+.album-card{
+  min-height:132px;
+  padding:12px;
+  align-items:center;
+  border-radius:24px;
+  background:linear-gradient(145deg,rgba(29,22,13,.92),rgba(6,6,6,.96));
+  border:1px solid rgba(231,173,84,.35);
+  backdrop-filter:blur(14px);
+  box-shadow:0 12px 32px #000b,inset 0 1px 0 #ffffff0b;
+}
+.album-card:first-child{border-color:#c28a3b;box-shadow:0 12px 34px #000,0 0 24px #e7ad5422}
+.album-cover{width:118px;height:118px;min-width:118px;border-radius:19px;border:1px solid #8d632b;box-shadow:0 5px 20px #000,0 0 14px #e7ad5418}
+.album-info{padding:3px 4px;display:flex;flex-direction:column;justify-content:center;gap:3px}
+.album-name{font-size:20px!important;color:#ffe0a0!important;font-weight:900}
+.album-artist{font-size:12px!important;color:#bdb4aa!important}
+.album-count{font-size:11px!important;color:#91887f!important}
+.album-open{margin-top:7px;color:#e7ad54;font-size:11px;font-weight:900;letter-spacing:1px}
+.album-edit-cover{margin-top:5px!important}
+.album-detail-head{
+  position:relative;
+  margin:0 15px 18px;
+  padding:20px;
+  min-height:170px;
+  border-radius:26px;
+  border:1px solid #76501f;
+  background:linear-gradient(145deg,#17120b,#080808);
+  overflow:hidden;
+}
+.album-detail-head:before{
+  content:"";
+  position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 0,#e7ad5420,transparent 60%);
+}
+.album-detail-title{position:relative;color:#ffd98a;font-size:30px;font-weight:900;padding-right:130px}
+.album-back{position:absolute;right:16px;top:16px;z-index:2;border:1px solid #b88635;border-radius:14px;background:#080808;color:#ffd98a;padding:10px 12px;font-weight:800}
+@media(max-width:600px){
+  .album-card{min-height:112px}
+  .album-cover{width:100px;height:100px;min-width:100px}
+  .album-name{font-size:17px!important}
+  .album-detail-title{font-size:24px}
+}
 .album-card{
   position:relative;overflow:hidden;display:flex;align-items:center;gap:15px;padding:12px;
   background:linear-gradient(135deg,#17130e,#090909 60%,#050505);
@@ -256,8 +297,122 @@ button.admin-only.admin-visible{display:flex!important}
 @keyframes pulseLight{0%,100%{transform:scale(.8);opacity:.4}50%{transform:scale(1.2);opacity:.8}}
 .splash-hide{animation:splashOut .8s ease forwards}
 @keyframes splashOut{to{opacity:0;visibility:hidden}}
+
+/* NUEVAS SECCIONES ITALY MAU PRODUCER */
+.glass-feature{display:grid;grid-template-columns:1fr;gap:14px;margin:20px 0}
+.feature-card{background:rgba(255,255,255,.06);border:1px solid rgba(231,173,84,.35);backdrop-filter:blur(12px);border-radius:22px;padding:18px;text-align:center;box-shadow:0 0 25px rgba(231,173,84,.12)}
+.feature-card h3{color:#ffd98a;margin:0 0 8px;font-size:20px}
+.feature-card p{color:#ddd;margin:0;font-size:14px}
+.feature-icon{font-size:35px;margin-bottom:8px}
 </style>
-</head>
+
+<style>
+.artist-hero{
+  margin:18px auto;
+  max-width:520px;
+  padding:20px;
+  border-radius:28px;
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(14px);
+  border:1px solid rgba(212,175,55,.35);
+  text-align:center;
+}
+.artist-hero img{
+  width:100%;
+  max-height:420px;
+  object-fit:cover;
+  border-radius:22px;
+}
+.artist-hero h2{
+  color:#d4af37;
+  margin:14px 0 5px;
+}
+.artist-hero p{
+  color:#fff;
+}
+</style>
+
+
+<style>
+/* Navegación de dos pantallas Italy Mau Producer */
+.view-page{display:none;animation:fade .35s ease}
+.view-page.active{display:block}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.nav-albums{
+margin:15px;
+padding:18px;
+border:1px solid #b8860b;
+border-radius:20px;
+background:#0b0b0b;
+color:#d4af37;
+font-weight:bold;
+text-align:center;
+cursor:pointer;
+}
+.album-screen{
+padding:18px;
+}
+.album-card-new{
+display:flex;
+align-items:center;
+gap:15px;
+margin:12px 0;
+padding:15px;
+border:1px solid rgba(212,175,55,.5);
+border-radius:20px;
+background:#090909;
+color:white;
+}
+.album-card-new img{
+width:90px;height:90px;border-radius:15px;object-fit:cover;
+}
+.album-card-new h3{color:#d4af37;margin:0 0 8px}
+.back-btn{
+color:#d4af37;
+font-size:22px;
+cursor:pointer;
+margin-bottom:15px;
+}
+</style>
+
+<script>
+function mostrarPantallaAlbumes(){
+ const h=document.getElementById('homeView'),a=document.getElementById('albumsView');
+ if(h)h.style.display='none'; if(a)a.style.display='block'; window.scrollTo(0,0);
+}
+function mostrarPantallaInicio(){
+ const h=document.getElementById('homeView'),a=document.getElementById('albumsView');
+ if(a)a.style.display='none'; if(h)h.style.display='block'; window.scrollTo(0,0);
+}
+</script>
+
+<style>
+.home-hero{position:relative;margin:14px 15px 18px;min-height:520px;overflow:hidden;border:1px solid #76501f;border-radius:30px;background:linear-gradient(160deg,#17120b,#080808 55%,#030303);box-shadow:0 20px 55px #000,inset 0 0 35px #e7ad5410}
+.home-hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;opacity:.82}
+.home-hero-shade{position:absolute;inset:0;background:linear-gradient(180deg,#00000010,#00000025 35%,#050505e8 78%,#050505)}
+.home-hero-content{position:relative;z-index:2;min-height:520px;display:flex;flex-direction:column;justify-content:flex-end;padding:28px 22px 25px}
+.home-logo{width:115px;height:115px;object-fit:contain;margin-bottom:auto;align-self:center;filter:drop-shadow(0 0 13px #e7ad5488)}
+.home-kicker{color:#ffd98a;font-size:12px;font-weight:800;letter-spacing:4px}
+.home-artist-name{margin:4px 0 0;color:#fff;font-size:42px;line-height:1;letter-spacing:4px;font-weight:900;text-shadow:0 3px 18px #000}
+.home-brand{margin-top:8px;color:#e7ad54;font-size:14px;font-weight:800;letter-spacing:3px}
+.home-bio{max-width:560px;margin:14px 0 0;color:#eee3d5;font-size:14px;line-height:1.55}
+.home-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.home-action{min-height:50px;border:1px solid #b88635;border-radius:16px;background:#070707c9;color:#ffd98a;font-weight:800;cursor:pointer;backdrop-filter:blur(10px)}
+.home-action.primary{background:linear-gradient(135deg,#d99a38,#7d4f16);color:#120b04;border-color:#ffd98a}
+.new-release-card{margin:18px 15px 8px;padding:18px;border-radius:22px;border:1px solid #76501f;background:linear-gradient(145deg,#17120b,#080808);box-shadow:0 10px 30px #000}
+.new-release-label{color:#e7ad54;font-size:11px;font-weight:900;letter-spacing:3px}
+.new-release-title{margin:5px 0;color:#ffd98a;font-size:24px;font-weight:900}
+.new-release-text{margin:0;color:#bdb4aa;font-size:13px;line-height:1.45}
+.home-section-title{display:flex;align-items:center;justify-content:space-between;margin:20px 15px 10px;color:#ffd98a;font-size:21px;font-weight:900}
+.albums-view{display:none}
+.albums-page-header{display:flex;align-items:center;gap:12px;margin:12px 15px 18px;padding:8px 0}
+.albums-page-back{width:45px;height:45px;border-radius:50%;border:1px solid #b88635;background:#090704;color:#ffd98a;cursor:pointer;font-size:20px}
+.albums-page-title{margin:0;color:#ffd98a;font-size:28px;letter-spacing:1px}
+.albums-page-subtitle{margin:3px 0 0;color:#a9a19a;font-size:12px}
+.albums-real-list{padding:0 15px 20px}
+.feature-card{cursor:pointer}
+@media(max-width:600px){.home-hero{min-height:500px;margin:10px 12px 16px}.home-hero-content{min-height:500px;padding:22px 18px}.home-artist-name{font-size:34px}.home-logo{width:92px;height:92px}.home-actions{grid-template-columns:1fr}.new-release-card{margin-left:12px;margin-right:12px}.home-section-title{margin-left:12px;margin-right:12px}}
+</style></head>
 
 <body>
 <!-- SPLASH SCREEN ITALY MAU PRODUCER -->
@@ -275,36 +430,62 @@ button.admin-only.admin-visible{display:flex!important}
 <div id="adminStatus" class="admin-status">ADMINISTRADOR</div>
 <div class="app">
 
-<header>
-  <div class="header-actions">
-    <button class="icon-header" onclick="abrirAdminPanel()" aria-label="Administrador" title="Administrador">
-      <img src="./Icons/menu.png" alt="">
-    </button>
-    <button class="icon-header" onclick="openArtistInfo()" aria-label="Perfil">
-      <img src="./Icons/User.png" alt="">
-    </button>
-  </div>
-  <img class="logo" src="Media/logo.png" alt="Italy Mau Producer">
-  <h1>ITALY MAU PRODUCER</h1>
-  <div class="artist">EL DIM</div>
-  <p class="bio">Nacido en febrero de 1987, amante de la música y el espectáculo en general, original y muy positivo, con ganas de crear y sentirme útil.</p>
-</header>
-
-<section>
-  <h2 class="title"><span>💿</span> MIS ÁLBUMES</h2>
-
-  <div id="albumView">
-    <div id="listaAlbumes" class="album-grid">
-      <div class="album-empty">Cargando álbumes...</div>
-    </div>
-  </div>
-
-  <div id="albumDetailView" style="display:none">
+<div id="homeView" class="home-view">
+<div class="home-hero">
+<img class="home-hero-photo" src="Media/artista-portada.png" alt="EL DIM">
+<div class="home-hero-shade"></div>
+<div class="home-hero-content">
+<img class="home-logo" src="Media/logo.png" alt="DIM Italy Mau Producer">
+<div class="home-kicker">ITALY MAU PRODUCER</div>
+<div class="home-artist-name">EL DIM</div>
+<div class="home-brand">MÚSICA • PRODUCCIÓN • ESTILO</div>
+<p class="home-bio">Nacido en febrero de 1987, amante de la música y el espectáculo en general, original y muy positivo, con ganas de crear y sentirme útil.</p>
+<div class="home-actions">
+<button class="home-action primary" onclick="mostrarPantallaAlbumes()">💿 MIS ÁLBUMES</button>
+<button class="home-action" onclick="document.getElementById('newReleaseSection').scrollIntoView({behavior:'smooth'})">🔥 NUEVOS LANZAMIENTOS</button>
+</div>
+</div></div>
+<div id="newReleaseSection" class="new-release-card">
+<div class="new-release-label">🔥 ZONA TEMPORAL DE ESTRENOS</div>
+<div class="new-release-title">NUEVOS LANZAMIENTOS</div>
+<p class="new-release-text">Aquí aparecen los temas recién publicados. Cuando una canción pase a su álbum oficial, deja esta sección para dar espacio a los próximos estrenos.</p>
+</div>
+<div class="home-section-title"><span>🎤 MÁS POR VENIR</span></div>
+<div class="glass-feature" style="margin:0 15px">
+<div class="feature-card" onclick="mostrarPantallaAlbumes"><div class="feature-icon">💿</div><h3>MIS ÁLBUMES</h3><p>Entra a tu catálogo y abre cualquiera de tus proyectos.</p></div>
+<div class="feature-card"><div class="feature-icon">🎤</div><h3>KARAOKE</h3><p>Canta las canciones de EL DIM con letras sincronizadas próximamente.</p></div>
+<div class="feature-card"><div class="feature-icon">✨</div><h3>MÁS POR VENIR</h3><p>Nuevos proyectos, música y funciones de Italy Mau Producer.</p></div>
+</div>
+</div>
+<div id="albumsView" class="albums-view">
+<div class="albums-page-header"><button class="albums-page-back" onclick="mostrarPantallaInicio()">←</button><div><h2 class="albums-page-title">MIS ÁLBUMES</h2><p class="albums-page-subtitle">Catálogo musical de EL DIM</p></div></div>
+<div class="new-release-card" style="margin-top:0"><div class="new-release-label">🔥 NO ES UN ÁLBUM OFICIAL</div><div class="new-release-title">NUEVOS LANZAMIENTOS</div><p class="new-release-text">Los temas nuevos permanecen aquí hasta que pasen a su álbum oficial.</p></div>
+<div id="albumView" class="albums-real-list"><div id="listaAlbumes" class="album-grid"><div class="album-empty">Cargando álbumes...</div></div></div>
+<div id="albumDetailView" style="display:none">
     <div class="album-detail-head">
       <div id="albumDetailTitle" class="album-detail-title">Álbum</div>
       <button class="album-back" onclick="volverAlbumes()">← ÁLBUMES</button>
     </div>
     <div id="listaCanciones"></div>
+  </div>
+
+  
+  <div class="glass-feature">
+    <div class="feature-card">
+      <div class="feature-icon">🔥</div>
+      <h3>NUEVOS LANZAMIENTOS</h3>
+      <p>Los temas más recientes de EL DIM antes de pasar a su álbum oficial.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎤</div>
+      <h3>KARAOKE</h3>
+      <p>Canta tus canciones favoritas con letras sincronizadas próximamente.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">✨</div>
+      <h3>MÁS POR VENIR</h3>
+      <p>Nuevos proyectos, música y funciones de Italy Mau Producer.</p>
+    </div>
   </div>
 
   <button id="addSongButton" class="add-button admin-only" onclick="toggleUpload()">
@@ -1294,7 +1475,7 @@ function mostrarAlbumes(){
     return;
   }
 
-  albums.forEach(album=>{
+  albums.forEach((album,index)=>{
     const albumTracks=cancionesDelAlbum(album);
     const tarjeta=document.createElement("div");
     tarjeta.className="album-card";
@@ -1314,10 +1495,6 @@ function mostrarAlbumes(){
         <button class="album-edit-cover admin-only${isAdmin ? " admin-visible" : ""}" type="button">🖼️ CREAR / CAMBIAR PORTADA</button>
       </div>`;
 
-    // No usamos onclick inline para el ID del álbum: los álbumes heredados
-    // usan IDs de texto (por ejemplo "legacy-mi regueton para ti") y las
-    // comillas del atributo HTML podían romper el botón. El listener directo
-    // funciona tanto con IDs numéricos como con IDs de texto.
     const botonPortada=tarjeta.querySelector(".album-edit-cover");
     if(botonPortada){
       botonPortada.addEventListener("click",event=>{
@@ -1331,7 +1508,6 @@ function mostrarAlbumes(){
     lista.appendChild(tarjeta);
   });
 }
-
 function abrirAlbum(albumId){
   const album=albums.find(a=>String(a.id)===String(albumId));
   if(!album)return;
@@ -1343,7 +1519,17 @@ function abrirAlbum(albumId){
   i=encontrado>=0?encontrado:0;
   document.getElementById("albumView").style.display="none";
   document.getElementById("albumDetailView").style.display="block";
-  document.getElementById("albumDetailTitle").textContent=album.title;
+  const detailTitle=document.getElementById("albumDetailTitle");
+  detailTitle.innerHTML=`
+    <div style="display:flex;align-items:center;gap:16px">
+      <img src="${escapeHTML(portadaAlbum(album,grupo))}" alt="${escapeHTML(album.title)}"
+           style="width:82px;height:82px;border-radius:18px;object-fit:cover;border:1px solid #8d632b;box-shadow:0 6px 20px #000">
+      <div>
+        <div style="font-size:11px;color:#e7ad54;letter-spacing:2px">EL DIM</div>
+        <div style="margin-top:4px">${escapeHTML(album.title)}</div>
+        <div style="font-size:11px;color:#a9a19a;margin-top:6px">${grupo.length} ${grupo.length===1?"canción":"canciones"}</div>
+      </div>
+    </div>`;
   mostrarCanciones();
   renderQueue();
   actualizarBotonesOffline();
@@ -1840,5 +2026,6 @@ window.addEventListener("online",()=>{
 <script>
 window.addEventListener("load",()=>{setTimeout(()=>{const s=document.getElementById("splash");if(s)s.classList.add("splash-hide");},2500);});
 </script>
+
 </body>
 </html>
