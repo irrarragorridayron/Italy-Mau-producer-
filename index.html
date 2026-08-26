@@ -543,34 +543,21 @@ function mostrarPantallaInicio(){
 
 <div id="albumDetailView" style="display:none;">
   <div class="album-detail-top">
-    <button class="album-detail-back" onclick="volverAAlbumes()" aria-label="Volver a Mis Álbumes">←</button>
+    <button class="album-detail-back" onclick="volverAlbumes()" aria-label="Volver a Mis Álbumes">←</button>
   </div>
-
-  <div class="album-detail-cover">
-    <img id="detallePortada" src="Media/logo.png" alt="Portada del álbum">
+  <div class="album-detail-cover-wrap">
+    <div id="albumDetailTitle" class="album-detail-title"></div>
   </div>
-
-  <div class="album-detail-info">
-    <div class="eyebrow">ÁLBUM</div>
-    <h2 id="detalleNombre">Cargando...</h2>
-    <div class="album-detail-meta" id="detalleMeta">EL DIM</div>
-    <button class="album-detail-play" onclick="reproducirAlbumCompleto()">
-      ▶ REPRODUCIR TODO
-    </button>
-  </div>
-
   <div class="album-detail-list">
     <div class="album-detail-list-title">🎵 CANCIONES</div>
-    <div id="detalleCanciones">
-      <div class="album-empty">Cargando canciones...</div>
-    </div>
+    <div id="listaCanciones"></div>
   </div>
-
   <div class="album-karaoke-note">
     🎤 <strong>KARAOKE</strong><br>
     Las canciones que tengan letra sincronizada podrán abrirse en modo karaoke.
   </div>
 </div>
+
 <!-- CONFIRMACIÓN OFFLINE -->
 <div id="offlineConfirmOverlay" class="offline-confirm-overlay" role="dialog" aria-modal="true" aria-labelledby="offlineConfirmTitle">
   <div class="offline-confirm-box" onclick="event.stopPropagation()">
@@ -2067,102 +2054,7 @@ window.addEventListener("load",()=>{setTimeout(()=>{const s=document.getElementB
 </script>
 
 
-<script>
-/* ===== NAVEGACIÓN Y DETALLE DEL ÁLBUM ===== */
-let albumActual = null;
 
-function abrirDetalleAlbum(album){
-  albumActual = album;
-  const albums = document.getElementById('albumsView');
-  const detail = document.getElementById('albumDetailView');
-  const list = document.getElementById('albumView');
-
-  if (albums) albums.style.display = 'block';
-  if (list) list.style.display = 'none';
-  if (detail) detail.style.display = 'block';
-
-  const nombre = album?.nombre || album?.name || album?.titulo || 'Álbum';
-  const portada = album?.portada || album?.cover || album?.imagen || 'Media/logo.png';
-  const anio = album?.anio || album?.year || '2026';
-  const canciones = album?.canciones || album?.songs || [];
-
-  document.getElementById('detalleNombre').textContent = nombre;
-  document.getElementById('detallePortada').src = portada;
-  document.getElementById('detalleMeta').textContent =
-    'EL DIM • ' + anio + (Array.isArray(canciones) ? ' • ' + canciones.length + ' canciones' : '');
-
-  renderCancionesDetalle(canciones);
-  window.scrollTo(0,0);
-}
-
-function renderCancionesDetalle(canciones){
-  const cont = document.getElementById('detalleCanciones');
-  if (!cont) return;
-
-  if (!Array.isArray(canciones) || !canciones.length){
-    cont.innerHTML = '<div class="album-empty">No hay canciones disponibles.</div>';
-    return;
-  }
-
-  cont.innerHTML = canciones.map((c, i) => {
-    const nombre = c?.nombre || c?.name || c?.titulo || ('Canción ' + (i+1));
-    const karaoke = c?.lrc || c?.lyrics || c?.karaoke;
-    return `
-      <div class="song-row">
-        <div class="song-number">${i+1}</div>
-        <div class="song-info">
-          <div class="song-title">${nombre}</div>
-          <div class="song-artist">EL DIM</div>
-        </div>
-        <button class="song-play" onclick="reproducirCancionDelAlbum(${i})">▶</button>
-        ${karaoke ? `<button class="song-play" title="Karaoke" onclick="abrirKaraokeDelAlbum(${i})">🎤</button>` : ''}
-      </div>`;
-  }).join('');
-}
-
-function volverAAlbumes(){
-  const detail = document.getElementById('albumDetailView');
-  const list = document.getElementById('albumView');
-  if (detail) detail.style.display='none';
-  if (list) list.style.display='block';
-  window.scrollTo(0,0);
-}
-
-function reproducirCancionDelAlbum(index){
-  const canciones = albumActual?.canciones || albumActual?.songs || [];
-  const cancion = canciones[index];
-  if (!cancion) return;
-
-  /* Compatibilidad con reproductores existentes */
-  if (typeof playSong === 'function') return playSong(cancion);
-  if (typeof reproducirCancion === 'function') return reproducirCancion(cancion);
-  if (typeof reproducir === 'function') return reproducir(cancion);
-
-  const audio = document.querySelector('audio');
-  const url = cancion?.audio || cancion?.url || cancion?.archivo || cancion?.src;
-  if (audio && url){
-    audio.src=url;
-    audio.play().catch(()=>{});
-  }
-}
-
-function reproducirAlbumCompleto(){
-  const canciones = albumActual?.canciones || albumActual?.songs || [];
-  if (!canciones.length) return;
-  reproducirCancionDelAlbum(0);
-}
-
-function abrirKaraokeDelAlbum(index){
-  const canciones = albumActual?.canciones || albumActual?.songs || [];
-  const cancion = canciones[index];
-  if (!cancion) return;
-
-  if (typeof abrirKaraoke === 'function') return abrirKaraoke(cancion);
-  if (typeof mostrarKaraoke === 'function') return mostrarKaraoke(cancion);
-
-  alert('Karaoke preparado para esta canción. La pantalla de karaoke se integrará en el siguiente paso.');
-}
-</script>
 
 </body>
 </html>
