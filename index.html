@@ -342,6 +342,59 @@ function showView(id){
 }
 </script>
 
+<style id="final-button-size-fix">
+/* Ajuste final: conservar el círculo original y hacer crecer SOLO los PNG */
+.track-actions .action-btn{width:52px!important;height:52px!important;min-width:52px!important;flex:0 0 52px!important;}
+.track-actions .action-btn img{width:43px!important;height:43px!important;object-fit:contain!important;}
+.track-actions .action-btn .offline-img{width:43px!important;height:43px!important;}
+@media(max-width:600px){
+  .track-actions{gap:5px!important;}
+  .track-actions .action-btn{width:52px!important;height:52px!important;min-width:52px!important;flex-basis:52px!important;}
+  .track-actions .action-btn img,.track-actions .action-btn .offline-img{width:43px!important;height:43px!important;}
+}
+</style>
+
+<style id="all-app-buttons-size-fix">
+/* Escala visual uniforme: botones más grandes sin cambiar funciones */
+.icon-header{width:58px!important;height:58px!important}
+.icon-header img{width:34px!important;height:34px!important}
+#cleanHome .home-btn{min-height:60px!important;font-size:16px!important;padding:14px 18px!important}
+.album-screen-head button{width:50px!important;height:50px!important;font-size:24px!important}
+.album-back{width:50px!important;height:50px!important;font-size:22px!important}
+.track-actions{gap:8px!important}
+.track-actions .action-btn{width:58px!important;height:58px!important;min-width:58px!important;flex-basis:58px!important}
+.track-actions .action-btn img,.track-actions .action-btn .offline-img{width:48px!important;height:48px!important}
+.controls{gap:10px!important}
+.controls button,.player-extra button{width:50px!important;height:50px!important}
+.controls button img,.player-extra button img{width:36px!important;height:36px!important}
+.controls .main{width:68px!important;height:68px!important}
+.controls .main img{width:43px!important;height:43px!important}
+.player-mode{width:48px!important;height:48px!important}
+.player-mode img{width:29px!important;height:29px!important}
+.full-header button{width:54px!important;height:54px!important}
+.full-header img{width:29px!important;height:29px!important}
+.full-main-controls{gap:20px!important}
+.full-main-controls button{width:58px!important;height:58px!important}
+.full-main-controls button img{width:37px!important;height:37px!important}
+.full-main-controls .full-play{width:84px!important;height:84px!important}
+.full-main-controls .full-play img{width:48px!important;height:48px!important}
+.upload-submit,.cancel-button{min-height:52px!important;font-size:15px!important}
+.offline-confirm-btn{min-height:54px!important;font-size:15px!important}
+@media(max-width:600px){
+  #cleanHome .home-btn{min-height:58px!important}
+  .track-actions .action-btn{width:56px!important;height:56px!important;min-width:56px!important;flex-basis:56px!important}
+  .track-actions .action-btn img,.track-actions .action-btn .offline-img{width:46px!important;height:46px!important}
+  .controls button,.player-extra button{width:44px!important;height:44px!important}
+  .controls button img,.player-extra button img{width:32px!important;height:32px!important}
+  .controls .main{width:62px!important;height:62px!important}
+  .controls .main img{width:40px!important;height:40px!important}
+  .player-mode{width:43px!important;height:43px!important}
+  .player-mode img{width:26px!important;height:26px!important}
+  .full-main-controls{gap:14px!important}
+  .full-main-controls button{width:52px!important;height:52px!important}
+  .full-main-controls .full-play{width:76px!important;height:76px!important}
+}
+</style>
 </head>
 
 <body>
