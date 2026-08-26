@@ -412,7 +412,86 @@ function mostrarPantallaInicio(){
 .albums-real-list{padding:0 15px 20px}
 .feature-card{cursor:pointer}
 @media(max-width:600px){.home-hero{min-height:500px;margin:10px 12px 16px}.home-hero-content{min-height:500px;padding:22px 18px}.home-artist-name{font-size:34px}.home-logo{width:92px;height:92px}.home-actions{grid-template-columns:1fr}.new-release-card{margin-left:12px;margin-right:12px}.home-section-title{margin-left:12px;margin-right:12px}}
-</style></head>
+</style>
+<style>
+/* ===== DETALLE PREMIUM DEL ÁLBUM ===== */
+#albumDetailView{
+  max-width:720px;
+  margin:0 auto;
+  padding-bottom:30px;
+}
+.album-detail-top{
+  padding:12px 15px 0;
+}
+.album-detail-back{
+  width:46px;height:46px;border-radius:50%;
+  border:1px solid #b88635;background:#090704;color:#ffd98a;
+  font-size:21px;cursor:pointer;
+}
+.album-detail-cover{
+  margin:18px auto 16px;
+  width:min(78vw,390px);
+  aspect-ratio:1/1;
+  border-radius:25px;
+  overflow:hidden;
+  border:1px solid #b88635;
+  box-shadow:0 18px 50px #000,0 0 25px #e7ad5422;
+  background:#080808;
+}
+.album-detail-cover img{
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+.album-detail-info{
+  padding:0 18px;
+  text-align:center;
+}
+.album-detail-info .eyebrow{
+  color:#e7ad54;font-size:11px;font-weight:900;
+  letter-spacing:3px;text-transform:uppercase;
+}
+.album-detail-info h2{
+  color:#ffd98a;font-size:29px;margin:7px 0 5px;
+}
+.album-detail-meta{
+  color:#aaa29a;font-size:13px;margin-bottom:16px;
+}
+.album-detail-play{
+  width:100%;min-height:52px;border-radius:17px;
+  border:1px solid #ffd98a;
+  background:linear-gradient(135deg,#d99a38,#7d4f16);
+  color:#120b04;font-weight:900;font-size:15px;
+  cursor:pointer;box-shadow:0 8px 25px #000;
+}
+.album-detail-list{
+  margin:22px 15px 0;
+  padding:8px;
+  border:1px solid #76501f;
+  border-radius:22px;
+  background:rgba(10,9,8,.82);
+  backdrop-filter:blur(14px);
+}
+.album-detail-list-title{
+  padding:10px 10px 6px;
+  color:#ffd98a;font-size:18px;font-weight:900;
+}
+.album-detail-list .song-row{
+  border-radius:15px;
+  margin:5px 0;
+}
+.album-karaoke-note{
+  margin:15px;
+  padding:15px;
+  border-radius:18px;
+  border:1px solid #76501f;
+  background:#0d0b08;
+  color:#aaa29a;
+  font-size:12px;
+  line-height:1.5;
+  text-align:center;
+}
+</style>
+
+</head>
 
 <body>
 <!-- SPLASH SCREEN ITALY MAU PRODUCER -->
@@ -461,77 +540,37 @@ function mostrarPantallaInicio(){
 <div class="albums-page-header"><button class="albums-page-back" onclick="mostrarPantallaInicio()">←</button><div><h2 class="albums-page-title">MIS ÁLBUMES</h2><p class="albums-page-subtitle">Catálogo musical de EL DIM</p></div></div>
 <div class="new-release-card" style="margin-top:0"><div class="new-release-label">🔥 NO ES UN ÁLBUM OFICIAL</div><div class="new-release-title">NUEVOS LANZAMIENTOS</div><p class="new-release-text">Los temas nuevos permanecen aquí hasta que pasen a su álbum oficial.</p></div>
 <div id="albumView" class="albums-real-list"><div id="listaAlbumes" class="album-grid"><div class="album-empty">Cargando álbumes...</div></div></div>
-<div id="albumDetailView" style="display:none">
-    <div class="album-detail-head">
-      <div id="albumDetailTitle" class="album-detail-title">Álbum</div>
-      <button class="album-back" onclick="volverAlbumes()">← ÁLBUMES</button>
+
+<div id="albumDetailView" style="display:none;">
+  <div class="album-detail-top">
+    <button class="album-detail-back" onclick="volverAAlbumes()" aria-label="Volver a Mis Álbumes">←</button>
+  </div>
+
+  <div class="album-detail-cover">
+    <img id="detallePortada" src="Media/logo.png" alt="Portada del álbum">
+  </div>
+
+  <div class="album-detail-info">
+    <div class="eyebrow">ÁLBUM</div>
+    <h2 id="detalleNombre">Cargando...</h2>
+    <div class="album-detail-meta" id="detalleMeta">EL DIM</div>
+    <button class="album-detail-play" onclick="reproducirAlbumCompleto()">
+      ▶ REPRODUCIR TODO
+    </button>
+  </div>
+
+  <div class="album-detail-list">
+    <div class="album-detail-list-title">🎵 CANCIONES</div>
+    <div id="detalleCanciones">
+      <div class="album-empty">Cargando canciones...</div>
     </div>
-    <div id="listaCanciones"></div>
   </div>
 
-  
-  <div class="glass-feature">
-    <div class="feature-card">
-      <div class="feature-icon">🔥</div>
-      <h3>NUEVOS LANZAMIENTOS</h3>
-      <p>Los temas más recientes de EL DIM antes de pasar a su álbum oficial.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🎤</div>
-      <h3>KARAOKE</h3>
-      <p>Canta tus canciones favoritas con letras sincronizadas próximamente.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">✨</div>
-      <h3>MÁS POR VENIR</h3>
-      <p>Nuevos proyectos, música y funciones de Italy Mau Producer.</p>
-    </div>
+  <div class="album-karaoke-note">
+    🎤 <strong>KARAOKE</strong><br>
+    Las canciones que tengan letra sincronizada podrán abrirse en modo karaoke.
   </div>
-
-  <button id="addSongButton" class="add-button admin-only" onclick="toggleUpload()">
-    <img src="./Icons/upload.png" alt=""> AGREGAR NUEVA CANCIÓN
-  </button>
-
-  <div id="uploadPanel" class="upload-panel admin-only">
-    <h3>🎵 Nueva canción</h3>
-    <label>Álbum</label><input id="uploadAlbum" list="albumOptions" type="text" placeholder="Nombre del álbum nuevo">
-    <datalist id="albumOptions"></datalist>
-    <label>Título</label><input id="uploadTitulo" type="text" placeholder="Nombre de la canción">
-    <label>Artista</label><input id="uploadArtista" type="text" placeholder="El DIM" value="El DIM">
-    <label>Género</label><input id="uploadGenero" type="text" placeholder="Reggaetón, urbano, afrobeat...">
-    <label>Año</label><input id="uploadAnio" type="number" placeholder="2026" value="2026">
-    <label>🎵 Archivo MP3</label><input id="uploadAudio" type="file" accept="audio/mpeg,audio/mp3,audio/*">
-    <label>🖼️ Portada</label><input id="uploadPortada" type="file" accept="image/*">
-    <button class="upload-submit" onclick="subirCancion()">⬆️ SUBIR CANCIÓN</button>
-    <button class="cancel-button" onclick="toggleUpload()">Cancelar</button>
-    <div id="uploadMessage" class="message"></div>
-  </div>
-
-  <div id="albumCoverPanel" class="album-cover-panel admin-only" style="display:none">
-    <h3>🖼️ Cambiar portada del álbum</h3>
-    <div id="albumCoverAlbumName" style="color:#c8c0b7;margin-bottom:8px"></div>
-    <img id="albumCoverPreview" class="album-cover-preview" src="Media/logo.png" alt="Vista previa">
-    <input id="albumCoverFile" type="file" accept="image/*" onchange="previsualizarPortadaAlbum(event)">
-    <button class="upload-submit" onclick="guardarPortadaAlbum()">⬆️ GUARDAR PORTADA</button>
-    <button class="cancel-button" onclick="cerrarPanelPortadaAlbum()">Cancelar</button>
-    <div style="font-size:12px;color:#aaa;margin-top:8px;text-align:center">💾 La portada guardada también queda disponible sin Internet en este teléfono.</div>
-    <div id="albumCoverMessage" class="message"></div>
-  </div>
-</section>
-
-
-
-<section>
-  <h2 class="title"><img class="title-icon" src="./Icons/User.png" alt=""> SOBRE EL ARTISTA</h2>
-  <div class="about-card">
-    <div class="about-text">Apasionado por la música y el espectáculo, con una visión original y creativa.<br><br>Este espacio reúne sus canciones y futuros lanzamientos bajo la identidad de Italy Mau Producer.</div>
-    <img class="about-logo" src="Media/logo.png" alt="Italy Mau Producer">
-  </div>
-</section>
-
-<footer>ITALY MAU PRODUCER • EL DIM</footer>
 </div>
-
 <!-- CONFIRMACIÓN OFFLINE -->
 <div id="offlineConfirmOverlay" class="offline-confirm-overlay" role="dialog" aria-modal="true" aria-labelledby="offlineConfirmTitle">
   <div class="offline-confirm-box" onclick="event.stopPropagation()">
@@ -2025,6 +2064,104 @@ window.addEventListener("online",()=>{
 </script>
 <script>
 window.addEventListener("load",()=>{setTimeout(()=>{const s=document.getElementById("splash");if(s)s.classList.add("splash-hide");},2500);});
+</script>
+
+
+<script>
+/* ===== NAVEGACIÓN Y DETALLE DEL ÁLBUM ===== */
+let albumActual = null;
+
+function abrirDetalleAlbum(album){
+  albumActual = album;
+  const albums = document.getElementById('albumsView');
+  const detail = document.getElementById('albumDetailView');
+  const list = document.getElementById('albumView');
+
+  if (albums) albums.style.display = 'block';
+  if (list) list.style.display = 'none';
+  if (detail) detail.style.display = 'block';
+
+  const nombre = album?.nombre || album?.name || album?.titulo || 'Álbum';
+  const portada = album?.portada || album?.cover || album?.imagen || 'Media/logo.png';
+  const anio = album?.anio || album?.year || '2026';
+  const canciones = album?.canciones || album?.songs || [];
+
+  document.getElementById('detalleNombre').textContent = nombre;
+  document.getElementById('detallePortada').src = portada;
+  document.getElementById('detalleMeta').textContent =
+    'EL DIM • ' + anio + (Array.isArray(canciones) ? ' • ' + canciones.length + ' canciones' : '');
+
+  renderCancionesDetalle(canciones);
+  window.scrollTo(0,0);
+}
+
+function renderCancionesDetalle(canciones){
+  const cont = document.getElementById('detalleCanciones');
+  if (!cont) return;
+
+  if (!Array.isArray(canciones) || !canciones.length){
+    cont.innerHTML = '<div class="album-empty">No hay canciones disponibles.</div>';
+    return;
+  }
+
+  cont.innerHTML = canciones.map((c, i) => {
+    const nombre = c?.nombre || c?.name || c?.titulo || ('Canción ' + (i+1));
+    const karaoke = c?.lrc || c?.lyrics || c?.karaoke;
+    return `
+      <div class="song-row">
+        <div class="song-number">${i+1}</div>
+        <div class="song-info">
+          <div class="song-title">${nombre}</div>
+          <div class="song-artist">EL DIM</div>
+        </div>
+        <button class="song-play" onclick="reproducirCancionDelAlbum(${i})">▶</button>
+        ${karaoke ? `<button class="song-play" title="Karaoke" onclick="abrirKaraokeDelAlbum(${i})">🎤</button>` : ''}
+      </div>`;
+  }).join('');
+}
+
+function volverAAlbumes(){
+  const detail = document.getElementById('albumDetailView');
+  const list = document.getElementById('albumView');
+  if (detail) detail.style.display='none';
+  if (list) list.style.display='block';
+  window.scrollTo(0,0);
+}
+
+function reproducirCancionDelAlbum(index){
+  const canciones = albumActual?.canciones || albumActual?.songs || [];
+  const cancion = canciones[index];
+  if (!cancion) return;
+
+  /* Compatibilidad con reproductores existentes */
+  if (typeof playSong === 'function') return playSong(cancion);
+  if (typeof reproducirCancion === 'function') return reproducirCancion(cancion);
+  if (typeof reproducir === 'function') return reproducir(cancion);
+
+  const audio = document.querySelector('audio');
+  const url = cancion?.audio || cancion?.url || cancion?.archivo || cancion?.src;
+  if (audio && url){
+    audio.src=url;
+    audio.play().catch(()=>{});
+  }
+}
+
+function reproducirAlbumCompleto(){
+  const canciones = albumActual?.canciones || albumActual?.songs || [];
+  if (!canciones.length) return;
+  reproducirCancionDelAlbum(0);
+}
+
+function abrirKaraokeDelAlbum(index){
+  const canciones = albumActual?.canciones || albumActual?.songs || [];
+  const cancion = canciones[index];
+  if (!cancion) return;
+
+  if (typeof abrirKaraoke === 'function') return abrirKaraoke(cancion);
+  if (typeof mostrarKaraoke === 'function') return mostrarKaraoke(cancion);
+
+  alert('Karaoke preparado para esta canción. La pantalla de karaoke se integrará en el siguiente paso.');
+}
 </script>
 
 </body>
