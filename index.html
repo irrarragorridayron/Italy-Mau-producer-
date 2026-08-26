@@ -293,53 +293,31 @@ button.admin-only.admin-visible{display:flex!important}
 
 
 <style>
-/* Navegación de dos pantallas Italy Mau Producer */
-.view-page{display:none;animation:fade .35s ease}
+/* =========================
+   NUEVA INTERFAZ HOME + MIS ÁLBUMES
+   ========================= */
+.view-page{display:none;animation:pageIn .28s ease}
 .view-page.active{display:block}
-@keyframes fade{from{opacity:0}to{opacity:1}}
-.nav-albums{
-margin:15px;
-padding:18px;
-border:1px solid #b8860b;
-border-radius:20px;
-background:#0b0b0b;
-color:#d4af37;
-font-weight:bold;
-text-align:center;
-cursor:pointer;
-}
-.album-screen{
-padding:18px;
-}
-.album-card-new{
-display:flex;
-align-items:center;
-gap:15px;
-margin:12px 0;
-padding:15px;
-border:1px solid rgba(212,175,55,.5);
-border-radius:20px;
-background:#090909;
-color:white;
-}
-.album-card-new img{
-width:90px;height:90px;border-radius:15px;object-fit:cover;
-}
-.album-card-new h3{color:#d4af37;margin:0 0 8px}
-.back-btn{
-color:#d4af37;
-font-size:22px;
-cursor:pointer;
-margin-bottom:15px;
-}
+@keyframes pageIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.home-top{position:relative;margin:0 15px 8px;padding:18px 4px 4px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.home-top-brand{flex:1;text-align:center;padding:0 52px}.home-top-brand .small-brand{font-size:11px;letter-spacing:2.5px;color:#9d7a3a;font-weight:700}.home-top-brand .artist-name{margin-top:2px;font-size:27px;line-height:1;color:var(--gold2);font-weight:900;letter-spacing:2px}
+.home-top-action{width:44px;height:44px;border-radius:14px;border:1px solid #76501f;background:linear-gradient(145deg,#171109,#050505);display:grid;place-items:center;cursor:pointer;box-shadow:0 0 14px #e7ad541c}.home-top-action img{width:25px;height:25px;object-fit:contain}.home-top-action.bell{font-size:22px;color:var(--gold2)}
+.home-hero{position:relative;margin:0 15px 18px;min-height:360px;overflow:hidden;border:1px solid #76501f;border-radius:28px;background:#060606;box-shadow:0 12px 35px #000,0 0 30px #e7ad5414}.home-hero-bg{position:absolute;inset:0;background:radial-gradient(circle at 72% 40%,#6e461a66,transparent 42%),linear-gradient(90deg,#050505 0%,#050505dd 38%,#05050544 68%,#05050500 100%)}
+.home-hero-art{position:absolute;right:-4%;bottom:-3%;height:108%;width:65%;object-fit:cover;object-position:center top;mask-image:linear-gradient(90deg,transparent 0%,black 22%,black 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,black 22%,black 100%);filter:saturate(.92) contrast(1.05)}
+.home-hero-copy{position:relative;z-index:2;width:52%;padding:34px 18px 28px}.home-hero-kicker{font-size:12px;color:#c9b28a;letter-spacing:2px;font-weight:800}.home-hero-title{margin:8px 0 3px;color:#fff;font-size:36px;line-height:1;font-weight:900;letter-spacing:1px}.home-hero-sub{color:var(--gold2);font-size:14px;font-weight:800;letter-spacing:1px}.home-hero-bio{margin-top:14px;color:#d2cbc2;font-size:13px;line-height:1.55;max-width:310px}
+.feature-release{margin:0 15px 22px;padding:13px;border:1px solid #9a6d29;border-radius:22px;background:linear-gradient(135deg,#15110a,#070707 62%,#0d0b08);display:flex;align-items:center;gap:14px;box-shadow:0 12px 32px #000,0 0 22px #e7ad5417}.feature-release-copy{flex:1;min-width:0;padding:4px 2px}.feature-release-badge{display:inline-block;padding:5px 9px;border-radius:999px;background:linear-gradient(135deg,#f2c86f,#a96d18);color:#161006;font-size:9px;font-weight:900;letter-spacing:.5px}.feature-release h3{margin:9px 0 4px;color:var(--gold2);font-size:21px;line-height:1.1}.feature-release p{margin:0;color:#ddd;font-size:12px}.feature-release button{margin-top:11px;border:1px solid #d5a348;border-radius:12px;padding:10px 13px;background:linear-gradient(135deg,#e9bb62,#a86d19);color:#170f04;font-size:11px;font-weight:900;cursor:pointer;box-shadow:0 0 12px #e7ad5428}.feature-release-cover{width:112px;height:112px;min-width:112px;object-fit:cover;border-radius:16px;border:1px solid #76501f;box-shadow:0 0 18px #000}
+.section-heading-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 15px 12px}.section-heading-row h2{margin:0;color:var(--gold2);font-size:20px;letter-spacing:1px}.section-heading-row button{border:0;background:none;color:var(--gold2);font-size:13px;font-weight:800;cursor:pointer;padding:8px 0}
+.home-albums-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0 15px 20px}.home-album-card{position:relative;overflow:hidden;min-width:0;padding:9px;border:1px solid #49351c;border-radius:18px;background:linear-gradient(145deg,#14110d,#070707);box-shadow:0 8px 24px #000;cursor:pointer}.home-album-card:active,.album-list-card:active{transform:scale(.985)}.home-album-cover{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:13px;border:1px solid #5f431e;display:block}.home-album-name{margin:9px 3px 0;color:#fff;font-size:13px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.home-album-meta{margin:4px 3px 0;color:#aaa29a;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.home-album-count{margin:5px 3px 1px;color:var(--gold);font-size:10px;font-weight:700}
+.quick-features{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:0 15px 25px}.quick-feature{min-height:105px;padding:16px;border:1px solid #4f3a1e;border-radius:18px;background:linear-gradient(145deg,#12100d,#060606);display:flex;flex-direction:column;justify-content:center;align-items:flex-start}.quick-feature-icon{font-size:28px;margin-bottom:8px}.quick-feature h3{margin:0;color:var(--gold2);font-size:13px}.quick-feature p{margin:4px 0 0;color:#aaa29a;font-size:10px;line-height:1.4}
+.home-page>header{display:none}.home-page section{padding-left:15px;padding-right:15px}.home-page .artist-hero,.home-page .title,.home-page .glass-feature{display:none}.home-page #albumView,.home-page #albumDetailView{display:none}.home-page .about-card{margin:0 15px}
+.album-screen{padding:12px 15px 150px;max-width:1000px;margin:auto}.album-screen-head{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 16px;background:linear-gradient(#050505 76%,transparent);backdrop-filter:blur(8px)}.album-screen-title{flex:1;text-align:center;color:var(--gold2);font-size:21px;font-weight:900;letter-spacing:1px}.album-screen-head button{width:44px;height:44px;border-radius:14px;border:1px solid #76501f;background:#080808;color:var(--gold2);font-size:24px;display:grid;place-items:center;cursor:pointer}.album-screen-head .search-btn{font-size:20px}.album-list{display:flex;flex-direction:column;gap:11px}.album-list-card{position:relative;display:flex;align-items:center;gap:14px;padding:10px 12px;border:1px solid #3d321f;border-radius:20px;background:linear-gradient(145deg,#15130f,#080808 70%);box-shadow:0 8px 25px #000;cursor:pointer;transition:transform .15s ease,border-color .2s ease}.album-list-card:hover{border-color:#8a6228}.album-list-cover{width:106px;height:106px;min-width:106px;object-fit:cover;border-radius:16px;border:1px solid #5c421d;box-shadow:0 0 15px #000}.album-list-info{flex:1;min-width:0;padding-right:8px}.album-list-name{color:var(--gold2);font-size:17px;font-weight:900;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.album-list-artist{margin-top:7px;color:#fff;font-size:13px;font-weight:700}.album-list-desc{margin-top:7px;color:#aaa29a;font-size:12px;line-height:1.35}.album-list-count{margin-top:7px;color:#c9c0b4;font-size:12px}.album-list-arrow{width:40px;min-width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#e4ac4d;font-size:31px;font-weight:300}.album-list-card .album-edit-cover{position:absolute;right:10px;bottom:9px;margin:0;z-index:3}.album-screen-empty{text-align:center;color:#aaa29a;padding:35px 15px}
+@media(max-width:600px){.home-top-brand{padding:0 38px}.home-top-brand .artist-name{font-size:21px}.home-top-action{width:40px;height:40px;border-radius:12px}.home-hero{min-height:315px;border-radius:23px}.home-hero-copy{width:58%;padding:28px 15px}.home-hero-title{font-size:30px}.home-hero-art{right:-10%;width:67%}.feature-release-cover{width:96px;height:96px;min-width:96px}.feature-release h3{font-size:18px}.home-albums-grid{gap:9px}.album-list-card{gap:10px;padding:9px}.album-list-cover{width:88px;height:88px;min-width:88px}.album-list-name{font-size:14px}.album-list-artist,.album-list-count{font-size:11px}.album-list-desc{font-size:10px}.album-list-arrow{width:34px;min-width:34px;font-size:27px}}
+@media(max-width:430px){.home-top{margin-left:11px;margin-right:11px}.home-top-brand{padding:0 31px}.home-top-brand .small-brand{font-size:8px}.home-top-brand .artist-name{font-size:18px}.home-top-action{width:37px;height:37px}.home-hero{min-height:285px}.home-hero-copy{width:62%;padding:23px 12px}.home-hero-title{font-size:27px}.home-hero-bio{font-size:11px}.home-hero-art{width:69%;right:-13%}.feature-release{padding:9px;gap:9px}.feature-release-cover{width:82px;height:82px;min-width:82px}.feature-release h3{font-size:15px}.feature-release p{font-size:10px}.feature-release button{font-size:9px;padding:8px 9px}.section-heading-row{margin-left:11px;margin-right:11px}.home-albums-grid{margin-left:11px;margin-right:11px}.quick-features{margin-left:11px;margin-right:11px}.album-list-cover{width:76px;height:76px;min-width:76px}.album-list-card{padding:8px}.album-list-name{font-size:12px}.album-list-arrow{width:29px;min-width:29px;font-size:24px}.album-screen-title{font-size:18px}}
 </style>
 
 <script>
-function showView(id){
- document.querySelectorAll('.view-page').forEach(v=>v.classList.remove('active'));
- document.getElementById(id).classList.add('active');
- window.scrollTo(0,0);
-}
+function showView(id){document.querySelectorAll('.view-page').forEach(v=>v.classList.remove('active'));const target=document.getElementById(id);if(target)target.classList.add('active');if(id==='albums-page'){try{mostrarAlbumes()}catch(e){console.warn('No se pudo actualizar Mis álbumes:',e)}}window.scrollTo({top:0,behavior:'smooth'})}
+function openAllAlbums(){showView('albums-page')}
 </script>
 
 
@@ -379,6 +357,9 @@ function showView(id){
 <div id="adminStatus" class="admin-status">ADMINISTRADOR</div>
 <div class="app">
 
+<div id="home-page" class="view-page active home-page">
+<div class="home-top"><button class="home-top-action" onclick="abrirAdminPanel()" aria-label="Menú"><img src="./Icons/menu.png" alt=""></button><div class="home-top-brand"><div class="small-brand">ITALY MAU PRODUCER</div><div class="artist-name">EL DIM</div></div><button class="home-top-action bell" onclick="openArtistInfo()" aria-label="Notificaciones">♟</button></div>
+
 <header>
   <div class="header-actions">
     <button class="icon-header" onclick="abrirAdminPanel()" aria-label="Administrador" title="Administrador">
@@ -395,81 +376,15 @@ function showView(id){
 </header>
 
 
-<section class="artist-hero">
-  <!-- Colocar aquí la portada oficial del artista -->
-  <img src="Media/artista-portada.png" alt="EL DIM Italy Mau Producer" loading="eager">
-  <h2>EL DIM</h2>
-  <p>ITALY MAU PRODUCER</p>
-</section>
-
-<section>
-  <h2 class="title"><span>💿</span> MIS ÁLBUMES</h2>
-
-  <div id="albumView">
-    <div id="listaAlbumes" class="album-grid">
-      <div class="album-empty">Cargando álbumes...</div>
-    </div>
-  </div>
-
-  <div id="albumDetailView" style="display:none">
-    <div class="album-detail-head">
-      <div id="albumDetailTitle" class="album-detail-title">Álbum</div>
-      <button class="album-back" onclick="volverAlbumes()">← ÁLBUMES</button>
-    </div>
-    <div id="listaCanciones"></div>
-  </div>
-
-  
-  <div class="glass-feature">
-    <div class="feature-card">
-      <div class="feature-icon">🔥</div>
-      <h3>NUEVOS LANZAMIENTOS</h3>
-      <p>Los temas más recientes de EL DIM antes de pasar a su álbum oficial.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">🎤</div>
-      <h3>KARAOKE</h3>
-      <p>Canta tus canciones favoritas con letras sincronizadas próximamente.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon">✨</div>
-      <h3>MÁS POR VENIR</h3>
-      <p>Nuevos proyectos, música y funciones de Italy Mau Producer.</p>
-    </div>
-  </div>
-
-  <button id="addSongButton" class="add-button admin-only" onclick="toggleUpload()">
-    <img src="./Icons/upload.png" alt=""> AGREGAR NUEVA CANCIÓN
-  </button>
-
-  <div id="uploadPanel" class="upload-panel admin-only">
-    <h3>🎵 Nueva canción</h3>
-    <label>Álbum</label><input id="uploadAlbum" list="albumOptions" type="text" placeholder="Nombre del álbum nuevo">
-    <datalist id="albumOptions"></datalist>
-    <label>Título</label><input id="uploadTitulo" type="text" placeholder="Nombre de la canción">
-    <label>Artista</label><input id="uploadArtista" type="text" placeholder="El DIM" value="El DIM">
-    <label>Género</label><input id="uploadGenero" type="text" placeholder="Reggaetón, urbano, afrobeat...">
-    <label>Año</label><input id="uploadAnio" type="number" placeholder="2026" value="2026">
-    <label>🎵 Archivo MP3</label><input id="uploadAudio" type="file" accept="audio/mpeg,audio/mp3,audio/*">
-    <label>🖼️ Portada</label><input id="uploadPortada" type="file" accept="image/*">
-    <button class="upload-submit" onclick="subirCancion()">⬆️ SUBIR CANCIÓN</button>
-    <button class="cancel-button" onclick="toggleUpload()">Cancelar</button>
-    <div id="uploadMessage" class="message"></div>
-  </div>
-
-  <div id="albumCoverPanel" class="album-cover-panel admin-only" style="display:none">
-    <h3>🖼️ Cambiar portada del álbum</h3>
-    <div id="albumCoverAlbumName" style="color:#c8c0b7;margin-bottom:8px"></div>
-    <img id="albumCoverPreview" class="album-cover-preview" src="Media/logo.png" alt="Vista previa">
-    <input id="albumCoverFile" type="file" accept="image/*" onchange="previsualizarPortadaAlbum(event)">
-    <button class="upload-submit" onclick="guardarPortadaAlbum()">⬆️ GUARDAR PORTADA</button>
-    <button class="cancel-button" onclick="cerrarPanelPortadaAlbum()">Cancelar</button>
-    <div style="font-size:12px;color:#aaa;margin-top:8px;text-align:center">💾 La portada guardada también queda disponible sin Internet en este teléfono.</div>
-    <div id="albumCoverMessage" class="message"></div>
-  </div>
-</section>
-
-
+<section class="home-hero"><div class="home-hero-bg"></div><img class="home-hero-art" src="Media/artista-portada.png" alt="EL DIM Italy Mau Producer" loading="eager"><div class="home-hero-copy"><div class="home-hero-kicker">BIENVENIDO</div><div class="home-hero-title">EL DIM</div><div class="home-hero-sub">ITALY MAU PRODUCER</div><div class="home-hero-bio">Nacido en febrero de 1987, amante de la música y el espectáculo en general, original y muy positivo, con ganas de crear y sentirme útil.</div></div></section>
+<div class="feature-release" id="featuredRelease"><div class="feature-release-copy"><span class="feature-release-badge">NUEVO LANZAMIENTO</span><h3 id="featuredReleaseTitle">ÁLBUM SENCILLO</h3><p id="featuredReleaseDesc">Nuevos lanzamientos</p><button type="button" onclick="reproducirAlbumDestacado()">▶ ESCUCHAR AHORA</button></div><img id="featuredReleaseCover" class="feature-release-cover" src="Media/logo.png" alt="Nuevo lanzamiento"></div>
+<div class="section-heading-row"><h2>MIS ÁLBUMES</h2><button type="button" onclick="openAllAlbums()">Ver todos ›</button></div>
+<div id="homeAlbumGrid" class="home-albums-grid"><div class="album-empty" style="grid-column:1/-1">Cargando álbumes...</div></div>
+<div class="quick-features"><div class="quick-feature"><div class="quick-feature-icon">🎤</div><h3>KARAOKE</h3><p>Canta tus canciones como EL DIM. Próximamente.</p></div><div class="quick-feature"><div class="quick-feature-icon">♛</div><h3>MÁS POR VENIR</h3><p>Nuevos proyectos y música muy pronto.</p></div></div>
+<section><div id="albumView"><div id="listaAlbumes" class="album-grid" style="display:none"></div></div><div id="albumDetailView" style="display:none"><div class="album-detail-head"><div id="albumDetailTitle" class="album-detail-title">Álbum</div><button class="album-back" onclick="volverAlbumes()">← ÁLBUMES</button></div><div id="listaCanciones"></div></div><div class="glass-feature"><div class="feature-card"><div class="feature-icon">🔥</div><h3>NUEVOS LANZAMIENTOS</h3><p>Los temas más recientes de EL DIM.</p></div><div class="feature-card"><div class="feature-icon">🎤</div><h3>KARAOKE</h3><p>Canta tus canciones favoritas próximamente.</p></div><div class="feature-card"><div class="feature-icon">✨</div><h3>MÁS POR VENIR</h3><p>Nuevos proyectos y funciones.</p></div></div>
+<button id="addSongButton" class="add-button admin-only" onclick="toggleUpload()"><img src="./Icons/upload.png" alt=""> AGREGAR NUEVA CANCIÓN</button>
+<div id="uploadPanel" class="upload-panel admin-only"><h3>🎵 Nueva canción</h3><label>Álbum</label><input id="uploadAlbum" list="albumOptions" type="text" placeholder="Nombre del álbum nuevo"><datalist id="albumOptions"></datalist><label>Título</label><input id="uploadTitulo" type="text" placeholder="Nombre de la canción"><label>Artista</label><input id="uploadArtista" type="text" placeholder="El DIM" value="El DIM"><label>Género</label><input id="uploadGenero" type="text" placeholder="Reggaetón, urbano, afrobeat..."><label>Año</label><input id="uploadAnio" type="number" placeholder="2026" value="2026"><label>🎵 Archivo MP3</label><input id="uploadAudio" type="file" accept="audio/mpeg,audio/mp3,audio/*"><label>🖼️ Portada</label><input id="uploadPortada" type="file" accept="image/*"><button class="upload-submit" onclick="subirCancion()">⬆️ SUBIR CANCIÓN</button><button class="cancel-button" onclick="toggleUpload()">Cancelar</button><div id="uploadMessage" class="message"></div></div>
+<div id="albumCoverPanel" class="album-cover-panel admin-only" style="display:none"><h3>🖼️ Cambiar portada del álbum</h3><div id="albumCoverAlbumName" style="color:#c8c0b7;margin-bottom:8px"></div><img id="albumCoverPreview" class="album-cover-preview" src="Media/logo.png" alt="Vista previa"><input id="albumCoverFile" type="file" accept="image/*" onchange="previsualizarPortadaAlbum(event)"><button class="upload-submit" onclick="guardarPortadaAlbum()">⬆️ GUARDAR PORTADA</button><button class="cancel-button" onclick="cerrarPanelPortadaAlbum()">Cancelar</button><div style="font-size:12px;color:#aaa;margin-top:8px;text-align:center">💾 La portada guardada también queda disponible sin Internet en este teléfono.</div><div id="albumCoverMessage" class="message"></div></div></section>
 
 <section>
   <h2 class="title"><img class="title-icon" src="./Icons/User.png" alt=""> SOBRE EL ARTISTA</h2>
@@ -480,6 +395,8 @@ function showView(id){
 </section>
 
 <footer>ITALY MAU PRODUCER • EL DIM</footer>
+</div>
+<div id="albums-page" class="view-page album-screen"><div class="album-screen-head"><button type="button" onclick="showView('home-page')" aria-label="Volver">‹</button><div class="album-screen-title">MIS ÁLBUMES</div><button type="button" class="search-btn" onclick="focusAlbumSearch()" aria-label="Buscar">⌕</button></div><div id="albumSearchWrap" style="display:none;margin:0 0 12px"><input id="albumSearch" type="search" placeholder="Buscar álbum..." oninput="filtrarAlbumesPantalla()" style="width:100%;padding:12px 14px;border-radius:14px;border:1px solid #76501f;background:#090909;color:#fff;outline:none"></div><div id="listaAlbumesTodos" class="album-list"><div class="album-screen-empty">Cargando álbumes...</div></div></div>
 </div>
 
 <!-- CONFIRMACIÓN OFFLINE -->
@@ -1416,53 +1333,12 @@ async function cargarCanciones(){
   }
 }
 
-function mostrarAlbumes(){
-  const lista=document.getElementById("listaAlbumes");
-  if(!lista)return;
-  lista.innerHTML="";
-  if(!albums.length){
-    lista.innerHTML=`<div class="album-empty" style="grid-column:1/-1">Todavía no hay álbumes disponibles.</div>`;
-    return;
-  }
-
-  albums.forEach(album=>{
-    const albumTracks=cancionesDelAlbum(album);
-    const tarjeta=document.createElement("div");
-    tarjeta.className="album-card";
-
-    const portada=portadaAlbum(album,albumTracks);
-    const artista=albumTracks[0]?.artist||"El DIM";
-    const anio=albumTracks[0]?.year||"";
-
-    tarjeta.innerHTML=`
-      <img class="album-cover" src="${escapeHTML(portada)}" alt="${escapeHTML(album.title)}" onerror="this.src='${FALLBACK_COVER}'">
-      <div class="album-info">
-        <div class="album-name">${escapeHTML(album.title)}</div>
-        <div class="album-artist">${escapeHTML(artista)}${anio?" • "+escapeHTML(String(anio)):""}</div>
-        <div class="album-count">${albumTracks.length} ${albumTracks.length===1?"canción":"canciones"}</div>
-        ${album.description?`<div class="album-count">${escapeHTML(album.description)}</div>`:""}
-        <div class="album-open">ABRIR ÁLBUM →</div>
-        <button class="album-edit-cover admin-only${isAdmin ? " admin-visible" : ""}" type="button">🖼️ CREAR / CAMBIAR PORTADA</button>
-      </div>`;
-
-    // No usamos onclick inline para el ID del álbum: los álbumes heredados
-    // usan IDs de texto (por ejemplo "legacy-mi regueton para ti") y las
-    // comillas del atributo HTML podían romper el botón. El listener directo
-    // funciona tanto con IDs numéricos como con IDs de texto.
-    const botonPortada=tarjeta.querySelector(".album-edit-cover");
-    if(botonPortada){
-      botonPortada.addEventListener("click",event=>{
-        event.preventDefault();
-        event.stopPropagation();
-        abrirCambiarPortada(album.id);
-      });
-    }
-
-    tarjeta.addEventListener("click",()=>abrirAlbum(album.id));
-    lista.appendChild(tarjeta);
-  });
-}
-
+function crearTarjetaAlbum(album,modo="home"){const albumTracks=cancionesDelAlbum(album);const portada=portadaAlbum(album,albumTracks);const artista=albumTracks[0]?.artist||"El DIM";const anio=albumTracks[0]?.year||"";const cantidad=albumTracks.length;const descripcion=album.description||((album.title||"").toLowerCase().includes("sencillo")?"Nuevos lanzamientos":"");const tarjeta=document.createElement("div");tarjeta.dataset.albumTitle=normalizarTexto(album.title||"");if(modo==="home"){tarjeta.className="home-album-card";tarjeta.innerHTML=`<img class="home-album-cover" src="${escapeHTML(portada)}" alt="${escapeHTML(album.title)}" onerror="this.src='${FALLBACK_COVER}'"><div class="home-album-name">${escapeHTML(album.title)}</div><div class="home-album-meta">${escapeHTML(artista)}${anio?" • "+escapeHTML(String(anio)):""}</div><div class="home-album-count">${cantidad} ${cantidad===1?"canción":"canciones"}</div>`}else{tarjeta.className="album-list-card";tarjeta.innerHTML=`<img class="album-list-cover" src="${escapeHTML(portada)}" alt="${escapeHTML(album.title)}" onerror="this.src='${FALLBACK_COVER}'"><div class="album-list-info"><div class="album-list-name">${escapeHTML(album.title)}</div><div class="album-list-artist">${escapeHTML(artista)}${anio?" • "+escapeHTML(String(anio)):""}</div>${descripcion?`<div class="album-list-desc">${escapeHTML(descripcion)}</div>`:""}<div class="album-list-count">${cantidad} ${cantidad===1?"canción":"canciones"}</div></div><div class="album-list-arrow">›</div><button class="album-edit-cover admin-only${isAdmin ? " admin-visible" : ""}" type="button" aria-label="Cambiar portada">🖼️</button>`;const botonPortada=tarjeta.querySelector(".album-edit-cover");if(botonPortada)botonPortada.addEventListener("click",event=>{event.preventDefault();event.stopPropagation();abrirCambiarPortada(album.id)})}tarjeta.addEventListener("click",()=>abrirAlbum(album.id));return tarjeta}
+function renderFeaturedAlbum(){const titleEl=document.getElementById("featuredReleaseTitle"),descEl=document.getElementById("featuredReleaseDesc"),coverEl=document.getElementById("featuredReleaseCover"),box=document.getElementById("featuredRelease");if(!titleEl||!descEl||!coverEl||!box)return;const album=albums.find(a=>cancionesDelAlbum(a).length>0)||albums[0];if(!album){box.style.display="none";return}box.style.display="flex";const albumTracks=cancionesDelAlbum(album);titleEl.textContent=album.title||"ÁLBUM SENCILLO";descEl.textContent=album.description||`${albumTracks.length} ${albumTracks.length===1?"canción disponible":"canciones disponibles"}`;coverEl.src=portadaAlbum(album,albumTracks);coverEl.onerror=()=>{coverEl.src=FALLBACK_COVER};box.dataset.featuredAlbumId=String(album.id)}
+function reproducirAlbumDestacado(){const box=document.getElementById("featuredRelease"),id=box?.dataset.featuredAlbumId,album=albums.find(a=>String(a.id)===String(id))||albums.find(a=>cancionesDelAlbum(a).length>0);if(!album)return;const grupo=cancionesDelAlbum(album);if(!grupo.length)return;currentAlbum=album.id;tracks=grupo.slice();i=0;loadTrack().then(()=>{try{audio.play()}catch(e){}}).catch(e=>console.warn("No se pudo reproducir el lanzamiento:",e));}
+function mostrarAlbumes(){const home=document.getElementById("homeAlbumGrid"),legacy=document.getElementById("listaAlbumes"),full=document.getElementById("listaAlbumesTodos");if(!albums.length){if(home)home.innerHTML=`<div class="album-empty" style="grid-column:1/-1">Todavía no hay álbumes disponibles.</div>`;if(full)full.innerHTML=`<div class="album-screen-empty">Todavía no hay álbumes disponibles.</div>`;if(legacy)legacy.innerHTML="";renderFeaturedAlbum();return}if(home){home.innerHTML="";albums.slice(0,4).forEach(album=>home.appendChild(crearTarjetaAlbum(album,"home")))}if(full){full.innerHTML="";albums.forEach(album=>full.appendChild(crearTarjetaAlbum(album,"full")));filtrarAlbumesPantalla()}if(legacy)legacy.innerHTML="";renderFeaturedAlbum()}
+function focusAlbumSearch(){const wrap=document.getElementById("albumSearchWrap"),input=document.getElementById("albumSearch");if(!wrap||!input)return;wrap.style.display=wrap.style.display==="none"?"block":"none";if(wrap.style.display!=="none"){input.focus();filtrarAlbumesPantalla()}}
+function filtrarAlbumesPantalla(){const input=document.getElementById("albumSearch"),q=normalizarTexto(input?.value||"");document.querySelectorAll("#listaAlbumesTodos .album-list-card").forEach(card=>{card.style.display=!q||String(card.dataset.albumTitle||"").includes(q)?"flex":"none"})}
 function abrirAlbum(albumId){
   const album=albums.find(a=>String(a.id)===String(albumId));
   if(!album)return;
@@ -1472,6 +1348,7 @@ function abrirAlbum(albumId){
   tracks=grupo.slice();
   const encontrado=tracks.findIndex(t=>String(t.id)===String(idActual));
   i=encontrado>=0?encontrado:0;
+  showView("home-page");
   document.getElementById("albumView").style.display="none";
   document.getElementById("albumDetailView").style.display="block";
   document.getElementById("albumDetailTitle").textContent=album.title;
@@ -1481,6 +1358,7 @@ function abrirAlbum(albumId){
 }
 
 function volverAlbumes(){
+  showView("home-page");
   currentAlbum=null;
   tracks=allTracks.slice();
   i=0;
@@ -1972,40 +1850,6 @@ window.addEventListener("online",()=>{
 window.addEventListener("load",()=>{setTimeout(()=>{const s=document.getElementById("splash");if(s)s.classList.add("splash-hide");},2500);});
 </script>
 
-<div class="nav-albums" onclick="showView('albums-page')">
-🎵 VER TODOS MIS ÁLBUMES →
-</div>
 
-<div id="albums-page" class="view-page album-screen">
-<div class="back-btn" onclick="showView('home-page')">← Volver</div>
-<h1 style="color:#d4af37;text-align:center">MIS ÁLBUMES</h1>
-
-<div class="album-card-new">
-<img src="Media/sencillos.png">
-<div>
-<h3>Nuevos lanzamientos</h3>
-<p>EL DIM • 2026</p>
-<p>Temas nuevos antes de pasar a un álbum oficial</p>
-</div>
-</div>
-
-<div class="album-card-new">
-<img src="Media/mi_regueton_para_ti.png">
-<div>
-<h3>Mi Reguetón para ti</h3>
-<p>EL DIM • 2026</p>
-<p>Álbum oficial</p>
-</div>
-</div>
-
-<div class="album-card-new">
-<img src="Media/logo.png">
-<div>
-<h3>Más por venir</h3>
-<p>Próximos proyectos</p>
-</div>
-</div>
-
-</div>
 </body>
 </html>
