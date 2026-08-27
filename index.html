@@ -475,6 +475,71 @@ function openAllAlbums(){showView('albums-page')}
     box-shadow:none !important;
   }
 }
+
+/* Ajuste reproductor grande: todos los controles iguales, sin círculos, solo glow */
+.full-main-controls button,
+.full-tools button,
+.full-header button {
+  width:56px;
+  height:56px;
+  border:0 !important;
+  border-radius:14px !important;
+  background:transparent !important;
+  box-shadow:0 0 10px #e7ad5440 !important;
+  display:grid;
+  place-items:center;
+}
+
+.full-main-controls button img,
+.full-tools button img,
+.full-header button img {
+  width:34px;
+  height:34px;
+}
+
+.full-main-controls .full-play {
+  width:72px;
+  height:72px;
+  border-radius:18px !important;
+  border:0 !important;
+  box-shadow:0 0 18px #e7ad5488,0 0 35px #e7ad5444 !important;
+}
+
+.full-main-controls .full-play img {
+  width:42px;
+  height:42px;
+}
+
+.full-tools {
+  display:flex;
+  justify-content:center;
+  gap:14px;
+}
+
+.full-tools button:hover,
+.full-main-controls button:hover,
+.full-header button:hover {
+  filter:brightness(1.25);
+}
+
+.full-tools button:active,
+.full-main-controls button:active,
+.full-header button:active {
+  transform:scale(.92);
+}
+
+@media(max-width:600px){
+ .full-main-controls button,
+ .full-tools button,
+ .full-header button {
+   width:52px;
+   height:52px;
+ }
+ .full-main-controls .full-play {
+   width:68px;
+   height:68px;
+ }
+}
 </style>
 
 </head>
