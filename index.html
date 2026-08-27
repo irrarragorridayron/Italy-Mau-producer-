@@ -339,6 +339,144 @@ function openAllAlbums(){showView('albums-page')}
   .controls .main img{width:29px;height:29px}
 }
 </style>
+
+<style>
+/* ================================
+   AJUSTE DE BOTONES — SIN CÍRCULOS
+   Conserva sin cambios el mini reproductor
+   y los botones de navegación de álbumes.
+   ================================ */
+
+/* Botones principales del encabezado: más grandes, sin círculo/borde,
+   solo iluminación alrededor del icono. */
+.home-top-action{
+  width:58px;
+  height:58px;
+  min-width:58px;
+  padding:8px;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  display:grid;
+  place-items:center;
+  transition:transform .16s ease,filter .2s ease;
+}
+.home-top-action img{
+  width:34px;
+  height:34px;
+  filter:drop-shadow(0 0 5px #e7ad54)
+         drop-shadow(0 0 13px #e7ad5488);
+}
+.home-top-action.bell{
+  font-size:30px;
+  text-shadow:0 0 6px #e7ad54,0 0 15px #e7ad5488;
+}
+.home-top-action:hover{filter:brightness(1.2)}
+.home-top-action:active{transform:scale(.92)}
+
+/* Acciones de cada canción: se eliminan los círculos y queda únicamente
+   el icono iluminado. Se hacen más grandes para facilitar el toque. */
+.action-btn{
+  width:76px;
+  height:72px;
+  min-width:76px;
+  padding:6px;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+.action-btn img{
+  width:40px;
+  height:40px;
+  filter:drop-shadow(0 0 5px #e7ad54)
+         drop-shadow(0 0 13px #e7ad5466);
+}
+.action-btn.play img{
+  filter:drop-shadow(0 0 5px #62c5ff)
+         drop-shadow(0 0 15px #168cffaa);
+}
+.action-btn.delete img{
+  filter:drop-shadow(0 0 5px #ff7777)
+         drop-shadow(0 0 14px #ff303088);
+}
+.action-btn.offline img{
+  filter:drop-shadow(0 0 5px #63d98b)
+         drop-shadow(0 0 14px #63d98b88);
+}
+.action-btn.offline.saved img{
+  filter:drop-shadow(0 0 5px #ffd98a)
+         drop-shadow(0 0 14px #e7ad5488);
+}
+.action-btn:hover{filter:brightness(1.25)}
+.action-btn:active{transform:scale(.9)}
+
+/* Botón de escuchar lanzamiento: más grande, rectangular y sin aro. */
+.feature-release button{
+  min-height:50px;
+  padding:13px 18px;
+  border:0 !important;
+  border-radius:13px;
+  box-shadow:0 0 8px #e7ad5488,0 0 22px #e7ad5438 !important;
+}
+
+/* Botón de agregar canción del administrador: más grande y luminoso. */
+.add-button{
+  min-height:64px;
+  padding:16px 22px;
+  border:0 !important;
+  border-radius:16px;
+  box-shadow:0 0 9px #e7ad5444,0 0 24px #e7ad5422 !important;
+}
+
+/* Botones de subir/cancelar: conservan forma rectangular, pero ganan tamaño. */
+.upload-submit,.cancel-button{
+  min-height:54px;
+  padding:15px 18px;
+}
+
+/* IMPORTANTE: estos NO se agrandan ni se rediseñan:
+   - mini reproductor (.player y sus controles)
+   - botón "Ver todos" / álbumes (.section-heading-row button)
+   - navegación propia de la pantalla Mis Álbumes (.album-screen-head) */
+.section-heading-row button{
+  width:auto;
+  height:auto;
+  min-width:0;
+  padding:8px 0;
+  border:0 !important;
+  border-radius:0 !important;
+  background:none !important;
+  box-shadow:none !important;
+}
+
+@media(max-width:600px){
+  .home-top-action{width:54px;height:54px;min-width:54px}
+  .home-top-action img{width:32px;height:32px}
+  .home-top-action.bell{font-size:28px}
+  .action-btn{width:72px;height:68px;min-width:72px}
+  .action-btn img{width:38px;height:38px}
+}
+
+@media(max-width:430px){
+  .home-top-action{width:50px;height:50px;min-width:50px;padding:6px}
+  .home-top-action img{width:30px;height:30px}
+  .home-top-action.bell{font-size:26px}
+  .action-btn{width:68px;height:64px;min-width:68px;padding:5px}
+  .action-btn img{width:36px;height:36px}
+
+  /* El mini reproductor queda exactamente bajo su ajuste existente. */
+  .player .controls button,
+  .player .player-extra button,
+  .player .player-modes button{
+    border:0 !important;
+    background:none !important;
+    box-shadow:none !important;
+  }
+}
+</style>
+
 </head>
 
 <body>
