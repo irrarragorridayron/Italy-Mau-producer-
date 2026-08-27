@@ -263,6 +263,32 @@ button.admin-only.admin-visible{display:flex!important}
 .feature-card h3{color:#ffd98a;margin:0 0 8px;font-size:20px}
 .feature-card p{color:#ddd;margin:0;font-size:14px}
 .feature-icon{font-size:35px;margin-bottom:8px}
+.album-detail-hero{display:flex;flex-direction:column;align-items:center;gap:18px;padding:15px}.album-detail-hero img{width:min(88vw,390px);aspect-ratio:1;object-fit:cover;border-radius:25px;box-shadow:0 10px 35px rgba(0,0,0,.45)}
+.album-section-label{
+ color:var(--gold2);
+ font-weight:800;
+ font-size:18px;
+ text-align:center;
+ margin-top:18px;
+}
+.info .track-actions{
+ margin-top:12px;
+ display:flex;
+ gap:10px;
+ align-items:center;
+}
+.info .action-btn{
+ width:42px;
+ height:42px;
+ min-width:42px;
+}
+.info .action-btn img{
+ width:22px;
+ height:22px;
+}
+.track{
+ align-items:flex-start;
+}
 </style>
 
 <style>
@@ -584,7 +610,7 @@ function openAllAlbums(){showView('albums-page')}
 <div class="section-heading-row"><h2>MIS ÁLBUMES</h2><button type="button" onclick="openAllAlbums()">Ver todos ›</button></div>
 <div id="homeAlbumGrid" class="home-albums-grid"><div class="album-empty" style="grid-column:1/-1">Cargando álbumes...</div></div>
 <div class="quick-features"><div class="quick-feature"><div class="quick-feature-icon">🎤</div><h3>KARAOKE</h3><p>Canta tus canciones como EL DIM. Próximamente.</p></div><div class="quick-feature"><div class="quick-feature-icon">♛</div><h3>MÁS POR VENIR</h3><p>Nuevos proyectos y música muy pronto.</p></div></div>
-<section><div id="albumView"><div id="listaAlbumes" class="album-grid" style="display:none"></div></div><div id="albumDetailView" style="display:none"><div class="album-detail-head"><div id="albumDetailTitle" class="album-detail-title">Álbum</div><button class="album-back" onclick="volverAlbumes()">← ÁLBUMES</button></div><div id="listaCanciones"></div></div><div class="glass-feature"><div class="feature-card"><div class="feature-icon">🔥</div><h3>NUEVOS LANZAMIENTOS</h3><p>Los temas más recientes de EL DIM.</p></div><div class="feature-card"><div class="feature-icon">🎤</div><h3>KARAOKE</h3><p>Canta tus canciones favoritas próximamente.</p></div><div class="feature-card"><div class="feature-icon">✨</div><h3>MÁS POR VENIR</h3><p>Nuevos proyectos y funciones.</p></div></div>
+<section><div id="albumView"><div id="listaAlbumes" class="album-grid" style="display:none"></div></div><div class="glass-feature"><div class="feature-card"><div class="feature-icon">🔥</div><h3>NUEVOS LANZAMIENTOS</h3><p>Los temas más recientes de EL DIM.</p></div><div class="feature-card"><div class="feature-icon">🎤</div><h3>KARAOKE</h3><p>Canta tus canciones favoritas próximamente.</p></div><div class="feature-card"><div class="feature-icon">✨</div><h3>MÁS POR VENIR</h3><p>Nuevos proyectos y funciones.</p></div></div>
 <button id="addSongButton" class="add-button admin-only" onclick="toggleUpload()"><img src="./Icons/upload.png" alt=""> AGREGAR NUEVA CANCIÓN</button>
 <div id="uploadPanel" class="upload-panel admin-only"><h3>🎵 Nueva canción</h3><label>Álbum</label><input id="uploadAlbum" list="albumOptions" type="text" placeholder="Nombre del álbum nuevo"><datalist id="albumOptions"></datalist><label>Título</label><input id="uploadTitulo" type="text" placeholder="Nombre de la canción"><label>Artista</label><input id="uploadArtista" type="text" placeholder="El DIM" value="El DIM"><label>Género</label><input id="uploadGenero" type="text" placeholder="Reggaetón, urbano, afrobeat..."><label>Año</label><input id="uploadAnio" type="number" placeholder="2026" value="2026"><label>🎵 Archivo MP3</label><input id="uploadAudio" type="file" accept="audio/mpeg,audio/mp3,audio/*"><label>🖼️ Portada</label><input id="uploadPortada" type="file" accept="image/*"><button class="upload-submit" onclick="subirCancion()">⬆️ SUBIR CANCIÓN</button><button class="cancel-button" onclick="toggleUpload()">Cancelar</button><div id="uploadMessage" class="message"></div></div>
 <div id="albumCoverPanel" class="album-cover-panel admin-only" style="display:none"><h3>🖼️ Cambiar portada del álbum</h3><div id="albumCoverAlbumName" style="color:#c8c0b7;margin-bottom:8px"></div><img id="albumCoverPreview" class="album-cover-preview" src="Media/logo.png" alt="Vista previa"><input id="albumCoverFile" type="file" accept="image/*" onchange="previsualizarPortadaAlbum(event)"><button class="upload-submit" onclick="guardarPortadaAlbum()">⬆️ GUARDAR PORTADA</button><button class="cancel-button" onclick="cerrarPanelPortadaAlbum()">Cancelar</button><div style="font-size:12px;color:#aaa;margin-top:8px;text-align:center">💾 La portada guardada también queda disponible sin Internet en este teléfono.</div><div id="albumCoverMessage" class="message"></div></div></section>
@@ -598,6 +624,14 @@ function openAllAlbums(){showView('albums-page')}
 </section>
 
 <footer>ITALY MAU PRODUCER • EL DIM</footer>
+</div>
+<div id="album-detail-page" class="view-page album-screen">
+<div class="album-screen-head"><button type="button" onclick="volverAlbumes()">‹</button><div id="albumDetailTitle" class="album-screen-title">Álbum</div></div>
+<div class="album-detail-hero">
+<img id="albumDetailCover" src="Media/logo.png" alt="Portada álbum">
+<div class="album-section-label">CANCIONES DEL ÁLBUM</div>
+</div>
+<div id="listaCanciones"></div>
 </div>
 <div id="albums-page" class="view-page album-screen"><div class="album-screen-head"><button type="button" onclick="showView('home-page')" aria-label="Volver">‹</button><div class="album-screen-title">MIS ÁLBUMES</div><button type="button" class="search-btn" onclick="focusAlbumSearch()" aria-label="Buscar">⌕</button></div><div id="albumSearchWrap" style="display:none;margin:0 0 12px"><input id="albumSearch" type="search" placeholder="Buscar álbum..." oninput="filtrarAlbumesPantalla()" style="width:100%;padding:12px 14px;border-radius:14px;border:1px solid #76501f;background:#090909;color:#fff;outline:none"></div><div id="listaAlbumesTodos" class="album-list"><div class="album-screen-empty">Cargando álbumes...</div></div></div>
 </div>
@@ -1551,17 +1585,16 @@ function abrirAlbum(albumId){
   tracks=grupo.slice();
   const encontrado=tracks.findIndex(t=>String(t.id)===String(idActual));
   i=encontrado>=0?encontrado:0;
-  showView("home-page");
-  document.getElementById("albumView").style.display="none";
-  document.getElementById("albumDetailView").style.display="block";
+  showView("album-detail-page");
   document.getElementById("albumDetailTitle").textContent=album.title;
+  const c=document.getElementById("albumDetailCover"); if(c)c.src=portadaAlbum(album,grupo);
   mostrarCanciones();
   renderQueue();
   actualizarBotonesOffline();
 }
 
 function volverAlbumes(){
-  showView("home-page");
+  showView("albums-page");
   currentAlbum=null;
   tracks=allTracks.slice();
   i=0;
@@ -1587,8 +1620,7 @@ function mostrarCanciones(){
         <div class="sub">${escapeHTML(track.artist||"El DIM")}${track.year?" • "+escapeHTML(String(track.year)):""}</div>
         ${track.genre?`<div class="genre">${escapeHTML(track.genre)}</div>`:""}
         <div class="wave">${crearWave()}</div>
-      </div>
-      <div class="track-actions">
+        <div class="track-actions">
         <button class="action-btn play" onclick="playTrack(${index})" aria-label="Reproducir"><img src="${icon("play.png")}" alt=""></button>
         <button class="action-btn offline" onclick="guardarOffline(${index})" aria-label="Guardar sin Internet" title="Guardar para escuchar offline"><img class="offline-img" src="./Icons/Download.png" alt=""></button>
         <button class="action-btn share" onclick="shareTrack(${index})" aria-label="Compartir"><img src="${icon("share.png")}" alt=""></button>
