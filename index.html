@@ -340,6 +340,18 @@ button.admin-only.admin-visible{display:flex!important}
       0 0 20px rgba(212,175,55,0.35)!important;
 }
 
+
+.quick-feature-action{cursor:pointer;position:relative;overflow:hidden;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;outline:none}
+.quick-feature-action:active{transform:scale(.98)}
+.quick-feature-action:focus-visible{border-color:#c99a35;box-shadow:0 0 0 2px rgba(201,154,53,.25),0 0 18px rgba(201,154,53,.18)}
+.quick-feature-action:hover{border-color:#80602a;box-shadow:0 0 18px rgba(201,154,53,.12)}
+.quick-feature-icon{width:54px;height:54px;margin-bottom:9px;display:flex;align-items:center;justify-content:center}
+.quick-feature-icon img{width:54px;height:54px;object-fit:contain;display:block;background:transparent;border:0;filter:drop-shadow(0 0 7px rgba(212,175,55,.32))}
+.quick-feature-content{min-width:0;width:100%}
+.quick-feature h3{font-size:12px;letter-spacing:.25px;white-space:normal}
+.quick-feature p{font-size:10px;line-height:1.35}
+.quick-feature-status{display:inline-block;margin-top:7px;padding:3px 7px;border:1px solid rgba(212,175,55,.45);border-radius:999px;color:#d9b45a;font-size:7px;font-weight:800;letter-spacing:.7px;background:rgba(212,175,55,.06)}
+@media(max-width:430px){.quick-feature{min-height:145px;padding:13px}.quick-feature-icon,.quick-feature-icon img{width:50px;height:50px}.quick-feature h3{font-size:11px}.quick-feature p{font-size:9px}.quick-feature-status{font-size:6.5px}}
 </style>
 
 <style>
@@ -660,19 +672,20 @@ function openAllAlbums(){showView('albums-page')}
 <div class="feature-release" id="featuredRelease"><div class="feature-release-copy"><span class="feature-release-badge">NUEVO LANZAMIENTO</span><h3 id="featuredReleaseTitle">ÁLBUM SENCILLO</h3><p id="featuredReleaseDesc">Nuevos lanzamientos</p><button type="button" onclick="reproducirAlbumDestacado()">▶ ESCUCHAR AHORA</button></div><img id="featuredReleaseCover" class="feature-release-cover" src="Media/logo.png" alt="Nuevo lanzamiento"></div>
 <div class="section-heading-row"><h2>MIS ÁLBUMES</h2><button type="button" onclick="openAllAlbums()">Ver todos ›</button></div>
 <div id="homeAlbumGrid" class="home-albums-grid"><div class="album-empty" style="grid-column:1/-1">Cargando álbumes...</div></div>
-<div class="quick-features"><div class="quick-feature"><div class="quick-feature-icon">🎤</div><h3>KARAOKE</h3><p>Canta tus canciones como EL DIM. Próximamente.</p></div><div class="quick-feature"><div class="quick-feature-icon">♛</div><h3>MÁS POR VENIR</h3><p>Nuevos proyectos y música muy pronto.</p></div></div>
+<div class="quick-features">
+<div class="quick-feature quick-feature-action" role="button" tabindex="0" onclick="mostrarProximamente('MODO ARTISTA')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();mostrarProximamente('MODO ARTISTA')}" aria-label="Modo Artista, próximamente">
+<div class="quick-feature-icon"><img src="./Icons/modo_artista.png" alt="Modo Artista"></div>
+<div class="quick-feature-content"><h3>MODO ARTISTA</h3><p>Canta tus canciones favoritas y vive la experiencia EL DIM.</p><span class="quick-feature-status">PRÓXIMAMENTE</span></div>
+</div>
+<div class="quick-feature quick-feature-action" role="button" tabindex="0" onclick="mostrarProximamente('PRÓXIMOS LANZAMIENTOS')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();mostrarProximamente('PRÓXIMOS LANZAMIENTOS')}" aria-label="Próximos lanzamientos, próximamente">
+<div class="quick-feature-icon"><img src="./Icons/próximos_lanzamientos.png" alt="Próximos lanzamientos"></div>
+<div class="quick-feature-content"><h3>PRÓXIMOS LANZAMIENTOS</h3><p>Nuevos proyectos, colaboraciones y música exclusiva próximamente.</p><span class="quick-feature-status">PRÓXIMAMENTE</span></div>
+</div>
+</div>
 <section><div id="albumView"><div id="listaAlbumes" class="album-grid" style="display:none"></div></div><div class="glass-feature"><div class="feature-card"><div class="feature-icon">🔥</div><h3>NUEVOS LANZAMIENTOS</h3><p>Los temas más recientes de EL DIM.</p></div><div class="feature-card"><div class="feature-icon">🎤</div><h3>KARAOKE</h3><p>Canta tus canciones favoritas próximamente.</p></div><div class="feature-card"><div class="feature-icon">✨</div><h3>MÁS POR VENIR</h3><p>Nuevos proyectos y funciones.</p></div></div>
 <button id="addSongButton" class="add-button admin-only" onclick="toggleUpload()"><img src="./Icons/upload.png" alt=""> AGREGAR NUEVA CANCIÓN</button>
 <div id="uploadPanel" class="upload-panel admin-only"><h3>🎵 Nueva canción</h3><label>Álbum</label><input id="uploadAlbum" list="albumOptions" type="text" placeholder="Nombre del álbum nuevo"><datalist id="albumOptions"></datalist><label>Título</label><input id="uploadTitulo" type="text" placeholder="Nombre de la canción"><label>Artista</label><input id="uploadArtista" type="text" placeholder="El DIM" value="El DIM"><label>Género</label><input id="uploadGenero" type="text" placeholder="Reggaetón, urbano, afrobeat..."><label>Año</label><input id="uploadAnio" type="number" placeholder="2026" value="2026"><label>🎵 Archivo MP3</label><input id="uploadAudio" type="file" accept="audio/mpeg,audio/mp3,audio/*"><label>🖼️ Portada</label><input id="uploadPortada" type="file" accept="image/*"><button class="upload-submit" onclick="subirCancion()">⬆️ SUBIR CANCIÓN</button><button class="cancel-button" onclick="toggleUpload()">Cancelar</button><div id="uploadMessage" class="message"></div></div>
 <div id="albumCoverPanel" class="album-cover-panel admin-only" style="display:none"><h3>🖼️ Cambiar portada del álbum</h3><div id="albumCoverAlbumName" style="color:#c8c0b7;margin-bottom:8px"></div><img id="albumCoverPreview" class="album-cover-preview" src="Media/logo.png" alt="Vista previa"><input id="albumCoverFile" type="file" accept="image/*" onchange="previsualizarPortadaAlbum(event)"><button class="upload-submit" onclick="guardarPortadaAlbum()">⬆️ GUARDAR PORTADA</button><button class="cancel-button" onclick="cerrarPanelPortadaAlbum()">Cancelar</button><div style="font-size:12px;color:#aaa;margin-top:8px;text-align:center">💾 La portada guardada también queda disponible sin Internet en este teléfono.</div><div id="albumCoverMessage" class="message"></div></div></section>
-
-<section>
-  <h2 class="title"><img class="title-icon" src="./Icons/User.png" alt=""> SOBRE EL ARTISTA</h2>
-  <div class="about-card">
-    <div class="about-text">Apasionado por la música y el espectáculo, con una visión original y creativa.<br><br>Este espacio reúne sus canciones y futuros lanzamientos bajo la identidad de Italy Mau Producer.</div>
-    <img class="about-logo" src="Media/logo.png" alt="Italy Mau Producer">
-  </div>
-</section>
 
 <footer>ITALY MAU PRODUCER • EL DIM</footer>
 </div>
@@ -2134,6 +2147,19 @@ window.addEventListener("online",()=>{
 </script>
 <script>
 window.addEventListener("load",()=>{setTimeout(()=>{const s=document.getElementById("splash");if(s)s.classList.add("splash-hide");},2500);});
+function mostrarProximamente(nombre){
+  let t=document.getElementById('proximamenteToast');
+  if(!t){
+    t=document.createElement('div');
+    t.id='proximamenteToast';
+    t.style.cssText='position:fixed;left:50%;bottom:105px;transform:translateX(-50%) translateY(12px);z-index:99999;max-width:86%;padding:11px 16px;border:1px solid rgba(212,175,55,.65);border-radius:14px;background:rgba(8,8,8,.94);color:#f0ce76;font-weight:800;font-size:12px;text-align:center;box-shadow:0 0 22px rgba(212,175,55,.2);opacity:0;transition:opacity .2s,transform .2s;pointer-events:none;';
+    document.body.appendChild(t);
+  }
+  t.textContent=nombre+' estará disponible próximamente.';
+  requestAnimationFrame(()=>{t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';});
+  clearTimeout(window.__proxToastTimer);
+  window.__proxToastTimer=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(12px)';},2200);
+}
 </script>
 
 
