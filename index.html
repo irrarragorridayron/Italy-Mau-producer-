@@ -300,8 +300,8 @@ button.admin-only.admin-visible{display:flex!important}
 .music-controls button,
 .player-btn,
 .control-btn{
-    background:rgba(0,0,0,0.28)!important;
-    border:1px solid rgba(212,175,55,0.55)!important;
+    background:transparent!important;
+    border:none!important;
     border-radius:22px!important;
     box-shadow:
       0 0 15px rgba(212,175,55,0.18),
@@ -709,6 +709,53 @@ function openAllAlbums(){showView('albums-page')}
   }
 }
 </style>
+
+<style id="fix-player-icon-boxes">
+/* Corrección visual: los PNG de los controles no llevan cuadrado negro */
+.player-controls button,
+.big-player button,
+.music-controls button,
+.player-btn,
+.control-btn {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+/* Tamaño uniforme de los controles del reproductor grande */
+.big-player .player-controls button img,
+.big-player .music-controls button img,
+.big-player .player-btn img,
+.big-player .control-btn img {
+  width: 64px !important;
+  height: 64px !important;
+  object-fit: contain !important;
+  display: block !important;
+}
+
+/* Play central ligeramente destacado, sin fondo negro */
+.big-player .player-controls button.play img,
+.big-player .music-controls button.play img,
+.big-player .player-btn.play img,
+.big-player .control-btn.play img {
+  width: 72px !important;
+  height: 72px !important;
+}
+
+/* Las tarjetas de Modo Artista y Próximos Lanzamientos usan el PNG completo */
+.artist-mode-card img,
+.upcoming-card img,
+.modo-artista-card img,
+.proximos-lanzamientos-card img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+</style>
+
 </head>
 
 <body>
