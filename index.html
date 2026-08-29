@@ -2318,312 +2318,61 @@ function mostrarProximamente(nombre){
 
 <script>
 let karaokeStream=null,karaokeMicOn=false,karaokeMode='singer';
-
-/* =========================================================
-   LETRA SINCRONIZADA — SOLO "ANTES DE OLVIDARTE"
-   El segundo coro está incluido dos veces, como aparece
-   en la grabación. Los tiempos son una primera base y
-   se pueden afinar después de probar el audio.
-   ========================================================= */
 const karaokeLyrics={
   'antes de olvidarte':[
-    [4.41,'Ahh… yeah…'],
-    [7.08,'No me olvides… eh'],
-
-    [8.08,'Antes de olvidarme de ti (yeah)'],
-    [11.24,'Me gustaría pensarte (ahh)'],
-    [17.40,'Volver a repetir (ey)'],
-    [21.91,'Estas ganas de besarte (ahh ahh)'],
-
-    [24.08,'Antes de olvidarme de ti (uh huh)'],
-    [28.07,'Quiero cuidar de lo nuestro (yeah)'],
-    [31.24,'Para hacerte feliz (ahh)'],
-    [35.75,'Mientras nos perdemos en el tiempo (toca toca)'],
-
-    [38.74,'Es que olvidarme de ti (nooo)'],
-    [43.25,'No es nada sencillo (ahh)'],
-    [49.91,'Prefiero estar junto a ti (yeah)'],
-    [52.07,'Que perderme en el olvido (ey ahh)'],
-
-    /* CORO 1 */
-    [55.24,'No me vaciles mama (ahh, ahh)'],
-    [61.41,'Tú sabes soy tu corillo (ey)'],
-    [65.09,'Yo no te quiero olvidar (yeah, yeah)'],
-    [67.74,'Solo quedarme contigo (ahh ahh)'],
-    [70.41,'Yo no te quiero olvidar (ey, ey)'],
-    [72.59,'Porque estoy metido contigo (ahh yeah)'],
-
-    [74.75,'Está noche beba (yeah)'],
-    [78.41,'Te pongo el anillo (ahh)'],
-    [81.08,'Que no me quiero perder (ey)'],
-    [87.25,'Ni un segundo contigo (ey)'],
-
-    [91.24,'Un beso de tu boquita (ahh)'],
-    [96.08,'Bien fresco mi chiquitica (yeah, yeah)'],
-    [102.09,'Que la disco se encienda (uh huh)'],
-    [108.58,'Esta noche te vas conmigo (ahh ahh)'],
-
-    [113.42,'Que se mueran de envidia (ey ey)'],
-    [118.75,'Las que no quieran entender (ahh)'],
-    [123.75,'Que a ti yo no te olvidé (yeah)'],
-    [128.08,'Que quiero hacerte mi mujer (ahh ahh)'],
-
-    /* CORO 2 — primera repetición */
-    [133.92,'No me vaciles mama (ahh, ahh)'],
-    [137.09,'Tú sabes soy tu corillo (ey)'],
-    [142.42,'Yo no te quiero olvidar (yeah, yeah)'],
-    [145.09,'Solo quedarme contigo (ahh ahh)'],
-    [147.25,'Yo no te quiero olvidar (ey, ey)'],
-    [153.08,'Porque estoy metido contigo (ahh yeah)'],
-
-    /* CORO 2 — segunda repetición */
-    [155.75,'No me vaciles mama (ahh, ahh)'],
-    [159.74,'Tú sabes soy tu corillo (ey)'],
-    [163.75,'Yo no te quiero olvidar (yeah, yeah)'],
-    [166.42,'Solo quedarme contigo (ahh ahh)'],
-    [170.41,'Yo no te quiero olvidar (ey, ey)'],
-    [176.58,'Porque estoy metido contigo (ahh yeah)'],
-
-    /* BRIDGE / DROP */
-    [184.09,'Ahh… ey… yeah'],
-    [187.74,'Solo tú y yo… ahh'],
-    [189.92,'Oh, oh, uh huh'],
-
-    /* OUTRO */
-    [194.13,'Quien dijo que yo te iba olvidar (ahh)'],
-    [198.10,'Se le olvidó que somos final (yeah, yeah)'],
-    [200.09,'Solos tú y yo (uh huh… ahh ahh)']
+    [4.09,'Ahh… yeah…'],[6.97,'No me olvides… eh'],
+    [11.77,'Antes de olvidarme de ti (yeah)'],[15.61,'Me gustaría pensarte (ahh)'],[19.45,'Volver a repetir (ey)'],[23.29,'Estas ganas de besarte (ahh ahh)'],
+    [28.09,'Antes de olvidarme de ti (uh huh)'],[31.93,'Quiero cuidar de lo nuestro (yeah)'],[35.77,'Para hacerte feliz (ahh)'],[39.61,'Mientras nos perdemos en el tiempo (toca toca)'],
+    [45.37,'Es que olvidarme de ti (nooo)'],[49.21,'No es nada sencillo (ahh)'],[53.05,'Prefiero estar junto a ti (yeah)'],[56.89,'Que perderme en el olvido (ey ahh)'],
+    [62.65,'No me vaciles mama (ahh, ahh)'],[66.49,'Tú sabes soy tu corillo (ey)'],[70.33,'Yo no te quiero olvidar (yeah, yeah)'],[74.17,'Solo quedarme contigo (ahh ahh)'],[78.01,'Yo no te quiero olvidar (ey, ey)'],[81.85,'Porque estoy metido contigo (ahh yeah)'],
+    [87.61,'Está noche beba (yeah)'],[91.45,'Te pongo el anillo (ahh)'],[95.29,'Que no me quiero perder (ey)'],[99.13,'Ni un segundo contigo (ey)'],
+    [103.93,'Un beso de tu boquita (ahh)'],[107.77,'Bien fresco mi chiquitica (yeah, yeah)'],[111.61,'Que la disco se encienda (uh huh)'],[115.45,'Esta noche te vas conmigo (ahh ahh)'],
+    [121.21,'Que se mueran de envidia (ey ey)'],[125.05,'Las que no quieran entender (ahh)'],[128.89,'Que a ti yo no te olvidé (yeah)'],[132.73,'Que quiero hacerte mi mujer (ahh ahh)'],
+    [138.49,'No me vaciles mama (ahh, ahh)'],[142.33,'Tú sabes soy tu corillo (ey)'],[146.17,'Yo no te quiero olvidar (yeah, yeah)'],[150.01,'Solo quedarme contigo (ahh ahh)'],[153.85,'Yo no te quiero olvidar (ey, ey)'],[157.69,'Porque estoy metido contigo (ahh yeah)'],
+    [163.45,'Ahh… ey… yeah'],[166.33,'Solo tú y yo… ahh'],[169.21,'Oh, oh, uh huh'],
+    [173.05,'Quien dijo que yo te iba olvidar (ahh)'],[177.85,'Se le olvidó que somos final (yeah, yeah)'],[183.61,'Solos tú y yo (uh huh… ahh ahh)']
   ]
 };
-
 function karaokeLyricsForTrack(t){
   const name=String(t?.name||'').toLowerCase();
-  for(const key of Object.keys(karaokeLyrics)){
-    if(name.includes(key)) return karaokeLyrics[key];
-  }
+  for(const key of Object.keys(karaokeLyrics)) if(name.includes(key)) return karaokeLyrics[key];
   return [];
 }
-
 function renderKaraokeLyrics(){
-  const box=document.getElementById('karaokeLyricsLines');
-  if(!box)return;
+  const box=document.getElementById('karaokeLyricsLines'); if(!box)return;
   const lines=karaokeLyricsForTrack(tracks[i]);
-
-  if(!lines.length){
-    box.innerHTML='<div class="karaoke-line">Selecciona una canción con letra disponible.</div>';
-    return;
-  }
-
-  box.innerHTML=lines.map((x,n)=>
-    `<div class="karaoke-line" data-lyric-index="${n}">${escapeHTML(x[1])}</div>`
-  ).join('');
-
-  updateKaraokeLyrics(true);
+  if(!lines.length){box.innerHTML='<div class="karaoke-line">Selecciona una canción con letra disponible.</div>';return;}
+  box.innerHTML=lines.map((x,n)=>`<div class="karaoke-line" data-lyric-index="${n}">${escapeHTML(x[1])}</div>`).join('');
 }
-
-let karaokeLastActive=-1;
-
-function updateKaraokeLyrics(force=false){
-  const box=document.getElementById('karaokeLyricsLines');
-  if(!box)return;
-
-  const lines=karaokeLyricsForTrack(tracks[i]);
-  if(!lines.length)return;
-
-  const now=Number(audio.currentTime)||0;
-  let active=-1;
-
-  for(let n=0;n<lines.length;n++){
-    if(now>=lines[n][0]) active=n;
-    else break;
-  }
-
-  const changed=force || active!==karaokeLastActive;
-  karaokeLastActive=active;
-
-  box.querySelectorAll('.karaoke-line').forEach((el,n)=>{
-    el.classList.toggle('active',n===active);
-    el.classList.toggle('past',n<active);
-  });
-
-  if(changed && active>=0){
-    const el=box.querySelector(`[data-lyric-index="${active}"]`);
-    if(el){
-      el.scrollIntoView({behavior:'smooth',block:'center'});
-    }
-  }
+function updateKaraokeLyrics(){
+  const box=document.getElementById('karaokeLyricsLines'); if(!box)return;
+  const lines=karaokeLyricsForTrack(tracks[i]); if(!lines.length)return;
+  const now=audio.currentTime||0;
+  let active=-1; for(let n=0;n<lines.length;n++){if(now>=lines[n][0])active=n;else break;}
+  box.querySelectorAll('.karaoke-line').forEach((el,n)=>{el.classList.toggle('active',n===active);el.classList.toggle('past',n<active);});
+  if(active>=0){const el=box.querySelector(`[data-lyric-index="${active}"]`);if(el){el.scrollIntoView({behavior:'smooth',block:'center'});}}
 }
-
-/* Este listener va DIRECTAMENTE al audio.
-   No depende de reemplazar actualizarTiempo(). */
-function actualizarPanelKaraoke(){
-  const fill=document.getElementById('karaokeProgressFill');
-  const cur=document.getElementById('karaokeCurrent');
-  const dur=document.getElementById('karaokeDuration');
-
-  const a=Number(audio.currentTime)||0;
-  const d=Number(audio.duration)||0;
-
-  if(fill) fill.style.width=(d ? Math.min(100,(a/d)*100) : 0)+'%';
-  if(cur) cur.textContent=formatoTiempo(a);
-  if(dur) dur.textContent=formatoTiempo(d);
-
-  updateKaraokeLyrics();
-}
-
-audio.addEventListener('timeupdate',actualizarPanelKaraoke);
-audio.addEventListener('loadedmetadata',actualizarPanelKaraoke);
-audio.addEventListener('durationchange',actualizarPanelKaraoke);
-audio.addEventListener('seeked',actualizarPanelKaraoke);
-
 function setKaraokeMode(mode){
   karaokeMode=mode;
   document.getElementById('karaokeModeSinger')?.classList.toggle('active',mode==='singer');
   document.getElementById('karaokeModeOff')?.classList.toggle('active',mode==='karaoke');
-
   const hint=document.getElementById('karaokeModeHint');
-  if(hint){
-    hint.textContent=mode==='singer'
-      ?'Modo cantante: reproduce la grabación original con la voz de EL DIM.'
-      :'Modo Karaoke: la letra queda lista para cantar. El audio seguirá siendo la versión original hasta añadir el instrumental.';
-  }
+  if(hint) hint.textContent=mode==='singer'?'Modo cantante: reproduce la grabación original con la voz de EL DIM.':'Modo Karaoke: la letra queda lista para cantar. El audio seguirá siendo la versión original hasta añadir el instrumental.';
 }
-
-function openKaraoke(){
-  showView('karaoke-page');
-  renderKaraokeSongs();
-  actualizarKaraokeDesdeTrack();
-  actualizarPanelKaraoke();
-}
-
-function closeKaraoke(){
-  karaokeMicOff();
-  showView('home-page');
-}
-
+function openKaraoke(){showView('karaoke-page');renderKaraokeSongs();actualizarKaraokeDesdeTrack();}
+function closeKaraoke(){karaokeMicOff();showView('home-page');}
 function renderKaraokeSongs(){
-  const list=document.getElementById('karaokeSongList');
-  const count=document.getElementById('karaokeSongCount');
-  if(!list)return;
-
-  const source=allTracks.length?allTracks:tracks;
-  if(count)count.textContent=source.length+' '+(source.length===1?'canción':'canciones');
-
-  if(!source.length){
-    list.innerHTML='<div class="album-screen-empty">Todavía no hay canciones disponibles.</div>';
-    return;
-  }
-
-  list.innerHTML=source.map((t,n)=>
-    `<div class="karaoke-song ${String(tracks[i]?.id)===String(t.id)?'active':''}" onclick="karaokeSelectSong(${n})">
-      <img src="${escapeHTML(portadaTrack(t))}" alt="" onerror="this.src='${FALLBACK_COVER}'">
-      <div class="karaoke-song-info">
-        <strong>${escapeHTML(t.name||'Sin título')}</strong>
-        <small>${escapeHTML(t.artist||'El DIM')}${t.genre?' • '+escapeHTML(t.genre):''}</small>
-      </div>
-      <button class="karaoke-song-play" type="button" aria-label="Cantar">▶</button>
-    </div>`
-  ).join('');
+  const list=document.getElementById('karaokeSongList'),count=document.getElementById('karaokeSongCount'); if(!list)return;
+  const source=allTracks.length?allTracks:tracks; if(count)count.textContent=source.length+' '+(source.length===1?'canción':'canciones');
+  if(!source.length){list.innerHTML='<div class="album-screen-empty">Todavía no hay canciones disponibles.</div>';return;}
+  list.innerHTML=source.map((t,n)=>`<div class="karaoke-song ${String(tracks[i]?.id)===String(t.id)?'active':''}" onclick="karaokeSelectSong(${n})"><img src="${escapeHTML(portadaTrack(t))}" alt="" onerror="this.src='${FALLBACK_COVER}'"><div class="karaoke-song-info"><strong>${escapeHTML(t.name||'Sin título')}</strong><small>${escapeHTML(t.artist||'El DIM')}${t.genre?' • '+escapeHTML(t.genre):''}</small></div><button class="karaoke-song-play" type="button" aria-label="Cantar">▶</button></div>`).join('');
 }
-
-function karaokeSelectSong(n){
-  const source=allTracks.length?allTracks:tracks;
-  const chosen=source[n];
-  if(!chosen)return;
-
-  const pos=tracks.findIndex(t=>String(t.id)===String(chosen.id));
-
-  if(pos>=0){
-    playTrack(pos);
-  }else{
-    tracks=source.slice();
-    i=n;
-    playTrack(i);
-  }
-
-  karaokeLastActive=-1;
-  renderKaraokeSongs();
-  renderKaraokeLyrics();
-  actualizarPanelKaraoke();
-}
-
-async function karaokeMicToggle(){
-  if(karaokeMicOn){
-    karaokeMicOff();
-    return;
-  }
-
-  if(!navigator.mediaDevices?.getUserMedia){
-    alert('Este navegador no permite usar el micrófono.');
-    return;
-  }
-
-  try{
-    karaokeStream=await navigator.mediaDevices.getUserMedia({audio:true});
-    karaokeMicOn=true;
-
-    const btn=document.getElementById('karaokeMicBtn');
-    const dot=document.getElementById('karaokeMicDot');
-    const txt=document.getElementById('karaokeMicText');
-
-    btn.classList.add('active');
-    btn.textContent='🎤 APAGAR MICRÓFONO';
-    dot.classList.add('active');
-    txt.textContent='Micrófono activo — ¡a cantar!';
-  }catch(e){
-    alert('No se pudo activar el micrófono. Comprueba el permiso del navegador.');
-  }
-}
-
-function karaokeMicOff(){
-  if(karaokeStream){
-    karaokeStream.getTracks().forEach(t=>t.stop());
-    karaokeStream=null;
-  }
-
-  karaokeMicOn=false;
-
-  const btn=document.getElementById('karaokeMicBtn');
-  const dot=document.getElementById('karaokeMicDot');
-  const txt=document.getElementById('karaokeMicText');
-
-  if(btn){
-    btn.classList.remove('active');
-    btn.textContent='🎤 ACTIVAR MICRÓFONO';
-  }
-  if(dot)dot.classList.remove('active');
-  if(txt)txt.textContent='Micrófono apagado';
-}
-
-function actualizarKaraokeDesdeTrack(){
-  const t=tracks[i];
-  const cover=document.getElementById('karaokeCover');
-  const name=document.getElementById('karaokeSongName');
-  const artist=document.getElementById('karaokeSongArtist');
-
-  if(!cover||!name||!artist)return;
-
-  cover.src=t?portadaTrack(t):FALLBACK_COVER;
-  cover.onerror=()=>cover.src=FALLBACK_COVER;
-  name.textContent=t?.name||'Selecciona una canción';
-  artist.textContent=t?.artist||'EL DIM';
-
-  karaokeLastActive=-1;
-  renderKaraokeSongs();
-  renderKaraokeLyrics();
-  actualizarPanelKaraoke();
-}
-
-/* Actualiza la cabecera del Karaoke cuando cambia la canción,
-   sin reemplazar las funciones principales del reproductor. */
-const karaokeOriginalPlayTrack=window.playTrack;
-if(typeof karaokeOriginalPlayTrack==='function'){
-  window.playTrack=async function(){
-    const result=await karaokeOriginalPlayTrack.apply(this,arguments);
-    actualizarKaraokeDesdeTrack();
-    return result;
-  };
-}
+function karaokeSelectSong(n){const source=allTracks.length?allTracks:tracks,chosen=source[n];if(!chosen)return;const pos=tracks.findIndex(t=>String(t.id)===String(chosen.id));if(pos>=0)playTrack(pos);else{tracks=source.slice();i=n;playTrack(i)}renderKaraokeSongs();renderKaraokeLyrics();}
+async function karaokeMicToggle(){if(karaokeMicOn){karaokeMicOff();return;}if(!navigator.mediaDevices?.getUserMedia){alert('Este navegador no permite usar el micrófono.');return;}try{karaokeStream=await navigator.mediaDevices.getUserMedia({audio:true});karaokeMicOn=true;const btn=document.getElementById('karaokeMicBtn'),dot=document.getElementById('karaokeMicDot'),txt=document.getElementById('karaokeMicText');btn.classList.add('active');btn.textContent='🎤 APAGAR MICRÓFONO';dot.classList.add('active');txt.textContent='Micrófono activo — ¡a cantar!';}catch(e){alert('No se pudo activar el micrófono. Comprueba el permiso del navegador.');}}
+function karaokeMicOff(){if(karaokeStream){karaokeStream.getTracks().forEach(t=>t.stop());karaokeStream=null;}karaokeMicOn=false;const btn=document.getElementById('karaokeMicBtn'),dot=document.getElementById('karaokeMicDot'),txt=document.getElementById('karaokeMicText');if(btn){btn.classList.remove('active');btn.textContent='🎤 ACTIVAR MICRÓFONO';}if(dot)dot.classList.remove('active');if(txt)txt.textContent='Micrófono apagado';}
+function actualizarKaraokeDesdeTrack(){const t=tracks[i],cover=document.getElementById('karaokeCover'),name=document.getElementById('karaokeSongName'),artist=document.getElementById('karaokeSongArtist');if(!cover||!name||!artist)return;cover.src=t?portadaTrack(t):FALLBACK_COVER;cover.onerror=()=>cover.src=FALLBACK_COVER;name.textContent=t?.name||'Selecciona una canción';artist.textContent=t?.artist||'EL DIM';renderKaraokeSongs();renderKaraokeLyrics();updateKaraokeLyrics();}
+const karaokeOldLoadTrack=window.loadTrack;if(typeof karaokeOldLoadTrack==='function'){window.loadTrack=async function(){const r=await karaokeOldLoadTrack.apply(this,arguments);actualizarKaraokeDesdeTrack();return r;};}
+const karaokeOldTime=window.actualizarTiempo;if(typeof karaokeOldTime==='function'){window.actualizarTiempo=function(){karaokeOldTime.apply(this,arguments);const fill=document.getElementById('karaokeProgressFill'),cur=document.getElementById('karaokeCurrent'),dur=document.getElementById('karaokeDuration'),a=audio.currentTime||0,d=audio.duration||0;if(fill)fill.style.width=(d?(a/d)*100:0)+'%';if(cur)cur.textContent=formatoTiempo(a);if(dur)dur.textContent=formatoTiempo(d);updateKaraokeLyrics();};} else { audio.addEventListener('timeupdate', updateKaraokeLyrics); audio.addEventListener('loadedmetadata', updateKaraokeLyrics); }
 </script>
 </body>
 </html>
