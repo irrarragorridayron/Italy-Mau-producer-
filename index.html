@@ -5,7 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#050505">
 <link rel="manifest" href="./manifest.webmanifest">
-<link rel="apple-touch-icon" href="./Icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./Icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="./Icons/icon-512.png">
+<link rel="apple-touch-icon" sizes="192x192" href="./Icons/icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>Italy Mau Producer — El DIM</title>
 
 <style>
@@ -661,6 +665,48 @@ function openAllAlbums(){showView('albums-page')}
 @media(max-width:430px){
   .quick-feature-image-action{min-height:145px !important;padding:5px !important}
   .quick-feature-full-image{min-height:135px;max-height:155px}
+}
+</style>
+<style>
+/* CORRECCIÓN FINAL: eliminar los cuadrados negros que vienen dentro de los PNG de los controles.
+   El negro se mezcla con el fondo y desaparece, conservando el brillo del icono. */
+.full-main-controls button img,
+.full-tools button img,
+.full-header button img{
+  background:transparent!important;
+  mix-blend-mode:screen;
+}
+
+/* MODO ARTISTA / PRÓXIMOS LANZAMIENTOS: la imagen ocupa toda la tarjeta,
+   sin márgenes internos ni franjas alrededor. */
+.quick-feature-image-action{
+  padding:0!important;
+  min-height:145px!important;
+  align-items:stretch!important;
+  justify-content:stretch!important;
+}
+.quick-feature-full-image{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  min-height:145px!important;
+  max-height:none!important;
+  object-fit:cover!important;
+  object-position:center!important;
+  border:0!important;
+  border-radius:17px!important;
+  filter:none!important;
+}
+@media(max-width:430px){
+  .quick-feature-image-action{
+    min-height:145px!important;
+    padding:0!important;
+  }
+  .quick-feature-full-image{
+    min-height:145px!important;
+    height:100%!important;
+    max-height:none!important;
+  }
 }
 </style>
 </head>
