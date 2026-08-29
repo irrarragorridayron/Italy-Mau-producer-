@@ -300,8 +300,8 @@ button.admin-only.admin-visible{display:flex!important}
 .music-controls button,
 .player-btn,
 .control-btn{
-    background:transparent!important;
-    border:none!important;
+    background:rgba(0,0,0,0.28)!important;
+    border:1px solid rgba(212,175,55,0.55)!important;
     border-radius:22px!important;
     box-shadow:
       0 0 15px rgba(212,175,55,0.18),
@@ -708,54 +708,35 @@ function openAllAlbums(){showView('albums-page')}
     max-height:none!important;
   }
 }
+
+/* =========================
+   MODO ARTISTA / KARAOKE
+   ========================= */
+.karaoke-screen{padding:12px 15px 180px;max-width:760px;margin:auto}
+.karaoke-head{position:sticky;top:0;z-index:20}
+.karaoke-head .search-btn img{width:25px;height:25px;object-fit:contain}
+.karaoke-hero{position:relative;overflow:hidden;margin:8px 0 16px;padding:28px 20px 24px;text-align:center;border:1px solid #76501f;border-radius:24px;background:radial-gradient(circle at 50% 0%,#3a260c 0%,#100c07 38%,#060606 78%);box-shadow:0 0 28px #e7ad5418}
+.karaoke-glow{position:absolute;inset:auto 50% -80px;width:260px;height:160px;transform:translateX(-50%);background:radial-gradient(circle,#e7ad5444,transparent 68%);pointer-events:none}
+.karaoke-mic{position:relative;width:72px;height:72px;margin:auto;border:1px solid #b77c29;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 25%,#5b3a10,#080604 72%);box-shadow:0 0 18px #e7ad5455}
+.karaoke-mic span{font-size:34px}
+.karaoke-hero h2{position:relative;margin:14px 0 5px;color:var(--gold2);font-size:27px;letter-spacing:3px}
+.karaoke-hero p{position:relative;margin:0;color:#d0c8bf;font-size:13px;line-height:1.5}.karaoke-hero strong{color:var(--gold2)}
+.karaoke-player-card{display:flex;align-items:center;gap:14px;padding:12px;border:1px solid #6c4b20;border-radius:20px;background:linear-gradient(145deg,#17130e,#080808);box-shadow:0 8px 28px #000}
+.karaoke-cover{width:82px;height:82px;min-width:82px;object-fit:cover;border-radius:15px;border:1px solid #76501f}
+.karaoke-now{flex:1;min-width:0}.karaoke-song-name{color:#fff;font-size:17px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.karaoke-song-artist{margin-top:4px;color:var(--gold);font-size:12px;font-weight:700}
+.karaoke-progress{height:6px;margin-top:12px;border-radius:9px;background:#292623;overflow:hidden}.karaoke-progress div{height:100%;width:0;background:linear-gradient(90deg,#a86d19,#ffd98a);box-shadow:0 0 10px #e7ad54}
+.karaoke-times{display:flex;justify-content:space-between;margin-top:5px;color:#8f8982;font-size:10px}
+.karaoke-mic-panel{margin-top:12px;padding:15px;border:1px solid #60461f;border-radius:18px;background:linear-gradient(145deg,#13100c,#070707);text-align:center}
+.karaoke-mic-status{display:flex;justify-content:center;align-items:center;gap:7px;color:#c8c0b7;font-size:12px;font-weight:700}.karaoke-mic-status span:last-child{color:#aaa29a}
+#karaokeMicDot{width:8px;height:8px;border-radius:50%;background:#666;box-shadow:none}#karaokeMicDot.active{background:#63d98b;box-shadow:0 0 10px #63d98b}
+.karaoke-gold-btn{margin-top:12px;min-height:48px;padding:11px 18px;border:1px solid #d5a348;border-radius:14px;background:linear-gradient(135deg,#e8b85d,#a86f1e);color:#160f05;font-weight:900;cursor:pointer;box-shadow:0 0 16px #e7ad5428}
+.karaoke-gold-btn.active{background:linear-gradient(135deg,#b62b2b,#5e0d0d);border-color:#e46b6b;color:#fff}
+.karaoke-hint{margin-top:9px;color:#817a73;font-size:10px;line-height:1.4}
+.karaoke-song-list-head{display:flex;justify-content:space-between;align-items:center;margin:20px 2px 10px}.karaoke-song-list-head h3{margin:0;color:var(--gold2);font-size:16px;letter-spacing:1px}.karaoke-song-list-head span{color:#8f8982;font-size:11px}
+.karaoke-song-list{display:flex;flex-direction:column;gap:9px}.karaoke-song{display:flex;align-items:center;gap:10px;padding:9px;border:1px solid #44351f;border-radius:16px;background:linear-gradient(145deg,#14110d,#080808);cursor:pointer;transition:.16s}.karaoke-song:active{transform:scale(.985)}.karaoke-song.active{border-color:#b77c29;box-shadow:0 0 14px #e7ad5420}
+.karaoke-song img{width:54px;height:54px;min-width:54px;object-fit:cover;border-radius:10px;border:1px solid #5d421c}.karaoke-song-info{min-width:0;flex:1}.karaoke-song-info strong{display:block;color:#fff;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.karaoke-song-info small{display:block;margin-top:3px;color:#9d958c;font-size:10px}.karaoke-song-play{width:38px;height:38px;border:0;background:none;color:var(--gold2);display:grid;place-items:center;font-size:22px}
+@media(max-width:430px){.karaoke-screen{padding-left:11px;padding-right:11px}.karaoke-hero{padding:23px 15px 20px}.karaoke-player-card{padding:9px}.karaoke-cover{width:70px;height:70px;min-width:70px}.karaoke-song-name{font-size:15px}}
 </style>
-
-<style id="fix-player-icon-boxes">
-/* Corrección visual: los PNG de los controles no llevan cuadrado negro */
-.player-controls button,
-.big-player button,
-.music-controls button,
-.player-btn,
-.control-btn {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  overflow: visible !important;
-}
-
-/* Tamaño uniforme de los controles del reproductor grande */
-.big-player .player-controls button img,
-.big-player .music-controls button img,
-.big-player .player-btn img,
-.big-player .control-btn img {
-  width: 64px !important;
-  height: 64px !important;
-  object-fit: contain !important;
-  display: block !important;
-}
-
-/* Play central ligeramente destacado, sin fondo negro */
-.big-player .player-controls button.play img,
-.big-player .music-controls button.play img,
-.big-player .player-btn.play img,
-.big-player .control-btn.play img {
-  width: 72px !important;
-  height: 72px !important;
-}
-
-/* Las tarjetas de Modo Artista y Próximos Lanzamientos usan el PNG completo */
-.artist-mode-card img,
-.upcoming-card img,
-.modo-artista-card img,
-.proximos-lanzamientos-card img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  display: block !important;
-}
-</style>
-
 </head>
 
 <body>
@@ -798,7 +779,7 @@ function openAllAlbums(){showView('albums-page')}
 <div class="section-heading-row"><h2>MIS ÁLBUMES</h2><button type="button" onclick="openAllAlbums()">Ver todos ›</button></div>
 <div id="homeAlbumGrid" class="home-albums-grid"><div class="album-empty" style="grid-column:1/-1">Cargando álbumes...</div></div>
 <div class="quick-features">
-<div class="quick-feature quick-feature-image-action" role="button" tabindex="0" onclick="mostrarProximamente('MODO ARTISTA')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();mostrarProximamente('MODO ARTISTA')}" aria-label="Modo Artista, próximamente">
+<div class="quick-feature quick-feature-image-action" role="button" tabindex="0" onclick="openKaraoke()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openKaraoke()}" aria-label="Modo Artista, abrir Karaoke">
 <img class="quick-feature-full-image" src="./Icons/modo_artista.png" alt="Modo Artista">
 </div>
 <div class="quick-feature quick-feature-image-action" role="button" tabindex="0" onclick="mostrarProximamente('PRÓXIMOS LANZAMIENTOS')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();mostrarProximamente('PRÓXIMOS LANZAMIENTOS')}" aria-label="Próximos lanzamientos, próximamente">
@@ -820,7 +801,35 @@ function openAllAlbums(){showView('albums-page')}
 </div>
 <div id="listaCanciones"></div>
 </div>
-<div id="albums-page" class="view-page album-screen"><div class="album-screen-head"><button type="button" onclick="showView('home-page')" aria-label="Volver">‹</button><div class="album-screen-title">MIS ÁLBUMES</div><button type="button" class="search-btn" onclick="focusAlbumSearch()" aria-label="Buscar">⌕</button></div><div id="albumSearchWrap" style="display:none;margin:0 0 12px"><input id="albumSearch" type="search" placeholder="Buscar álbum..." oninput="filtrarAlbumesPantalla()" style="width:100%;padding:12px 14px;border-radius:14px;border:1px solid #76501f;background:#090909;color:#fff;outline:none"></div><div id="listaAlbumesTodos" class="album-list"><div class="album-screen-empty">Cargando álbumes...</div></div></div>
+<div id="albums-page" class="view-page album-screen"><div class="album-screen-head"><button type="button" onclick="showView('home-page')" aria-label="Volver">‹</button><div class="album-screen-title">MIS ÁLBUMES</div><button type="button" class="search-btn" onclick="focusAlbumSearch()" aria-label="Buscar">⌕</button></div><div id="albumSearchWrap" style="display:none;margin:0 0 12px"><input id="albumSearch" type="search" placeholder="Buscar álbum..." oninput="filtrarAlbumesPantalla()" style="width:100%;padding:12px 14px;border-radius:14px;border:1px solid #76501f;background:#090909;color:#fff;outline:none"></div><div id="listaAlbumesTodos" class="album-list"><div class="album-screen-empty">Cargando álbumes...</div></div></div><div id="karaoke-page" class="view-page karaoke-screen">
+  <div class="album-screen-head karaoke-head">
+    <button type="button" onclick="closeKaraoke()" aria-label="Volver">‹</button>
+    <div class="album-screen-title">MODO ARTISTA</div>
+    <button type="button" class="search-btn" onclick="karaokeMicToggle()" aria-label="Micrófono"><img id="karaokeMicHeadIcon" src="./Icons/modo_artista.png" alt="Micrófono"></button>
+  </div>
+  <div class="karaoke-hero">
+    <div class="karaoke-glow"></div>
+    <div class="karaoke-mic"><span>🎤</span></div>
+    <h2>KARAOKE</h2>
+    <p>Canta tus canciones favoritas y vive la experiencia <strong>EL DIM</strong>.</p>
+  </div>
+  <div class="karaoke-player-card">
+    <img id="karaokeCover" class="karaoke-cover" src="Media/logo.png" alt="Portada">
+    <div class="karaoke-now">
+      <div id="karaokeSongName" class="karaoke-song-name">Selecciona una canción</div>
+      <div id="karaokeSongArtist" class="karaoke-song-artist">EL DIM</div>
+      <div class="karaoke-progress"><div id="karaokeProgressFill"></div></div>
+      <div class="karaoke-times"><span id="karaokeCurrent">0:00</span><span id="karaokeDuration">0:00</span></div>
+    </div>
+  </div>
+  <div class="karaoke-mic-panel">
+    <div class="karaoke-mic-status"><span id="karaokeMicDot"></span><span id="karaokeMicText">Micrófono apagado</span></div>
+    <button id="karaokeMicBtn" class="karaoke-gold-btn" type="button" onclick="karaokeMicToggle()">🎤 ACTIVAR MICRÓFONO</button>
+    <div class="karaoke-hint">Para una mejor experiencia usa audífonos y canta sobre la música.</div>
+  </div>
+  <div class="karaoke-song-list-head"><h3>TUS CANCIONES</h3><span id="karaokeSongCount"></span></div>
+  <div id="karaokeSongList" class="karaoke-song-list"></div>
+</div>
 </div>
 
 <!-- CONFIRMACIÓN OFFLINE -->
@@ -2286,5 +2295,67 @@ function mostrarProximamente(nombre){
 </script>
 
 
+
+<script>
+let karaokeStream=null,karaokeMicOn=false;
+function openKaraoke(){
+  showView('karaoke-page');
+  renderKaraokeSongs();
+  actualizarKaraokeDesdeTrack();
+}
+function closeKaraoke(){
+  karaokeMicOff();
+  showView('home-page');
+}
+function renderKaraokeSongs(){
+  const list=document.getElementById('karaokeSongList');
+  const count=document.getElementById('karaokeSongCount');
+  if(!list)return;
+  const source=allTracks.length?allTracks:tracks;
+  count.textContent=source.length+' '+(source.length===1?'canción':'canciones');
+  if(!source.length){list.innerHTML='<div class="album-screen-empty">Todavía no hay canciones disponibles.</div>';return;}
+  list.innerHTML=source.map((t,n)=>`<div class="karaoke-song ${tracks[i]?.id===t.id?'active':''}" onclick="karaokeSelectSong(${n})"><img src="${escapeHTML(portadaTrack(t))}" alt="" onerror="this.src='${FALLBACK_COVER}'"><div class="karaoke-song-info"><strong>${escapeHTML(t.name||'Sin título')}</strong><small>${escapeHTML(t.artist||'El DIM')}${t.genre?' • '+escapeHTML(t.genre):''}</small></div><button class="karaoke-song-play" type="button" aria-label="Cantar">▶</button></div>`).join('');
+}
+function karaokeSelectSong(n){
+  const source=allTracks.length?allTracks:tracks;
+  const chosen=source[n];if(!chosen)return;
+  const pos=tracks.findIndex(t=>String(t.id)===String(chosen.id));
+  if(pos>=0){playTrack(pos);}
+  else{tracks=source.slice();i=n;playTrack(i);}
+  renderKaraokeSongs();
+}
+async function karaokeMicToggle(){
+  if(karaokeMicOn){karaokeMicOff();return;}
+  if(!navigator.mediaDevices?.getUserMedia){alert('Este navegador no permite usar el micrófono.');return;}
+  try{
+    karaokeStream=await navigator.mediaDevices.getUserMedia({audio:true});
+    karaokeMicOn=true;
+    const btn=document.getElementById('karaokeMicBtn'),dot=document.getElementById('karaokeMicDot'),txt=document.getElementById('karaokeMicText');
+    btn.classList.add('active');btn.textContent='🎤 APAGAR MICRÓFONO';dot.classList.add('active');txt.textContent='Micrófono activo — ¡a cantar!';
+  }catch(e){alert('No se pudo activar el micrófono. Comprueba el permiso del navegador.');}
+}
+function karaokeMicOff(){
+  if(karaokeStream){karaokeStream.getTracks().forEach(t=>t.stop());karaokeStream=null;}
+  karaokeMicOn=false;
+  const btn=document.getElementById('karaokeMicBtn'),dot=document.getElementById('karaokeMicDot'),txt=document.getElementById('karaokeMicText');
+  if(btn){btn.classList.remove('active');btn.textContent='🎤 ACTIVAR MICRÓFONO';}if(dot)dot.classList.remove('active');if(txt)txt.textContent='Micrófono apagado';
+}
+function actualizarKaraokeDesdeTrack(){
+  const t=tracks[i];
+  const cover=document.getElementById('karaokeCover'),name=document.getElementById('karaokeSongName'),artist=document.getElementById('karaokeSongArtist');
+  if(!cover||!name||!artist)return;
+  cover.src=t?portadaTrack(t):FALLBACK_COVER;cover.onerror=()=>cover.src=FALLBACK_COVER;
+  name.textContent=t?.name||'Selecciona una canción';artist.textContent=t?.artist||'EL DIM';
+  renderKaraokeSongs();
+}
+const karaokeOldLoadTrack=window.loadTrack;
+if(typeof karaokeOldLoadTrack==='function'){
+  window.loadTrack=async function(){const r=await karaokeOldLoadTrack.apply(this,arguments);actualizarKaraokeDesdeTrack();return r;};
+}
+const karaokeOldTime=window.actualizarTiempo;
+if(typeof karaokeOldTime==='function'){
+  window.actualizarTiempo=function(){karaokeOldTime.apply(this,arguments);const fill=document.getElementById('karaokeProgressFill'),cur=document.getElementById('karaokeCurrent'),dur=document.getElementById('karaokeDuration');const a=audio.currentTime||0,d=audio.duration||0;if(fill)fill.style.width=(d?(a/d)*100:0)+'%';if(cur)cur.textContent=formatoTiempo(a);if(dur)dur.textContent=formatoTiempo(d);};
+}
+</script>
 </body>
 </html>
