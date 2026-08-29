@@ -736,6 +736,17 @@ function openAllAlbums(){showView('albums-page')}
 .karaoke-song-list{display:flex;flex-direction:column;gap:9px}.karaoke-song{display:flex;align-items:center;gap:10px;padding:9px;border:1px solid #44351f;border-radius:16px;background:linear-gradient(145deg,#14110d,#080808);cursor:pointer;transition:.16s}.karaoke-song:active{transform:scale(.985)}.karaoke-song.active{border-color:#b77c29;box-shadow:0 0 14px #e7ad5420}
 .karaoke-song img{width:54px;height:54px;min-width:54px;object-fit:cover;border-radius:10px;border:1px solid #5d421c}.karaoke-song-info{min-width:0;flex:1}.karaoke-song-info strong{display:block;color:#fff;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.karaoke-song-info small{display:block;margin-top:3px;color:#9d958c;font-size:10px}.karaoke-song-play{width:38px;height:38px;border:0;background:none;color:var(--gold2);display:grid;place-items:center;font-size:22px}
 @media(max-width:430px){.karaoke-screen{padding-left:11px;padding-right:11px}.karaoke-hero{padding:23px 15px 20px}.karaoke-player-card{padding:9px}.karaoke-cover{width:70px;height:70px;min-width:70px}.karaoke-song-name{font-size:15px}}
+
+/* KARAOKE: letra sincronizada */
+.karaoke-mode-row{display:flex;gap:8px;margin:12px 0 4px}
+.karaoke-mode-btn{flex:1;min-height:44px;border:1px solid #65481f;border-radius:13px;background:#0b0b0b;color:#aaa;font-weight:900;cursor:pointer}
+.karaoke-mode-btn.active{background:linear-gradient(135deg,#e8b85d,#a86f1e);color:#160f05;border-color:#d5a348}
+.karaoke-lyrics{margin-top:14px;padding:16px 12px;border:1px solid #60461f;border-radius:18px;background:linear-gradient(145deg,#12100c,#070707);max-height:310px;overflow:auto;text-align:center;scroll-behavior:smooth}
+.karaoke-lyrics-title{color:#d9b45a;font-size:12px;font-weight:900;letter-spacing:1.4px;margin-bottom:10px}
+.karaoke-line{padding:7px 4px;color:#77716b;font-size:14px;line-height:1.45;transition:.18s ease}
+.karaoke-line.active{color:#ffe2a0;font-size:18px;font-weight:900;text-shadow:0 0 12px #e7ad5455}
+.karaoke-line.past{color:#aaa29a}
+@media(max-width:430px){.karaoke-lyrics{max-height:270px}.karaoke-line{font-size:13px}.karaoke-line.active{font-size:16px}}
 </style>
 </head>
 
@@ -821,6 +832,15 @@ function openAllAlbums(){showView('albums-page')}
       <div class="karaoke-progress"><div id="karaokeProgressFill"></div></div>
       <div class="karaoke-times"><span id="karaokeCurrent">0:00</span><span id="karaokeDuration">0:00</span></div>
     </div>
+  </div>
+  <div class="karaoke-mode-row">
+    <button id="karaokeModeSinger" class="karaoke-mode-btn active" type="button" onclick="setKaraokeMode('singer')">🎤 CANTANTE</button>
+    <button id="karaokeModeOff" class="karaoke-mode-btn" type="button" onclick="setKaraokeMode('karaoke')">🎙️ KARAOKE</button>
+  </div>
+  <div id="karaokeModeHint" class="karaoke-hint">Modo cantante: reproduce la grabación original con la voz de EL DIM.</div>
+  <div class="karaoke-lyrics">
+    <div class="karaoke-lyrics-title">LETRA</div>
+    <div id="karaokeLyricsLines"></div>
   </div>
   <div class="karaoke-mic-panel">
     <div class="karaoke-mic-status"><span id="karaokeMicDot"></span><span id="karaokeMicText">Micrófono apagado</span></div>
@@ -2297,65 +2317,62 @@ function mostrarProximamente(nombre){
 
 
 <script>
-let karaokeStream=null,karaokeMicOn=false;
-function openKaraoke(){
-  showView('karaoke-page');
-  renderKaraokeSongs();
-  actualizarKaraokeDesdeTrack();
+let karaokeStream=null,karaokeMicOn=false,karaokeMode='singer';
+const karaokeLyrics={
+  'antes de olvidarte':[
+    [0.0,'Ahh… yeah…'],[3.0,'No me olvides… eh'],
+    [8.0,'Antes de olvidarme de ti (yeah)'],[12.0,'Me gustaría pensarte (ahh)'],[16.0,'Volver a repetir (ey)'],[20.0,'Estas ganas de besarte (ahh ahh)'],
+    [25.0,'Antes de olvidarme de ti (uh huh)'],[29.0,'Quiero cuidar de lo nuestro (yeah)'],[33.0,'Para hacerte feliz (ahh)'],[37.0,'Mientras nos perdemos en el tiempo (toca toca)'],
+    [43.0,'Es que olvidarme de ti (nooo)'],[47.0,'No es nada sencillo (ahh)'],[51.0,'Prefiero estar junto a ti (yeah)'],[55.0,'Que perderme en el olvido (ey ahh)'],
+    [61.0,'No me vaciles mama (ahh, ahh)'],[65.0,'Tú sabes soy tu corillo (ey)'],[69.0,'Yo no te quiero olvidar (yeah, yeah)'],[73.0,'Solo quedarme contigo (ahh ahh)'],[77.0,'Yo no te quiero olvidar (ey, ey)'],[81.0,'Porque estoy metido contigo (ahh yeah)'],
+    [87.0,'Está noche beba (yeah)'],[91.0,'Te pongo el anillo (ahh)'],[95.0,'Que no me quiero perder (ey)'],[99.0,'Ni un segundo contigo (ey)'],
+    [104.0,'Un beso de tu boquita (ahh)'],[108.0,'Bien fresco mi chiquitica (yeah, yeah)'],[112.0,'Que la disco se encienda (uh huh)'],[116.0,'Esta noche te vas conmigo (ahh ahh)'],
+    [122.0,'Que se mueran de envidia (ey ey)'],[126.0,'Las que no quieran entender (ahh)'],[130.0,'Que a ti yo no te olvidé (yeah)'],[134.0,'Que quiero hacerte mi mujer (ahh ahh)'],
+    [140.0,'No me vaciles mama (ahh, ahh)'],[144.0,'Tú sabes soy tu corillo (ey)'],[148.0,'Yo no te quiero olvidar (yeah, yeah)'],[152.0,'Solo quedarme contigo (ahh ahh)'],[156.0,'Yo no te quiero olvidar (ey, ey)'],[160.0,'Porque estoy metido contigo (ahh yeah)'],
+    [166.0,'Ahh… ey… yeah'],[169.0,'Solo tú y yo… ahh'],[172.0,'Oh, oh, uh huh'],
+    [176.0,'Quien dijo que yo te iba olvidar (ahh)'],[181.0,'Se le olvidó que somos final (yeah, yeah)'],[187.0,'Solos tú y yo (uh huh… ahh ahh)']
+  ]
+};
+function karaokeLyricsForTrack(t){
+  const name=String(t?.name||'').toLowerCase();
+  for(const key of Object.keys(karaokeLyrics)) if(name.includes(key)) return karaokeLyrics[key];
+  return [];
 }
-function closeKaraoke(){
-  karaokeMicOff();
-  showView('home-page');
+function renderKaraokeLyrics(){
+  const box=document.getElementById('karaokeLyricsLines'); if(!box)return;
+  const lines=karaokeLyricsForTrack(tracks[i]);
+  if(!lines.length){box.innerHTML='<div class="karaoke-line">Selecciona una canción con letra disponible.</div>';return;}
+  box.innerHTML=lines.map((x,n)=>`<div class="karaoke-line" data-lyric-index="${n}">${escapeHTML(x[1])}</div>`).join('');
 }
+function updateKaraokeLyrics(){
+  const box=document.getElementById('karaokeLyricsLines'); if(!box)return;
+  const lines=karaokeLyricsForTrack(tracks[i]); if(!lines.length)return;
+  const now=audio.currentTime||0;
+  let active=-1; for(let n=0;n<lines.length;n++){if(now>=lines[n][0])active=n;else break;}
+  box.querySelectorAll('.karaoke-line').forEach((el,n)=>{el.classList.toggle('active',n===active);el.classList.toggle('past',n<active);});
+  if(active>=0){const el=box.querySelector(`[data-lyric-index="${active}"]`);if(el){el.scrollIntoView({behavior:'smooth',block:'center'});}}
+}
+function setKaraokeMode(mode){
+  karaokeMode=mode;
+  document.getElementById('karaokeModeSinger')?.classList.toggle('active',mode==='singer');
+  document.getElementById('karaokeModeOff')?.classList.toggle('active',mode==='karaoke');
+  const hint=document.getElementById('karaokeModeHint');
+  if(hint) hint.textContent=mode==='singer'?'Modo cantante: reproduce la grabación original con la voz de EL DIM.':'Modo Karaoke: la letra queda lista para cantar. El audio seguirá siendo la versión original hasta añadir el instrumental.';
+}
+function openKaraoke(){showView('karaoke-page');renderKaraokeSongs();actualizarKaraokeDesdeTrack();}
+function closeKaraoke(){karaokeMicOff();showView('home-page');}
 function renderKaraokeSongs(){
-  const list=document.getElementById('karaokeSongList');
-  const count=document.getElementById('karaokeSongCount');
-  if(!list)return;
-  const source=allTracks.length?allTracks:tracks;
-  count.textContent=source.length+' '+(source.length===1?'canción':'canciones');
+  const list=document.getElementById('karaokeSongList'),count=document.getElementById('karaokeSongCount'); if(!list)return;
+  const source=allTracks.length?allTracks:tracks; if(count)count.textContent=source.length+' '+(source.length===1?'canción':'canciones');
   if(!source.length){list.innerHTML='<div class="album-screen-empty">Todavía no hay canciones disponibles.</div>';return;}
-  list.innerHTML=source.map((t,n)=>`<div class="karaoke-song ${tracks[i]?.id===t.id?'active':''}" onclick="karaokeSelectSong(${n})"><img src="${escapeHTML(portadaTrack(t))}" alt="" onerror="this.src='${FALLBACK_COVER}'"><div class="karaoke-song-info"><strong>${escapeHTML(t.name||'Sin título')}</strong><small>${escapeHTML(t.artist||'El DIM')}${t.genre?' • '+escapeHTML(t.genre):''}</small></div><button class="karaoke-song-play" type="button" aria-label="Cantar">▶</button></div>`).join('');
+  list.innerHTML=source.map((t,n)=>`<div class="karaoke-song ${String(tracks[i]?.id)===String(t.id)?'active':''}" onclick="karaokeSelectSong(${n})"><img src="${escapeHTML(portadaTrack(t))}" alt="" onerror="this.src='${FALLBACK_COVER}'"><div class="karaoke-song-info"><strong>${escapeHTML(t.name||'Sin título')}</strong><small>${escapeHTML(t.artist||'El DIM')}${t.genre?' • '+escapeHTML(t.genre):''}</small></div><button class="karaoke-song-play" type="button" aria-label="Cantar">▶</button></div>`).join('');
 }
-function karaokeSelectSong(n){
-  const source=allTracks.length?allTracks:tracks;
-  const chosen=source[n];if(!chosen)return;
-  const pos=tracks.findIndex(t=>String(t.id)===String(chosen.id));
-  if(pos>=0){playTrack(pos);}
-  else{tracks=source.slice();i=n;playTrack(i);}
-  renderKaraokeSongs();
-}
-async function karaokeMicToggle(){
-  if(karaokeMicOn){karaokeMicOff();return;}
-  if(!navigator.mediaDevices?.getUserMedia){alert('Este navegador no permite usar el micrófono.');return;}
-  try{
-    karaokeStream=await navigator.mediaDevices.getUserMedia({audio:true});
-    karaokeMicOn=true;
-    const btn=document.getElementById('karaokeMicBtn'),dot=document.getElementById('karaokeMicDot'),txt=document.getElementById('karaokeMicText');
-    btn.classList.add('active');btn.textContent='🎤 APAGAR MICRÓFONO';dot.classList.add('active');txt.textContent='Micrófono activo — ¡a cantar!';
-  }catch(e){alert('No se pudo activar el micrófono. Comprueba el permiso del navegador.');}
-}
-function karaokeMicOff(){
-  if(karaokeStream){karaokeStream.getTracks().forEach(t=>t.stop());karaokeStream=null;}
-  karaokeMicOn=false;
-  const btn=document.getElementById('karaokeMicBtn'),dot=document.getElementById('karaokeMicDot'),txt=document.getElementById('karaokeMicText');
-  if(btn){btn.classList.remove('active');btn.textContent='🎤 ACTIVAR MICRÓFONO';}if(dot)dot.classList.remove('active');if(txt)txt.textContent='Micrófono apagado';
-}
-function actualizarKaraokeDesdeTrack(){
-  const t=tracks[i];
-  const cover=document.getElementById('karaokeCover'),name=document.getElementById('karaokeSongName'),artist=document.getElementById('karaokeSongArtist');
-  if(!cover||!name||!artist)return;
-  cover.src=t?portadaTrack(t):FALLBACK_COVER;cover.onerror=()=>cover.src=FALLBACK_COVER;
-  name.textContent=t?.name||'Selecciona una canción';artist.textContent=t?.artist||'EL DIM';
-  renderKaraokeSongs();
-}
-const karaokeOldLoadTrack=window.loadTrack;
-if(typeof karaokeOldLoadTrack==='function'){
-  window.loadTrack=async function(){const r=await karaokeOldLoadTrack.apply(this,arguments);actualizarKaraokeDesdeTrack();return r;};
-}
-const karaokeOldTime=window.actualizarTiempo;
-if(typeof karaokeOldTime==='function'){
-  window.actualizarTiempo=function(){karaokeOldTime.apply(this,arguments);const fill=document.getElementById('karaokeProgressFill'),cur=document.getElementById('karaokeCurrent'),dur=document.getElementById('karaokeDuration');const a=audio.currentTime||0,d=audio.duration||0;if(fill)fill.style.width=(d?(a/d)*100:0)+'%';if(cur)cur.textContent=formatoTiempo(a);if(dur)dur.textContent=formatoTiempo(d);};
-}
+function karaokeSelectSong(n){const source=allTracks.length?allTracks:tracks,chosen=source[n];if(!chosen)return;const pos=tracks.findIndex(t=>String(t.id)===String(chosen.id));if(pos>=0)playTrack(pos);else{tracks=source.slice();i=n;playTrack(i)}renderKaraokeSongs();renderKaraokeLyrics();}
+async function karaokeMicToggle(){if(karaokeMicOn){karaokeMicOff();return;}if(!navigator.mediaDevices?.getUserMedia){alert('Este navegador no permite usar el micrófono.');return;}try{karaokeStream=await navigator.mediaDevices.getUserMedia({audio:true});karaokeMicOn=true;const btn=document.getElementById('karaokeMicBtn'),dot=document.getElementById('karaokeMicDot'),txt=document.getElementById('karaokeMicText');btn.classList.add('active');btn.textContent='🎤 APAGAR MICRÓFONO';dot.classList.add('active');txt.textContent='Micrófono activo — ¡a cantar!';}catch(e){alert('No se pudo activar el micrófono. Comprueba el permiso del navegador.');}}
+function karaokeMicOff(){if(karaokeStream){karaokeStream.getTracks().forEach(t=>t.stop());karaokeStream=null;}karaokeMicOn=false;const btn=document.getElementById('karaokeMicBtn'),dot=document.getElementById('karaokeMicDot'),txt=document.getElementById('karaokeMicText');if(btn){btn.classList.remove('active');btn.textContent='🎤 ACTIVAR MICRÓFONO';}if(dot)dot.classList.remove('active');if(txt)txt.textContent='Micrófono apagado';}
+function actualizarKaraokeDesdeTrack(){const t=tracks[i],cover=document.getElementById('karaokeCover'),name=document.getElementById('karaokeSongName'),artist=document.getElementById('karaokeSongArtist');if(!cover||!name||!artist)return;cover.src=t?portadaTrack(t):FALLBACK_COVER;cover.onerror=()=>cover.src=FALLBACK_COVER;name.textContent=t?.name||'Selecciona una canción';artist.textContent=t?.artist||'EL DIM';renderKaraokeSongs();renderKaraokeLyrics();updateKaraokeLyrics();}
+const karaokeOldLoadTrack=window.loadTrack;if(typeof karaokeOldLoadTrack==='function'){window.loadTrack=async function(){const r=await karaokeOldLoadTrack.apply(this,arguments);actualizarKaraokeDesdeTrack();return r;};}
+const karaokeOldTime=window.actualizarTiempo;if(typeof karaokeOldTime==='function'){window.actualizarTiempo=function(){karaokeOldTime.apply(this,arguments);const fill=document.getElementById('karaokeProgressFill'),cur=document.getElementById('karaokeCurrent'),dur=document.getElementById('karaokeDuration'),a=audio.currentTime||0,d=audio.duration||0;if(fill)fill.style.width=(d?(a/d)*100:0)+'%';if(cur)cur.textContent=formatoTiempo(a);if(dur)dur.textContent=formatoTiempo(d);updateKaraokeLyrics();};}
 </script>
 </body>
 </html>
