@@ -2380,17 +2380,31 @@ function karaokeLyricsForTrack(t){
 }
 function renderKaraokeLyrics(){
   const box=document.getElementById('karaokeLyricsLines'); if(!box)return;
+  karaokeLastActive=-1;
   const lines=karaokeLyricsForTrack(tracks[i]);
   if(!lines.length){box.innerHTML='<div class="karaoke-line">Selecciona una canción con letra disponible.</div>';return;}
   box.innerHTML=lines.map((x,n)=>`<div class="karaoke-line" data-lyric-index="${n}">${escapeHTML(x[1])}</div>`).join('');
 }
-function updateKaraokeLyrics(){
+let karaokeLastActive=-1;
+function updateKaraokeLyrics(force=false){
   const box=document.getElementById('karaokeLyricsLines'); if(!box)return;
   const lines=karaokeLyricsForTrack(tracks[i]); if(!lines.length)return;
-  const now=audio.currentTime||0;
-  let active=-1; for(let n=0;n<lines.length;n++){if(now>=lines[n][0])active=n;else break;}
-  box.querySelectorAll('.karaoke-line').forEach((el,n)=>{el.classList.toggle('active',n===active);el.classList.toggle('past',n<active);});
-  if(active>=0){const el=box.querySelector(`[data-lyric-index="${active}"]`);if(el){el.scrollIntoView({behavior:'smooth',block:'center'});}}
+  const now=Number(audio.currentTime)||0;
+  let active=-1;
+  for(let n=0;n<lines.length;n++){if(now>=lines[n][0])active=n;else break;}
+
+  const changed=force || active!==karaokeLastActive;
+  karaokeLastActive=active;
+
+  box.querySelectorAll('.karaoke-line').forEach((el,n)=>{
+    el.classList.toggle('active',n===active);
+    el.classList.toggle('past',n<active);
+  });
+
+  if(changed && active>=0){
+    const el=box.querySelector(`[data-lyric-index="${active}"]`);
+    if(el)el.scrollIntoView({behavior:'smooth',block:'center'});
+  }
 }
 function setKaraokeMode(mode){
   karaokeMode=mode;
@@ -2411,8 +2425,39 @@ function karaokeSelectSong(n){const source=allTracks.length?allTracks:tracks,cho
 async function karaokeMicToggle(){if(karaokeMicOn){karaokeMicOff();return;}if(!navigator.mediaDevices?.getUserMedia){alert('Este navegador no permite usar el micrófono.');return;}try{karaokeStream=await navigator.mediaDevices.getUserMedia({audio:true});karaokeMicOn=true;const btn=document.getElementById('karaokeMicBtn'),dot=document.getElementById('karaokeMicDot'),txt=document.getElementById('karaokeMicText');btn.classList.add('active');btn.textContent='🎤 APAGAR MICRÓFONO';dot.classList.add('active');txt.textContent='Micrófono activo — ¡a cantar!';}catch(e){alert('No se pudo activar el micrófono. Comprueba el permiso del navegador.');}}
 function karaokeMicOff(){if(karaokeStream){karaokeStream.getTracks().forEach(t=>t.stop());karaokeStream=null;}karaokeMicOn=false;const btn=document.getElementById('karaokeMicBtn'),dot=document.getElementById('karaokeMicDot'),txt=document.getElementById('karaokeMicText');if(btn){btn.classList.remove('active');btn.textContent='🎤 ACTIVAR MICRÓFONO';}if(dot)dot.classList.remove('active');if(txt)txt.textContent='Micrófono apagado';}
 function actualizarKaraokeDesdeTrack(){const t=tracks[i],cover=document.getElementById('karaokeCover'),name=document.getElementById('karaokeSongName'),artist=document.getElementById('karaokeSongArtist');if(!cover||!name||!artist)return;cover.src=t?portadaTrack(t):FALLBACK_COVER;cover.onerror=()=>cover.src=FALLBACK_COVER;name.textContent=t?.name||'Selecciona una canción';artist.textContent=t?.artist||'EL DIM';renderKaraokeSongs();renderKaraokeLyrics();updateKaraokeLyrics();}
-const karaokeOldLoadTrack=window.loadTrack;if(typeof karaokeOldLoadTrack==='function'){window.loadTrack=async function(){const r=await karaokeOldLoadTrack.apply(this,arguments);actualizarKaraokeDesdeTrack();return r;};}
-const karaokeOldTime=window.actualizarTiempo;if(typeof karaokeOldTime==='function'){window.actualizarTiempo=function(){karaokeOldTime.apply(this,arguments);const fill=document.getElementById('karaokeProgressFill'),cur=document.getElementById('karaokeCurrent'),dur=document.getElementById('karaokeDuration'),a=audio.currentTime||0,d=audio.duration||0;if(fill)fill.style.width=(d?(a/d)*100:0)+'%';if(cur)cur.textContent=formatoTiempo(a);if(dur)dur.textContent=formatoTiempo(d);updateKaraokeLyrics();};} else { audio.addEventListener('timeupdate', updateKaraokeLyrics); audio.addEventListener('loadedmetadata', updateKaraokeLyrics); }
+/* CONEXIÓN ROBUSTA DEL KARAOKE:
+   el reproductor principal puede tener su propio timeupdate.
+   Por eso el Karaoke escucha DIRECTAMENTE al mismo audio,
+   sin reemplazar la función principal del reproductor. */
+function actualizarPanelKaraoke(){
+  const fill=document.getElementById('karaokeProgressFill');
+  const cur=document.getElementById('karaokeCurrent');
+  const dur=document.getElementById('karaokeDuration');
+  const a=Number(audio.currentTime)||0;
+  const d=Number(audio.duration)||0;
+
+  if(fill) fill.style.width=(d ? Math.min(100,(a/d)*100) : 0)+'%';
+  if(cur) cur.textContent=formatoTiempo(a);
+  if(dur) dur.textContent=formatoTiempo(d);
+  updateKaraokeLyrics();
+}
+
+audio.addEventListener('timeupdate',actualizarPanelKaraoke);
+audio.addEventListener('loadedmetadata',actualizarPanelKaraoke);
+audio.addEventListener('durationchange',actualizarPanelKaraoke);
+audio.addEventListener('seeked',actualizarPanelKaraoke);
+audio.addEventListener('play',actualizarPanelKaraoke);
+audio.addEventListener('pause',actualizarPanelKaraoke);
+
+const karaokeOldLoadTrack=window.loadTrack;
+if(typeof karaokeOldLoadTrack==='function'){
+  window.loadTrack=async function(){
+    const r=await karaokeOldLoadTrack.apply(this,arguments);
+    actualizarKaraokeDesdeTrack();
+    actualizarPanelKaraoke();
+    return r;
+  };
+}
 </script>
 </body>
 </html>
