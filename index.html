@@ -744,7 +744,7 @@ function openAllAlbums(){showView('albums-page')}
 .karaoke-lyrics{margin-top:14px;padding:16px 12px;border:1px solid #60461f;border-radius:18px;background:linear-gradient(145deg,#12100c,#070707);max-height:310px;overflow:auto;text-align:center;scroll-behavior:smooth}
 .karaoke-lyrics-title{color:#d9b45a;font-size:12px;font-weight:900;letter-spacing:1.4px;margin-bottom:10px}
 .karaoke-line{padding:7px 4px;color:#77716b;font-size:14px;line-height:1.45;transition:.18s ease}
-.karaoke-line.active{color:#ffd45f;font-size:18px;font-weight:900;text-shadow:0 0 12px #e7ad54aa,0 0 24px #e7ad5455;transform:scale(1.03);opacity:1}.karaoke-line.past{color:#aaa29a;opacity:.72}
+.karaoke-line.active{color:#ffe2a0;font-size:18px;font-weight:900;text-shadow:0 0 12px #e7ad5455}
 .karaoke-line.past{color:#aaa29a}
 @media(max-width:430px){.karaoke-lyrics{max-height:270px}.karaoke-line{font-size:13px}.karaoke-line.active{font-size:16px}}
 </style>
@@ -2350,7 +2350,7 @@ function updateKaraokeLyrics(){
   const now=audio.currentTime||0;
   let active=-1; for(let n=0;n<lines.length;n++){if(now>=lines[n][0])active=n;else break;}
   box.querySelectorAll('.karaoke-line').forEach((el,n)=>{el.classList.toggle('active',n===active);el.classList.toggle('past',n<active);});
-  if(active>=0){const el=box.querySelector(`[data-lyric-index="${active}"]`);if(el && box.dataset.activeIndex!==String(active)){box.dataset.activeIndex=String(active);el.scrollIntoView({behavior:'smooth',block:'center'});}}
+  if(active>=0){const el=box.querySelector(`[data-lyric-index="${active}"]`);if(el){el.scrollIntoView({behavior:'smooth',block:'center'});}}
 }
 function setKaraokeMode(mode){
   karaokeMode=mode;
@@ -2371,45 +2371,32 @@ function karaokeSelectSong(n){const source=allTracks.length?allTracks:tracks,cho
 async function karaokeMicToggle(){if(karaokeMicOn){karaokeMicOff();return;}if(!navigator.mediaDevices?.getUserMedia){alert('Este navegador no permite usar el micrófono.');return;}try{karaokeStream=await navigator.mediaDevices.getUserMedia({audio:true});karaokeMicOn=true;const btn=document.getElementById('karaokeMicBtn'),dot=document.getElementById('karaokeMicDot'),txt=document.getElementById('karaokeMicText');btn.classList.add('active');btn.textContent='🎤 APAGAR MICRÓFONO';dot.classList.add('active');txt.textContent='Micrófono activo — ¡a cantar!';}catch(e){alert('No se pudo activar el micrófono. Comprueba el permiso del navegador.');}}
 function karaokeMicOff(){if(karaokeStream){karaokeStream.getTracks().forEach(t=>t.stop());karaokeStream=null;}karaokeMicOn=false;const btn=document.getElementById('karaokeMicBtn'),dot=document.getElementById('karaokeMicDot'),txt=document.getElementById('karaokeMicText');if(btn){btn.classList.remove('active');btn.textContent='🎤 ACTIVAR MICRÓFONO';}if(dot)dot.classList.remove('active');if(txt)txt.textContent='Micrófono apagado';}
 function actualizarKaraokeDesdeTrack(){const t=tracks[i],cover=document.getElementById('karaokeCover'),name=document.getElementById('karaokeSongName'),artist=document.getElementById('karaokeSongArtist');if(!cover||!name||!artist)return;cover.src=t?portadaTrack(t):FALLBACK_COVER;cover.onerror=()=>cover.src=FALLBACK_COVER;name.textContent=t?.name||'Selecciona una canción';artist.textContent=t?.artist||'EL DIM';renderKaraokeSongs();renderKaraokeLyrics();updateKaraokeLyrics();}
-const karaokeOldLoadTrack=window.loadTrack;if(typeof karaokeOldLoadTrack==='function'){window.loadTrack=async function(){const r=await karaokeOldLoadTrack.apply(this,arguments);actualizarKaraokeDesdeTrack();return r;};}
-/* Sincronización de la letra: escuchamos directamente los eventos del audio.
-   Esto evita depender de reemplazar actualizarTiempo, cuyo listener original
-   ya está registrado y conserva su referencia. */
-function refreshKaraokeSync(){
+/* SINCRONIZACIÓN KARAOKE: conectada directamente al elemento <audio>. */
+function actualizarPanelKaraoke(){
+  const fill=document.getElementById('karaokeProgressFill');
+  const cur=document.getElementById('karaokeCurrent');
+  const dur=document.getElementById('karaokeDuration');
+  const actual=Number.isFinite(audio.currentTime)?audio.currentTime:0;
+  const total=Number.isFinite(audio.duration)?audio.duration:0;
+  if(fill) fill.style.width=(total>0?Math.min(100,(actual/total)*100):0)+'%';
+  if(cur) cur.textContent=formatoTiempo(actual);
+  if(dur) dur.textContent=formatoTiempo(total);
   updateKaraokeLyrics();
-  const fill=document.getElementById('karaokeProgressFill'),
-        cur=document.getElementById('karaokeCurrent'),
-        dur=document.getElementById('karaokeDuration'),
-        a=audio.currentTime||0,
-        d=audio.duration||0;
-  if(fill) fill.style.width=(d?(a/d)*100:0)+'%';
-  if(cur) cur.textContent=formatoTiempo(a);
-  if(dur) dur.textContent=formatoTiempo(d);
 }
 
-audio.addEventListener('timeupdate',refreshKaraokeSync);
-audio.addEventListener('loadedmetadata',refreshKaraokeSync);
-audio.addEventListener('seeked',refreshKaraokeSync);
-audio.addEventListener('play',refreshKaraokeSync);
-audio.addEventListener('pause',refreshKaraokeSync);
+/* Estos listeners son directos; no reemplazamos actualizarTiempo ni loadTrack. */
+audio.addEventListener('timeupdate',actualizarPanelKaraoke);
+audio.addEventListener('loadedmetadata',actualizarPanelKaraoke);
+audio.addEventListener('durationchange',actualizarPanelKaraoke);
+audio.addEventListener('seeking',actualizarPanelKaraoke);
+audio.addEventListener('seeked',actualizarPanelKaraoke);
+audio.addEventListener('play',actualizarPanelKaraoke);
+audio.addEventListener('pause',actualizarPanelKaraoke);
+audio.addEventListener('loadeddata',()=>{actualizarKaraokeDesdeTrack();actualizarPanelKaraoke();});
 
-/* Actualización fluida mientras reproduce, para que el cambio de línea
-   se vea inmediatamente aunque timeupdate llegue con poca frecuencia. */
-let karaokeSyncFrame=null;
-function karaokeSyncLoop(){
-  refreshKaraokeSync();
-  if(!audio.paused && !audio.ended){
-    karaokeSyncFrame=requestAnimationFrame(karaokeSyncLoop);
-  }else{
-    karaokeSyncFrame=null;
-  }
-}
-audio.addEventListener('play',()=>{
-  if(karaokeSyncFrame===null) karaokeSyncFrame=requestAnimationFrame(karaokeSyncLoop);
-});
-audio.addEventListener('pause',()=>{
-  if(karaokeSyncFrame!==null){cancelAnimationFrame(karaokeSyncFrame);karaokeSyncFrame=null;}
-});
+/* Actualmente solo tenemos letra para “Antes de olvidarte”. */
+renderKaraokeLyrics();
+actualizarPanelKaraoke();
 </script>
 </body>
 </html>
